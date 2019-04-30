@@ -1,6 +1,6 @@
 import java.util.Set;
 
-public interface Graph<Course> {
+public interface Graph {
 
   void addNode(Course id);
   void addEdge(Course from, Course to);

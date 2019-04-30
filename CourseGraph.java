@@ -3,15 +3,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Implementation of a directed and unweighted graph.
- * 
- * @author Alex Castro
- * @version 4-15-19
- *
- * @param <T> is the type of value in each node
- */
-public class Planner<Course> implements Graph<Course> {
+public class CourseGraph implements Graph {
 
   private HashMap<Course, HashSet<Course>> graph = new HashMap<Course, HashSet<Course>>();
   private HashMap<Course, HashSet<Course>> inDegrees = new HashMap<Course, HashSet<Course>>();
