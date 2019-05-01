@@ -37,7 +37,7 @@ public class StartScreen {
 
 	// Menu Bar
 	JPanel menuPanel;
-	JMenuItem load, save;
+	JMenuItem load;
 
 	// Main Screen
 	JPanel title;
@@ -78,10 +78,8 @@ public class StartScreen {
 		JMenu menu = new JMenu("File");
 
 		load = new JMenuItem("Load Plan (Not finished)");
-		save = new JMenuItem("Save Plan (Not finished)");
 
 		menu.add(load);
-		menu.add(save);
 		menu.setBackground(Color.BLACK);
 
 		menuBar.add(menu);
