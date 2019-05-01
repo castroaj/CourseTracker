@@ -20,12 +20,12 @@ import javax.swing.JPanel;
 public class StartScreen {
 
 	private boolean isVisible = false;
-	
+
 	// Major selection
 	private boolean noMajorSelected = true;
 	private boolean csSelected = false;
 	private boolean cisSelected = false;
-	
+
 	// New student selection
 	private boolean nothingSelected = true;
 	private boolean yesSelected = false;
@@ -62,6 +62,7 @@ public class StartScreen {
 		createStartScreen();
 		createCreatorsPanel();
 
+		mainPanel.setBackground(Color.gray);
 		startScreen.setSize(500, 350);
 		startScreen.setResizable(false);
 		startScreen.setLocation(200, 200);
@@ -105,33 +106,33 @@ public class StartScreen {
 		title.add(titleLabel);
 
 		// Logo
-        ImageIcon jmuIcon = createImageIcon("jmuLogo.jpg", "JMU icon");
-        Image image = jmuIcon.getImage();
-        image = image.getScaledInstance(200, 80, java.awt.Image.SCALE_SMOOTH);
-        jmuIcon = new ImageIcon(image);
-        
+		ImageIcon jmuIcon = createImageIcon("jmuLogo.jpg", "JMU icon");
+		Image image = jmuIcon.getImage();
+		image = image.getScaledInstance(200, 80, java.awt.Image.SCALE_SMOOTH);
+		jmuIcon = new ImageIcon(image);
+
 		JLabel logoLabel = new JLabel(jmuIcon);
-        
+
 		logo.add(logoLabel);
 
 		// Options
 		JLabel majorSelectionLabel = new JLabel("Select a major: ");
 		JLabel newStudentQuestion = new JLabel("Are you a new Student?  ");
-		
+
 		majorSelectionLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
 		newStudentQuestion.setFont(new Font("Monospaced", Font.PLAIN, 20));
-	
-		//		MajorsDropdown
+
+		// MajorsDropdown
 		String[] majors = { "--", "CS", "CIS" };
 		JComboBox majorsDropdown = new JComboBox(majors);
 		majorsDropdown.setBounds(new Rectangle(100, 100, 100, 100));
-		
+
 		majorsDropdown.addActionListener(new NoMajorSelectedOptionActionListener());
 		majorsDropdown.addActionListener(new CSOptionActionListener());
 		majorsDropdown.addActionListener(new CISOptionActionListener());
 		majorsDropdown.setSelectedIndex(0);
 
-		//		YesOrNoDropdown
+		// YesOrNoDropdown
 		String[] yesOrNo = { "--", "Yes", "No" };
 		JComboBox yesOrNoDropdown = new JComboBox(yesOrNo);
 		yesOrNoDropdown.setBounds(new Rectangle(100, 100, 100, 100));
@@ -140,24 +141,28 @@ public class StartScreen {
 		yesOrNoDropdown.addActionListener(new YesSelectedOptionActionListener());
 		yesOrNoDropdown.addActionListener(new NoSelectedOptionActionListener());
 
-		
-		//		StartButton
+		// StartButton
 		JButton startButton = new JButton("Get started");
 		startButton.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		startButton.addActionListener(new GetStartedButtonActionListener());
 
+		// Add major option components
 		majorOption.add(majorSelectionLabel);
 		majorOption.add(majorsDropdown);
 
+		// Add newStudent option components
 		newStudentOption.add(newStudentQuestion);
 		newStudentOption.add(yesOrNoDropdown);
-		
+
+		// Add start button component
 		startOption.add(startButton);
 
+		// Add each panel to options panel
 		options.add(majorOption);
 		options.add(newStudentOption);
 		options.add(startOption);
 
+		// Add each sub panel to the main panel
 		mainPanel.add(title);
 		mainPanel.add(logo);
 		mainPanel.add(options);
@@ -172,6 +177,10 @@ public class StartScreen {
 
 		creators.add(creatorsLabel);
 		mainPanel.add(creators);
+	}
+
+	public boolean getIsVisible() {
+		return isVisible;
 	}
 
 	private class NoMajorSelectedOptionActionListener implements ActionListener {
@@ -216,7 +225,7 @@ public class StartScreen {
 			}
 		}
 	}
-	
+
 	private class NothingSelectedOptionActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -231,7 +240,7 @@ public class StartScreen {
 
 		}
 	}
-	
+
 	private class YesSelectedOptionActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -246,7 +255,7 @@ public class StartScreen {
 
 		}
 	}
-	
+
 	private class NoSelectedOptionActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -261,31 +270,27 @@ public class StartScreen {
 
 		}
 	}
-	
-	private class GetStartedButtonActionListener implements ActionListener{
+
+	private class GetStartedButtonActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton button = (JButton)e.getSource();
+			JButton button = (JButton) e.getSource();
 			if (button.isEnabled() && !nothingSelected && !noMajorSelected) {
 				System.out.println("We can start");
 			}
 		}
-		
+
 	}
-	
-	  private ImageIcon createImageIcon(String path, String description)
-	  {
-	    java.net.URL imgURL = getClass().getResource(path);
-	    if (imgURL != null)
-	    {
-	      return new ImageIcon(imgURL, description);
-	    }
-	    else
-	    {
-	      System.err.println("Couldn't find file: " + path);
-	      return null;
-	    }
-	  }
+
+	private ImageIcon createImageIcon(String path, String description) {
+		java.net.URL imgURL = getClass().getResource(path);
+		if (imgURL != null) {
+			return new ImageIcon(imgURL, description);
+		} else {
+			System.err.println("Couldn't find file: " + path);
+			return null;
+		}
+	}
 
 }
