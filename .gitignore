@@ -6,3 +6,14 @@
 /Major.class
 /AppGUI.class
 /StartScreen.class
+/StartScreen$CISOptionActionListener.class
+/StartScreen$CSOptionActionListener.class
+/StartScreen$NoOptionActionListener$CISOptionActionListener.class
+/StartScreen$NoOptionActionListener$CSOptionActionListener.class
+/StartScreen$NoOptionActionListener.class
+/StartScreen$NoMajorSelectedOptionActionListener.class
+/StartScreen$NothingSelectedOptionActionListener.class
+/StartScreen$NoSelectedOptionActionListener.class
+/StartScreen$YesSelectedOptionActionListener.class
+/StartScreen$GetStartedActionListener.class
+/StartScreen$GetStartedButtonActionListener.class
