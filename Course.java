@@ -12,6 +12,9 @@ public class Course {
 	public Course(Subject subject, int classID) {
 		this.subject = subject;
 		this.classID = classID;
+		myPrereqs = new HashSet<Course>();
+		myPostreqs = new HashSet<Course>();
+		myCoreqs = new HashSet<Course>();
 	}
 	
 	public Course(Subject sub, int classID, HashSet<Course> prereqs, HashSet<Course> postreqs, HashSet<Course> coreqs) {
@@ -63,6 +66,11 @@ public class Course {
 	public int getClassID()
 	{
 		return classID;
+	}
+	
+	public boolean equals(Course o)
+	{
+		return this.subject.equals(o.subject) && this.classID == o.classID;
 	}
 	
 	

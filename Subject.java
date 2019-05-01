@@ -1,4 +1,4 @@
 
 public enum Subject {
-	CS, CIS
+	CS, CIS;
 }
