@@ -131,6 +131,9 @@ public class StartScreen {
 		creators = new JPanel();
 		
 		JLabel creatorsLabel = new JLabel("Created by: Alex Castro, Zeru Tadesse, Garrett Christian");
+		creatorsLabel.setFont(new Font("Monospaced", Font.ITALIC, 12));
+
+		
 		
 		creators.add(creatorsLabel);
 		mainPanel.add(creators);
