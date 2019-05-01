@@ -278,6 +278,19 @@ public class StartScreen {
 			JButton button = (JButton) e.getSource();
 			if (button.isEnabled() && !nothingSelected && !noMajorSelected) {
 				System.out.println("We can start");
+				
+				if (yesSelected)
+				{
+					NewStudentScreen nss = new NewStudentScreen("New Student");
+					startScreen.dispose();
+				}
+				
+				if (noSelected)
+				{
+					OlderStudentScreen oss = new OlderStudentScreen("Older Student");
+					startScreen.dispose();
+				}
+				
 			}
 		}
 

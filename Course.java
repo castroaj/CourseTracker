@@ -8,6 +8,8 @@ public class Course {
 	private HashSet<Course> myCoreqs;
 	private final Subject subject;
 	private final int classID;
+	private boolean classTaken;
+	private int credits;
 
 	public Course(Subject subject, int classID) {
 		this.subject = subject;
