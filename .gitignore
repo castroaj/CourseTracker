@@ -23,3 +23,7 @@
 /Driver.class
 /Planner.class
 /MajorCreator.class
+/PlannerScreen.class
+/NewStudentScreen$NameFieldKeyListener.class
+/NewStudentScreen$DropdownActionListener.class
+/NewStudentScreen$ContinueButtonActionListener.class

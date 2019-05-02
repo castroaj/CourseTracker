@@ -66,15 +66,8 @@ public class StartScreen {
 		startScreen.setSize(500, 350);
 		startScreen.setResizable(false);
 		startScreen.setLocation(200, 200);
-
-		ImageIcon jmuIcon = createImageIcon("jmuLogo.jpg", "JMU icon");
-		Image image = jmuIcon.getImage();
-		image = image.getScaledInstance(200, 80, java.awt.Image.SCALE_SMOOTH);
-		jmuIcon = new ImageIcon(image);
-
 		startScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startScreen.setTitle(title);
-		startScreen.setIconImage(image);
 		startScreen.setVisible(true);
 	}
 
@@ -128,7 +121,7 @@ public class StartScreen {
 
 		// MajorsDropdown
 		String[] majors = { "--", "CS", "CIS" };
-		JComboBox majorsDropdown = new JComboBox(majors);
+		JComboBox<String> majorsDropdown = new JComboBox<String>(majors);
 		majorsDropdown.setBounds(new Rectangle(100, 100, 100, 100));
 
 		majorsDropdown.addActionListener(new NoMajorSelectedOptionActionListener());
@@ -138,7 +131,7 @@ public class StartScreen {
 
 		// YesOrNoDropdown
 		String[] yesOrNo = { "--", "No", "Yes" };
-		JComboBox yesOrNoDropdown = new JComboBox(yesOrNo);
+		JComboBox<String> yesOrNoDropdown = new JComboBox<String>(yesOrNo);
 		yesOrNoDropdown.setBounds(new Rectangle(100, 100, 100, 100));
 
 		yesOrNoDropdown.addActionListener(new NothingSelectedOptionActionListener());
