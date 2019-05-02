@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 
 //IE: Choose one(or more) from this list
@@ -9,6 +10,10 @@ public class Cluster {
 
 	public Cluster() {
 		this("NoClusterName", Rule.TAKE_ALL, null);
+	}
+
+	public Cluster(String name) {
+		this(name, Rule.TAKE_ONE, new HashSet<Course>());
 	}
 
 	public Cluster(String name, Rule rule, HashSet<Course> classes) {
@@ -40,4 +45,11 @@ public class Cluster {
 		this.rule = rule;
 	}
 
+	public String toString() {
+		String s = "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
+		for (Course c : this.class_list) {
+			s += c.toString() + " , ";
+		}
+		return s;
+	}
 }
