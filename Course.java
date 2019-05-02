@@ -2,6 +2,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Course object ie: CS101, CS149, ECON200..etc Every course object contains a
+ * collection of its coreqs and outgoing nodes
  * 
  * @author Alex Castro, Zeru Tadesse
  *
@@ -19,22 +21,27 @@ public class Course {
 	private boolean isElective;
 	private int priority;
 
-//	public Course(Subject subject, String classID, boolean fall, boolean spring, boolean isElective) {
-//		this.subject = subject;
-//		this.classID = classID;
-//		this.offeredFall = fall;
-//		this.offeredSpring = spring;
-//		this.isElective = isElective;
-//		this.requiredFor = new HashSet<Course>();
-//		this.myCoreqs = new HashSet<Course>();
-//		this.credits = 3;
-//	}
-
+	/**
+	 * Course constructor with default of 3 credits
+	 * 
+	 * @param subject Class subject
+	 * @param classID Class number
+	 * @param fall    Offered in fall (t/f)
+	 * @param spring  Offered in spring (t/f)
+	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring) {
-
 		this(subject, classID, fall, spring, 3);
 	}
 
+	/**
+	 * Course constructor with explicit credits
+	 * 
+	 * @param subject Class subject
+	 * @param classID Class number
+	 * @param fall    Offered in fall (t/f)
+	 * @param spring  Offered in spring (t/f)
+	 * @param credits Number of credits
+	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits) {
 		this.subject = subject;
 		this.classID = classID;
@@ -46,6 +53,11 @@ public class Course {
 		this.priority = 0;
 	}
 
+	/**
+	 * Add outgoing node for classes that requrie this one
+	 * 
+	 * @param newPostreq this class is a prereq for newPostReq
+	 */
 	public void addPostreq(Course newPostreq) {
 		if (newPostreq != null) {
 			requiredFor.add(newPostreq);
@@ -53,35 +65,75 @@ public class Course {
 		}
 	}
 
+	/**
+	 * Add coreq node, for classes that can be taken together
+	 * 
+	 * @param newCoreq
+	 */
 	public void addCoreq(Course newCoreq) {
 		if (newCoreq != null)
 			myCoreqs.add(newCoreq);
 	}
 
+	/**
+	 * Get HashSet of PostReq / RequiredFor classes
+	 * 
+	 * @return Returns a collection of courses.
+	 */
 	public HashSet<Course> getRequiredFor() {
 		return requiredFor;
 	}
 
+	/**
+	 * Get HashSet of Coreqs
+	 * 
+	 * @return Returns a collection of courses.
+	 */
 	public HashSet<Course> getCoreqs() {
 		return myCoreqs;
 	}
 
+	/**
+	 * Get Subject type, ie CS CIS ECON.
+	 * 
+	 * @return Subject enum.
+	 */
 	public Subject getSubject() {
 		return subject;
 	}
 
+	/**
+	 * Get the class ID or number.
+	 * 
+	 * @return class ID as String.
+	 */
 	public String getClassID() {
 		return classID;
 	}
 
+	/**
+	 * Evaluates equals
+	 * 
+	 * @param o other course
+	 * @return if courses are equivalent
+	 */
 	public boolean equals(Course o) {
 		return this.subject.equals(o.subject) && this.classID == o.classID;
 	}
 
+	/**
+	 * Default to string with full detail of course
+	 */
 	public String toString() {
 		return toString(true);
 	}
 
+	/**
+	 * To string with or without detail
+	 * 
+	 * @param verbose boolean for detail.
+	 * @return String format of the course.
+	 */
 	public String toString(boolean verbose) {
 		if (verbose) {
 			String s = "\t[" + String.format("%02d", this.priority) + "]" + this.subject + this.classID + " ("
@@ -119,6 +171,11 @@ public class Course {
 
 	}
 
+	/**
+	 * Get the simplified version of to String
+	 * 
+	 * @return The Subject and Class id IE: CS101
+	 */
 	public String toStringSimple() {
 		String s = this.subject + this.classID;
 		return s;

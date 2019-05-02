@@ -9,9 +9,9 @@ public class Planner {
 	private int credits;
 	private CourseGraph courseGraph;
 
-	public Planner(Major major) {
-		this(major, "NoName", 0, 0, new HashSet<Course>());
-//		this.major = major;
+	public Planner(Major major2) {
+		this(major2, "NoName", 0, 0, new HashSet<Course>());
+//		this.Major = Major;
 //		this.name = "";
 //		this.credits = 0;
 //		this.year = 0;
@@ -20,8 +20,8 @@ public class Planner {
 
 	}
 
-	public Planner(Major major, String name, int credits, int year, HashSet<Course> coursesTaken) {
-		this.major = major;
+	public Planner(Major Major, String name, int credits, int year, HashSet<Course> coursesTaken) {
+		this.major = Major;
 		this.name = name;
 		this.credits = credits;
 		this.coursesTaken = coursesTaken;
@@ -43,10 +43,6 @@ public class Planner {
 
 	public Major getMajorObject() {
 		return this.major;
-	}
-
-	public Subject getMajorSubject() {
-		return this.major.getSubject();
 	}
 
 }

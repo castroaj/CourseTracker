@@ -7,16 +7,17 @@ public class ZGenerator {
 		HashSet<Cluster> cs_clusters = new HashSet<Cluster>();
 		// Major core
 		// Course cs101 = new Course(Subject.CS, "101", true, true);
+		Course tempCourse = new Course(Subject.CS, "000", false, false);
 		Course cs101 = new Course(Subject.CS, "101", true, true);
-		Course cs149 = new Course(Subject.CS, "149", true, true);	
+		Course cs149 = new Course(Subject.CS, "149", true, true);
 		Course cs159 = new Course(Subject.CS, "159", true, true);
 		Course cs227 = new Course(Subject.CS, "227", true, true);
 		Course cs240 = new Course(Subject.CS, "240", true, true);
 		Course cs260 = new Course(Subject.CS, "260", true, true);
 		Course cs261 = new Course(Subject.CS, "261", true, true);
-		Course cs280 = new Course(Subject.CS, "280", true, true,1);
+		Course cs280 = new Course(Subject.CS, "280", true, true, 1);
 		Course cs327 = new Course(Subject.CS, "327", true, true);
-		Course cs330 = new Course(Subject.CS, "330", true, true );
+		Course cs330 = new Course(Subject.CS, "330", true, true);
 		Course cs345 = new Course(Subject.CS, "345", true, true);
 		Course cs347 = new Course(Subject.CS, "347", true, false);
 		Course cs349 = new Course(Subject.CS, "349", true, true);
@@ -112,7 +113,7 @@ public class ZGenerator {
 		Cluster electives = new Cluster("CS Elective", Rule.TAKE_THREE, new HashSet<Course>());
 
 		electives.add(cs101);
-		
+
 		electives.add(cs480);
 		electives.add(cs475);
 		electives.add(cs476);
@@ -142,9 +143,11 @@ public class ZGenerator {
 		intro_discrete.add(cs227);
 		Cluster calculus_sequence = new Cluster("CS Calculus", Rule.TAKE_ONE, new HashSet<Course>());
 		// calculus_sequence.add(math235);
+		calculus_sequence.add(tempCourse);
 
 		Cluster statistics = new Cluster("Statistics", Rule.TAKE_ONE, new HashSet<Course>());
-
+		statistics.add(tempCourse);
+		
 		Cluster systems_elective = new Cluster("CS Systems Elective", Rule.TAKE_ONE, new HashSet<Course>());
 		systems_elective.add(cs432);
 		systems_elective.add(cs450);

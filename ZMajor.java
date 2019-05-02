@@ -10,11 +10,24 @@ public class ZMajor {
 	}
 
 	public String toString() {
-		String s = "Major: " + this.name+"\n";
-		
-		for(Cluster c : clusters) {
-			s+= c.toString() + "\n";
+		String s = "Major: " + this.name + "\n";
+
+		for (Cluster c : clusters) {
+			s += c.toString() + "\n";
 		}
 		return s;
+	}
+
+	public String toString(boolean verbose) {
+		String s = "Major: " + this.name + "\n";
+
+		for (Cluster c : clusters) {
+			s += c.toString(verbose) + "\n";
+		}
+		return s;
+	}
+
+	public HashSet<Cluster> getClusters() {
+		return this.clusters;
 	}
 }
