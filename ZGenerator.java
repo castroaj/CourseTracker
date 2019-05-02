@@ -199,7 +199,7 @@ public class ZGenerator {
 			}
 			clusters.add(currentCluster);
 		}
-
+		
 		return new Program("Gen Ed", clusters);
 	}
 

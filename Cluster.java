@@ -103,18 +103,39 @@ public class Cluster {
 		return this.class_list;
 	}
 
+	public int getClassCount() {
+		int count = 0;
+		if (this.rule == Rule.TAKE_ONE)
+			count = 1;
+		if (this.rule == Rule.TAKE_TWO)
+			count = 2;
+		if (this.rule == Rule.TAKE_THREE)
+			count = 3;
+		if (this.rule == Rule.TAKE_ALL)
+			count = this.class_list.size();
+		return count;
+	}
+
+	public int getCreditCount() {
+		return 0; //TODO: not really doable but maybe
+	}
+
 	/**
 	 * String representation of the cluster
 	 * 
 	 * @param verbose T: full detail F: summary
 	 * @return String
-	 */	
+	 */
 	public String toString(boolean verbose) {
-		String s = "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
-		for (Course c : this.class_list) {
-			s += c.toString(verbose);
+		if (verbose) {
+			String s = "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
+			for (Course c : this.class_list) {
+				s += c.toString(verbose);
+			}
+			return s;
+		} else {
+			return "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
 		}
-		return s;
 	}
 
 	/**

@@ -2,6 +2,13 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class Driver {
+	/**
+	 * 1 planner = [ x Programs [ y Clusters [ z Courses ] ] ] ===================
+	 * IE: zeru = [ 2 (CS,GENED) [ 20 (Writing,Intro to CS) [CS101,WRTC103]]]
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		StartScreen startScreenGUI = new StartScreen("CourseTracker");
 		// name semester bigbag, credits

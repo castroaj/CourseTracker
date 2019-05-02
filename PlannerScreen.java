@@ -8,7 +8,6 @@ public class PlannerScreen {
 	public PlannerScreen(String title, Planner planner)
 	{
 		this.planner = planner;
-		
 		plannerScreen = new JFrame();
 		plannerScreen.setSize(400, 200);
 		plannerScreen.setResizable(false);

@@ -54,6 +54,5 @@ public class Planner {
 	{
 		return year;
 	}
-	
 
 }
