@@ -11,27 +11,30 @@ public class ZPlanner {
 
 	private Course[][] year = new Course[8][5]; // 8 semesters, 5 classes each
 
-	private HashSet<Program> bigBag;
+	private HashSet<Program> programs;
 
 	public ZPlanner() {
 
 	}
 
-	public ZPlanner(String studentName, Semester currentSemester, HashSet<Program> bigBag, int creditsToGraduate) {
+	public ZPlanner(String studentName, Semester currentSemester, HashSet<Program> programs, int creditsToGraduate) {
 		this.name = studentName;
 		this.currentSemester = currentSemester;
-		this.bigBag = bigBag;
+		this.programs = programs;
 		this.totalCreditsNeeded = creditsToGraduate;
 		this.courseGraph = new CourseGraph();
 	}
 
+	/**
+	 * Test method for inserting classes into planner
+	 */
 	public void doit() {
 		int count = 0;
 		ArrayList<Program> majors = new ArrayList<Program>();
 		ArrayList<Cluster> clusters = new ArrayList<Cluster>();
 		ArrayList<Course> courses = new ArrayList<Course>();
-		// clusters.addAll(bigBag);
-		majors.addAll(bigBag);
+		// clusters.addAll(programs);
+		majors.addAll(programs);
 		System.out.println("Num of majors " + majors.size());
 		for (int m = 0; m < majors.size(); m++) {
 			clusters = new ArrayList<Cluster>();
