@@ -11,13 +11,13 @@ public class ZPlanner {
 
 	private Course[][] year = new Course[8][5]; // 8 semesters, 5 classes each
 
-	private HashSet<ZMajor> bigBag;
+	private HashSet<Program> bigBag;
 
 	public ZPlanner() {
 
 	}
 
-	public ZPlanner(String studentName, Semester currentSemester, HashSet<ZMajor> bigBag, int creditsToGraduate) {
+	public ZPlanner(String studentName, Semester currentSemester, HashSet<Program> bigBag, int creditsToGraduate) {
 		this.name = studentName;
 		this.currentSemester = currentSemester;
 		this.bigBag = bigBag;
@@ -27,7 +27,7 @@ public class ZPlanner {
 
 	public void doit() {
 		int count = 0;
-		ArrayList<ZMajor> majors = new ArrayList<ZMajor>();
+		ArrayList<Program> majors = new ArrayList<Program>();
 		ArrayList<Cluster> clusters = new ArrayList<Cluster>();
 		ArrayList<Course> courses = new ArrayList<Course>();
 		// clusters.addAll(bigBag);

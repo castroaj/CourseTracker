@@ -2,7 +2,7 @@ import java.util.HashSet;
 
 public class ZGenerator {
 
-	public static ZMajor makeCSMajor() {
+	public static Program makeCSMajor() {
 
 		HashSet<Cluster> cs_clusters = new HashSet<Cluster>();
 		// Major core
@@ -161,7 +161,7 @@ public class ZGenerator {
 		cs_clusters.add(calculus_sequence);
 		cs_clusters.add(statistics);
 		cs_clusters.add(systems_elective);
-		return new ZMajor("Computer Science", cs_clusters);
+		return new Program("Computer Science", cs_clusters);
 		// intro_programming.add(CS149)
 	}
 

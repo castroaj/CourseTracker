@@ -108,7 +108,7 @@ public class Cluster {
 	 * 
 	 * @param verbose T: full detail F: summary
 	 * @return String
-	 */
+	 */	
 	public String toString(boolean verbose) {
 		String s = "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
 		for (Course c : this.class_list) {
