@@ -16,7 +16,7 @@ public class PlannerScreen {
 		plannerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		plannerScreen.setTitle(title);
 		plannerScreen.setVisible(true);
-		
+		 
 		System.out.println(this.planner.getName() + "   " + planner.getYear());
 	}
 	

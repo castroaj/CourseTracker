@@ -173,6 +173,7 @@ public class NewStudentScreen {
 				planner.setName(name);
 				planner.setYear(year);
 				PlannerScreen plannerScreen = new PlannerScreen("Planner", planner);
+				
 			}
 		}
 		
