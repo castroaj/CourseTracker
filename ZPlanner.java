@@ -12,6 +12,7 @@ public class ZPlanner {
 	private Course[][] year = new Course[8][5]; // 8 semesters, 5 classes each
 
 	private HashSet<Program> programs;
+	private HashSet<Cluster> universalSet;
 
 	public ZPlanner() {
 
@@ -23,6 +24,31 @@ public class ZPlanner {
 		this.programs = programs;
 		this.totalCreditsNeeded = creditsToGraduate;
 		this.courseGraph = new CourseGraph();
+		universalSet = new HashSet<Cluster>();
+		for (Program p : programs)
+			universalSet.addAll(p.getClusters());
+
+	}
+
+	public String toString(boolean verbose) {
+		String s = String.format("%s\nCurrent Semester: %s\nPrograms: %d\nClusters: %d\nMin Classes: %d\n============\n", this.name,
+				this.currentSemester.toString(), this.programs.size(), this.universalSet.size(), getClassCount());
+		for (Cluster c : universalSet) {
+			s += c.toString(verbose) + "";
+		}
+		return s;
+	}
+
+	public int getClassCount() {
+		int count = 0;
+		for (Cluster c : universalSet) {
+			count += c.getClassCount();
+		}
+		return count;
+	}
+
+	public String toString() {
+		return toString(true);
 	}
 
 	/**

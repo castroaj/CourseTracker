@@ -27,6 +27,18 @@ public class Program {
 		return this.clusters;
 	}
 
+	public int classCount() {
+		int count = 0;
+		for (Cluster c : this.clusters) {
+			count += c.getClassCount();
+		}
+		return count;
+	}
+
+	public int creditCount() {
+		return 0; // TODO: Same as clustor credit count, not very doable
+	}
+
 	public String export() {
 		String text = "[PROGRAM]\n";
 
@@ -34,7 +46,7 @@ public class Program {
 		clusters.addAll(this.clusters);
 		for (int i = 0; i < clusters.size(); i++) {
 			text += "[CLUSTER]";
-			text += clusters.get(i).getName() +","+ clusters.get(i).getRule() + "\n";
+			text += clusters.get(i).getName() + "," + clusters.get(i).getRule() + "\n";
 
 			ArrayList<Course> courses = new ArrayList<Course>();
 			courses.addAll(clusters.get(i).getCourses());
