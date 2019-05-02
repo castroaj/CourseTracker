@@ -1,14 +1,15 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Major {
 
 	private HashSet<Course> requiredCourses;
-	private Subject name;
+	private Subject subject;
 	private int courseCount;
 	
 	public Major(Subject name)
 	{
-		this.name = name;
+		this.subject = name;
 		this.requiredCourses = new HashSet<Course>();
 	}
 	
@@ -18,14 +19,26 @@ public class Major {
 		courseCount++;
 	}
 	
-	public Subject getName()
+	public Subject getSubject()
 	{
-		return name;
+		return subject;
 	}
 	
 	public int getCourseCount()
 	{
 		return courseCount;
+	}
+	
+	public HashSet<Course> getRequiredCourses()
+	{
+		return requiredCourses;
+	}
+	
+	public ArrayList<Course> getListOfRequiredCourses()
+	{
+		ArrayList<Course> list = new ArrayList<Course>();
+		list.addAll(requiredCourses);
+		return list;
 	}
 	
 	

@@ -3,77 +3,66 @@ import java.util.Set;
 
 public class Course {
 
-	private HashSet<Course> myPrereqs;
-	private HashSet<Course> myPostreqs;
+	private HashSet<Course> requiredFor;
 	private HashSet<Course> myCoreqs;
 	private final Subject subject;
-	private final int classID;
+	private final String classID;
 	private boolean classTaken;
 	private int credits;
+	private boolean offeredFall;
+	private boolean offeredSpring;
+	private boolean isElective;
 
-	public Course(Subject subject, int classID) {
+	public Course(Subject subject, String classID, boolean fall, boolean spring, boolean isElective) {
 		this.subject = subject;
 		this.classID = classID;
-		myPrereqs = new HashSet<Course>();
-		myPostreqs = new HashSet<Course>();
-		myCoreqs = new HashSet<Course>();
+		this.offeredFall = fall;
+		this.offeredSpring = spring;
+		this.isElective = isElective;
+		this.requiredFor = new HashSet<Course>();
+		this.myCoreqs = new HashSet<Course>();
 	}
-	
-	public Course(Subject sub, int classID, HashSet<Course> prereqs, HashSet<Course> postreqs, HashSet<Course> coreqs) {
+
+	public Course(Subject sub, String classID, HashSet<Course> prereqs, HashSet<Course> coreqs, boolean fall,
+			boolean spring, boolean isElective) {
 		this.subject = sub;
 		this.classID = classID;
-		this.myPrereqs = prereqs;
-		this.myPostreqs = postreqs;
+		this.requiredFor = prereqs;
 		this.myCoreqs = coreqs;
+		this.offeredFall = fall;
+		this.offeredSpring = spring;
+		this.isElective = isElective;
+
 	}
-	
-	public void addPrereq(Course newPrereq)
-	{
-		if (newPrereq != null)
-		myPrereqs.add(newPrereq);
-	}
-	
-	public void addPostreq(Course newPostreq)
-	{
+
+	public void addPostreq(Course newPostreq) {
 		if (newPostreq != null)
-		myPostreqs.add(newPostreq);
+			requiredFor.add(newPostreq);
 	}
-	
-	public void addCoreq(Course newCoreq)
-	{
+
+	public void addCoreq(Course newCoreq) {
 		if (newCoreq != null)
-		myCoreqs.add(newCoreq);
+			myCoreqs.add(newCoreq);
 	}
-	
-	public HashSet<Course> getPrereqs()
-	{
-		return myPrereqs;
+
+	public HashSet<Course> getRequiredFor() {
+		return requiredFor;
 	}
-	
-	public HashSet<Course> getPostreqs()
-	{
-		return myPostreqs;
-	}
-	
-	public HashSet<Course> getCoreqs()
-	{
+
+	public HashSet<Course> getCoreqs() {
 		return myCoreqs;
 	}
-	
-	public Subject getSubject()
-	{
+
+	public Subject getSubject() {
 		return subject;
 	}
-	
-	public int getClassID()
-	{
+
+	public String getClassID() {
 		return classID;
 	}
-	
-	public boolean equals(Course o)
-	{
+
+	public boolean equals(Course o) {
 		return this.subject.equals(o.subject) && this.classID == o.classID;
 	}
-	
-	
+
 }

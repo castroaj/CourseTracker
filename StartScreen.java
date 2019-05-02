@@ -67,8 +67,14 @@ public class StartScreen {
 		startScreen.setResizable(false);
 		startScreen.setLocation(200, 200);
 
+		ImageIcon jmuIcon = createImageIcon("jmuLogo.jpg", "JMU icon");
+		Image image = jmuIcon.getImage();
+		image = image.getScaledInstance(200, 80, java.awt.Image.SCALE_SMOOTH);
+		jmuIcon = new ImageIcon(image);
+
 		startScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startScreen.setTitle(title);
+		startScreen.setIconImage(image);
 		startScreen.setVisible(true);
 	}
 
@@ -131,7 +137,7 @@ public class StartScreen {
 		majorsDropdown.setSelectedIndex(0);
 
 		// YesOrNoDropdown
-		String[] yesOrNo = { "--", "Yes", "No" };
+		String[] yesOrNo = { "--", "No", "Yes" };
 		JComboBox yesOrNoDropdown = new JComboBox(yesOrNo);
 		yesOrNoDropdown.setBounds(new Rectangle(100, 100, 100, 100));
 
@@ -276,19 +282,39 @@ public class StartScreen {
 			JButton button = (JButton) e.getSource();
 			if (button.isEnabled() && !nothingSelected && !noMajorSelected) {
 				System.out.println("We can start");
-				
-				if (yesSelected)
-				{
-					NewStudentScreen nss = new NewStudentScreen("New Student");
+
+				if (yesSelected) {
+					Planner olderStudentPlanner = null;
+					if (csSelected) {
+						olderStudentPlanner = new Planner(new Major(Subject.CS));
+						olderStudentPlanner = (MajorCreator.addCsMajor(olderStudentPlanner));
+					} 
+					if (cisSelected) {
+						olderStudentPlanner = new Planner(new Major(Subject.CIS));
+						olderStudentPlanner = (MajorCreator.addCisMajor(olderStudentPlanner));
+
+					}
+					NewStudentScreen nss = new NewStudentScreen("New Student", olderStudentPlanner);
+					startScreen.dispose();
+
+				}
+
+				if (noSelected) {
+					Planner newStudentPlanner = null;
+					if (csSelected) {
+						newStudentPlanner = new Planner(new Major(Subject.CS));
+						newStudentPlanner = (MajorCreator.addCsMajor(newStudentPlanner));
+
+					} 
+					if (cisSelected) {
+						newStudentPlanner = new Planner(new Major(Subject.CIS));
+						newStudentPlanner = (MajorCreator.addCisMajor(newStudentPlanner));
+
+					}
+					OlderStudentScreen oss = new OlderStudentScreen("Older Student", newStudentPlanner);
 					startScreen.dispose();
 				}
-				
-				if (noSelected)
-				{
-					OlderStudentScreen oss = new OlderStudentScreen("Older Student");
-					startScreen.dispose();
-				}
-				
+
 			}
 		}
 
