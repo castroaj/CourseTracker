@@ -3,7 +3,7 @@ import java.util.HashSet;
 
 public class Driver {
 	public static void main(String[] args) throws IOException {
-		// StartScreen startScreenGUI = new StartScreen("CourseTracker");
+		StartScreen startScreenGUI = new StartScreen("CourseTracker");
 		// name semester bigbag, credits
 		Program CS = ZGenerator.makeCSMajor();
 		Program GenED = ZGenerator.makeGenED();

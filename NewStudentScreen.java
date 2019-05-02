@@ -170,6 +170,9 @@ public class NewStudentScreen {
 			if (button.isEnabled() && yearEntered && nameEntered)
 			{
 				newStudentScreen.dispose();
+				planner.setName(name);
+				planner.setYear(year);
+				PlannerScreen plannerScreen = new PlannerScreen("Planner", planner);
 			}
 		}
 		

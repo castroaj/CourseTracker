@@ -44,5 +44,15 @@ public class Planner {
 	public Major getMajorObject() {
 		return this.major;
 	}
+	
+	public void setYear(int year)
+	{
+		this.year = year;
+	}
+	
+	public int getYear()
+	{
+		return year;
+	}
 
 }
