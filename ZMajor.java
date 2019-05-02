@@ -11,7 +11,10 @@ public class ZMajor {
 
 	public String toString() {
 		String s = "Major: " + this.name+"\n";
-		s += this.clusters.toString();
+		
+		for(Cluster c : clusters) {
+			s+= c.toString() + "\n";
+		}
 		return s;
 	}
 }

@@ -48,7 +48,7 @@ public class Cluster {
 	public String toString() {
 		String s = "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
 		for (Course c : this.class_list) {
-			s += c.toString() + " , ";
+			s += c.toString() ;
 		}
 		return s;
 	}
