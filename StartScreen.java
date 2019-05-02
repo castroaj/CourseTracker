@@ -114,11 +114,11 @@ public class StartScreen {
 		logo.add(logoLabel);
 
 		// Options
-		JLabel majorSelectionLabel = new JLabel("Select a major: ");
-		JLabel newStudentQuestion = new JLabel("Are you a new Student?  ");
+		JLabel majorSelectionLabel = new JLabel("Select a major:");
+		JLabel newStudentQuestion = new JLabel("Have you taken any courses in that major?");
 
 		majorSelectionLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		newStudentQuestion.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		newStudentQuestion.setFont(new Font("Monospaced", Font.PLAIN, 16));
 
 		// MajorsDropdown
 		String[] majors = { "--", "CS", "CIS" };
