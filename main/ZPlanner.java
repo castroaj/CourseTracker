@@ -10,14 +10,15 @@ public class ZPlanner {
 
 	private String name;
 	private Semester currentSemester;
-	private HashSet<Course> coursesTaken;
+	
 	private int totalCreditsNeeded;
 	private CourseGraph courseGraph;
 
 	private Course[][] year = new Course[8][5]; // 8 semesters, 5 classes each
-
+	//TODO: private HashSet<Course> coursesTaken;
 	private HashSet<Program> programs;
-	private HashSet<Cluster> universalSet;
+	private HashSet<Cluster> allClusters;
+	private HashSet<Course> courses;
 
 	public ZPlanner() {
 
@@ -29,15 +30,15 @@ public class ZPlanner {
 		this.programs = programs;
 		this.totalCreditsNeeded = creditsToGraduate;
 		this.courseGraph = new CourseGraph();
-		universalSet = new HashSet<Cluster>();
+		allClusters = new HashSet<Cluster>();
 		for (Program p : programs)
-			universalSet.addAll(p.getClusters());
+			allClusters.addAll(p.getClusters());
 	}
 
 	public String toString(boolean verbose) {
 		String s = String.format("%s\nCurrent Semester: %s\nPrograms: %d\nClusters: %d\nMin Classes: %d\n============\n", this.name,
-				this.currentSemester.toString(), this.programs.size(), this.universalSet.size(), getClassCount());
-		for (Cluster c : universalSet) {
+				this.currentSemester.toString(), this.programs.size(), this.allClusters.size(), getClassCount());
+		for (Cluster c : allClusters) {
 			s += c.toString(verbose) + "";
 		}
 		return s;
@@ -45,7 +46,7 @@ public class ZPlanner {
 
 	public int getClassCount() {
 		int count = 0;
-		for (Cluster c : universalSet) {
+		for (Cluster c : allClusters) {
 			count += c.getClassCount();
 		}
 		return count;

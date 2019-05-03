@@ -12,7 +12,6 @@ import java.util.HashSet;
  */
 public class Cluster {
 	private String name;
-
 	private Rule rule;
 	private HashSet<Course> class_list;
 
@@ -104,6 +103,11 @@ public class Cluster {
 		return this.class_list;
 	}
 
+	/**
+	 * Get the total number of classes needed for this cluster
+	 * 
+	 * @return number of classes.
+	 */
 	public int getClassCount() {
 		int count = 0;
 		if (this.rule == Rule.TAKE_ONE)
@@ -117,8 +121,14 @@ public class Cluster {
 		return count;
 	}
 
+	/**
+	 * TODO: generate method, might not be possible due to variance Gets the number
+	 * of credits
+	 * 
+	 * @return
+	 */
 	public int getCreditCount() {
-		return 0; // TODO: not really doable but maybe
+		return 0;
 	}
 
 	/**
@@ -143,7 +153,6 @@ public class Cluster {
 	/**
 	 * Default toString, shows full detail
 	 */
-	@Override
 	public String toString() {
 		return toString(true);
 	}

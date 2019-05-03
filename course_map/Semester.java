@@ -1,8 +1,16 @@
 package course_map;
 
+/**
+ * Semester enum
+ * 
+ * @author Zeru Tadesse
+ *
+ */
 public enum Semester {
 	FR_FA, FR_SP, SO_FA, SO_SP, JU_FA, JU_SP, SE_FA, SE_SP;
-
+	/**
+	 * Get the name of enum for readability (outputs)
+	 */
 	public String toString() {
 		String s = "";
 		switch (this) {

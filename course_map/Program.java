@@ -1,20 +1,45 @@
 package course_map;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
+/**
+ * A program is a part of a degree; such as a major, minor, general educations
+ * 
+ * @author Zeru Tadesse
+ *
+ */
 public class Program {
 	private HashSet<Cluster> clusters;
 	private String name;
 
+	/**
+	 * Program Constructor with a name and a set of clusters (each contain possible
+	 * classes)
+	 * 
+	 * @param name     Name of Program (ie: CS Major)
+	 * @param clusters Collection of clusters
+	 */
 	public Program(String name, HashSet<Cluster> clusters) {
 		this.name = name;
 		this.clusters = clusters;
 	}
 
+	/**
+	 * Gets detailed information of Program as a string
+	 */
 	public String toString() {
 		return toString(true);
 	}
 
+	/**
+	 * Gets information of Program as a string
+	 * 
+	 * @param verbose Boolean for detail if true
+	 * @return
+	 */
 	public String toString(boolean verbose) {
 		String s = "Program: " + this.name + "\n";
 
@@ -24,10 +49,20 @@ public class Program {
 		return s;
 	}
 
+	/**
+	 * Gets the collection of clusters in the program
+	 * 
+	 * @return a HashSet of clusters
+	 */
 	public HashSet<Cluster> getClusters() {
 		return this.clusters;
 	}
 
+	/**
+	 * Number of classes in the entire program
+	 * 
+	 * @return class count
+	 */
 	public int classCount() {
 		int count = 0;
 		for (Cluster c : this.clusters) {
@@ -36,10 +71,24 @@ public class Program {
 		return count;
 	}
 
+	/**
+	 * Gets the total credits in the program TODO implement Cluster.getCreditCount()
+	 * 
+	 * @return the number of credits in the program
+	 */
 	public int creditCount() {
-		return 0; // TODO: Same as clustor credit count, not very doable
+		int count = 0;
+		for (Cluster c : this.clusters) {
+			count += c.getCreditCount();
+		}
+		return count;
 	}
 
+	/**
+	 * Sample export to String
+	 * 
+	 * @return String ready for file transfer
+	 */
 	public String export() {
 		String text = "[PROGRAM]\n";
 
