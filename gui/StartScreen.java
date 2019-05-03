@@ -21,16 +21,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import temp.*;
 import course_map.*;
+import main.ZPlanner;
 
 public class StartScreen {
-
-	private boolean isVisible = false;
-
-	// Major selection
-	private boolean noMajorSelected = true;
-	private boolean csSelected = false;
-	private boolean cisSelected = false;
-
+	
 	// New student selection
 	private boolean nothingSelected = true;
 	private boolean yesSelected = false;
@@ -51,13 +45,10 @@ public class StartScreen {
 	JPanel creators;
 
 	// Main screen options
-	JPanel majorOption;
 	JPanel newStudentOption;
 	JPanel startOption;
 
 	public StartScreen(String title) {
-		this.isVisible = true;
-
 		startScreen = new JFrame();
 		mainPanel = new JPanel();
 
@@ -68,7 +59,7 @@ public class StartScreen {
 		createCreatorsPanel();
 
 		mainPanel.setBackground(Color.gray);
-		startScreen.setSize(500, 350);
+		startScreen.setSize(550, 350);
 		startScreen.setResizable(false);
 		startScreen.setLocation(200, 200);
 		startScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,7 +87,6 @@ public class StartScreen {
 		title = new JPanel();
 		logo = new JPanel();
 		options = new JPanel();
-		majorOption = new JPanel();
 		newStudentOption = new JPanel();
 		startOption = new JPanel();
 
@@ -117,40 +107,22 @@ public class StartScreen {
 
 		logo.add(logoLabel);
 
-		// Options
-		JLabel majorSelectionLabel = new JLabel("Select a major:");
-		JLabel newStudentQuestion = new JLabel("Have you taken any courses in that major?");
+		// Option
+		JLabel newStudentQuestion = new JLabel("Are you a new student or currently enrolled?");
 
-		majorSelectionLabel.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		newStudentQuestion.setFont(new Font("Monospaced", Font.PLAIN, 16));
-
-		// MajorsDropdown
-		String[] majors = { "--", "CS", "CIS" };
-		JComboBox<String> majorsDropdown = new JComboBox<String>(majors);
-		majorsDropdown.setBounds(new Rectangle(100, 100, 100, 100));
-
-		majorsDropdown.addActionListener(new NoMajorSelectedOptionActionListener());
-		majorsDropdown.addActionListener(new CSOptionActionListener());
-		majorsDropdown.addActionListener(new CISOptionActionListener());
-		majorsDropdown.setSelectedIndex(0);
+		newStudentQuestion.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
 		// YesOrNoDropdown
-		String[] yesOrNo = { "--", "No", "Yes" };
+		String[] yesOrNo = { "--", "New student", "Currently enrolled" };
 		JComboBox<String> yesOrNoDropdown = new JComboBox<String>(yesOrNo);
 		yesOrNoDropdown.setBounds(new Rectangle(100, 100, 100, 100));
 
-		yesOrNoDropdown.addActionListener(new NothingSelectedOptionActionListener());
-		yesOrNoDropdown.addActionListener(new YesSelectedOptionActionListener());
-		yesOrNoDropdown.addActionListener(new NoSelectedOptionActionListener());
+		yesOrNoDropdown.addActionListener(new NewStudentSelectionOptionActionListener());
 
 		// StartButton
 		JButton startButton = new JButton("Get started");
 		startButton.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		startButton.addActionListener(new GetStartedButtonActionListener());
-
-		// Add major option components
-		majorOption.add(majorSelectionLabel);
-		majorOption.add(majorsDropdown);
 
 		// Add newStudent option components
 		newStudentOption.add(newStudentQuestion);
@@ -160,7 +132,6 @@ public class StartScreen {
 		startOption.add(startButton);
 
 		// Add each panel to options panel
-		options.add(majorOption);
 		options.add(newStudentOption);
 		options.add(startOption);
 
@@ -181,54 +152,7 @@ public class StartScreen {
 		mainPanel.add(creators);
 	}
 
-	public boolean getIsVisible() {
-		return isVisible;
-	}
-
-	private class NoMajorSelectedOptionActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox box = (JComboBox) e.getSource();
-			if (box.getSelectedIndex() == 0) {
-				noMajorSelected = true;
-
-				cisSelected = false;
-				csSelected = false;
-				System.out.println("CS:" + csSelected + "  CIS:" + cisSelected);
-			}
-
-		}
-	}
-
-	private class CSOptionActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox box = (JComboBox) e.getSource();
-			if (box.getSelectedIndex() == 1) {
-				csSelected = true;
-
-				cisSelected = false;
-				noMajorSelected = false;
-				System.out.println("CS:" + csSelected + "  CIS:" + cisSelected);
-			}
-		}
-	}
-
-	private class CISOptionActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox box = (JComboBox) e.getSource();
-			if (box.getSelectedIndex() == 2) {
-				cisSelected = true;
-
-				csSelected = false;
-				noMajorSelected = false;
-				System.out.println("CS:" + csSelected + "  CIS:" + cisSelected);
-			}
-		}
-	}
-
-	private class NothingSelectedOptionActionListener implements ActionListener {
+	private class NewStudentSelectionOptionActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JComboBox box = (JComboBox) e.getSource();
@@ -239,14 +163,7 @@ public class StartScreen {
 				noSelected = false;
 				System.out.println("yes:" + yesSelected + "  no:" + noSelected);
 			}
-
-		}
-	}
-
-	private class YesSelectedOptionActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox box = (JComboBox) e.getSource();
+			
 			if (box.getSelectedIndex() == 1) {
 				yesSelected = true;
 
@@ -254,14 +171,7 @@ public class StartScreen {
 				noSelected = false;
 				System.out.println("yes:" + yesSelected + "  no:" + noSelected);
 			}
-
-		}
-	}
-
-	private class NoSelectedOptionActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox box = (JComboBox) e.getSource();
+			
 			if (box.getSelectedIndex() == 2) {
 				noSelected = true;
 
@@ -278,38 +188,17 @@ public class StartScreen {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
-			if (button.isEnabled() && !nothingSelected && !noMajorSelected) {
+			if (button.isEnabled() && !nothingSelected) {
 				System.out.println("We can start");
 
 				if (yesSelected) {
-					Planner olderStudentPlanner = null;
-					if (csSelected) {
-						olderStudentPlanner = new Planner(new Major(Subject.CS));
-						olderStudentPlanner = (MajorCreator.addCsMajor(olderStudentPlanner));
-					}
-					if (cisSelected) {
-						olderStudentPlanner = new Planner(new Major(Subject.CIS));
-						olderStudentPlanner = (MajorCreator.addCisMajor(olderStudentPlanner));
-
-					}
-					NewStudentScreen nss = new NewStudentScreen("New Student", olderStudentPlanner);
+					NewStudentScreen nss = new NewStudentScreen("New Student");
 					startScreen.dispose();
 
 				}
 
 				if (noSelected) {
-					Planner newStudentPlanner = null;
-					if (csSelected) {
-						newStudentPlanner = new Planner(new Major(Subject.CS));
-						newStudentPlanner = (MajorCreator.addCsMajor(newStudentPlanner));
-
-					}
-					if (cisSelected) {
-						newStudentPlanner = new Planner(new Major(Subject.CIS));
-						newStudentPlanner = (MajorCreator.addCisMajor(newStudentPlanner));
-
-					}
-					OlderStudentScreen oss = new OlderStudentScreen("Older Student", newStudentPlanner);
+					OlderStudentScreen oss = new OlderStudentScreen("Older Student");
 					startScreen.dispose();
 				}
 

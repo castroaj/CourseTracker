@@ -48,6 +48,17 @@ public class ZPlanner {
 		for (Program p : programs)
 			allClusters.addAll(p.getClusters());
 	}
+	
+	public ZPlanner()
+	{
+		this.name = "";
+		this.currentSemester = null;
+		this.programs = new HashSet<Program>();
+		this.totalCreditsNeeded = -1;
+		this.courseGraph = new CourseGraph();
+		this.calander = new HashSet<Course>();
+		this.allClusters = new HashSet<Cluster>();
+	}
 
 	/**
 	 * Displays the Planner as text
@@ -158,6 +169,11 @@ public class ZPlanner {
 		}
 
 		return s;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 }

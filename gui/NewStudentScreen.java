@@ -12,10 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import main.ZPlanner;
 import temp.*;
 public class NewStudentScreen {
 
-	private Planner planner;
+	private ZPlanner planner;
 	private String name;
 	private int year;
 	private boolean nameEntered;
@@ -32,9 +34,9 @@ public class NewStudentScreen {
 	JTextField nameField;
 	
 		
-	public NewStudentScreen(String title, Planner planner)
+	public NewStudentScreen(String title)
 	{
-		this.planner = planner;
+		this.planner = new ZPlanner();
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -175,7 +177,6 @@ public class NewStudentScreen {
 				name = nameField.getText();
 				newStudentScreen.dispose();
 				planner.setName(name);
-				planner.setYear(year);
 				PlannerScreen plannerScreen = new PlannerScreen("Planner", planner);
 			}
 		}

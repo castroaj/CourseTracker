@@ -1,12 +1,14 @@
 package gui;
 import javax.swing.JFrame;
+
+import main.ZPlanner;
 import temp.*;
 public class PlannerScreen {
 
 	JFrame plannerScreen;
-	Planner planner;
+	ZPlanner planner;
 	
-	public PlannerScreen(String title, Planner planner)
+	public PlannerScreen(String title, ZPlanner planner)
 	{
 		this.planner = planner;
 		plannerScreen = new JFrame();
@@ -17,7 +19,6 @@ public class PlannerScreen {
 		plannerScreen.setTitle(title);
 		plannerScreen.setVisible(true);
 		 
-		System.out.println(this.planner.getName() + "   " + planner.getYear());
 	}
 	
 }
