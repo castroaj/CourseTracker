@@ -68,10 +68,13 @@ public class CourseGraph implements Graph {
   }
 
   @Override
-  public Set<Course> neighbors(Course id) {
+  public Set<Course> outDegree(Course id) {
     return Collections.unmodifiableSet(graph.get(id));
   }
-
+  
+  public Set<Course> getInDegree(Course id){
+	  return Collections.unmodifiableMap(inDegrees).keySet();
+  }
   @Override
   public Set<Course> allNodes() {
     return Collections.unmodifiableMap(graph).keySet();

@@ -16,7 +16,7 @@ public interface Graph {
 
 	void removeEdge(Course from, Course to);
 
-	Set<Course> neighbors(Course id);
+	Set<Course> outDegree(Course id);
 
 	Set<Course> allNodes();
 

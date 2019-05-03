@@ -7,8 +7,9 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import course_map.*;
 
-
 public class Generator {
+	private static String courseDatabase;
+
 	/**
 	 * @deprecated use {@link #createProgram(String)}
 	 * 
@@ -248,4 +249,43 @@ public class Generator {
 		return new Program(programName, clusters);
 	}
 
+	public static void loadCourseDatabase(String file) {
+		StringBuilder sb = new StringBuilder();
+		try (BufferedReader br = Files.newBufferedReader(Paths.get(file))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+		} catch (IOException e) {
+			System.err.format("IOException: %s%n", e);
+		}
+		courseDatabase = sb.toString();
+		System.out.println(courseDatabase);
+	}
+
+	public static Course findCourse(String subject, String number) {
+		Course course = new Course(null, "coursenotfoundindatabase", false, false);
+		String[] list = courseDatabase.split("\n");
+		for (int i = 1; i < list.length; i++) {
+			String[] fields = list[i].split(",");
+			if (fields[1].equals(subject) && fields[2].equals(number)) {
+				// Subject subject, String classID, boolean fall, boolean spring, int credits,
+				// int preference
+				Subject newSubject = Enum.valueOf(Subject.class, fields[1]);
+				String newClassID = fields[2];
+				boolean newFall = fields[5].equals("T") || fields[5].equals("M");
+				boolean newSpring = fields[6].equals("T") || fields[6].equals("M");
+				int newCredits = Integer.parseInt(fields[4]);
+				int newPreference = Integer.parseInt(fields[11]);
+
+				// Optional Fields TODO: add prereqs to list
+				for (int f = 1; f < fields.length; f++) {
+
+				}
+				course = new Course(newSubject, newClassID, newFall, newSpring, newCredits, newPreference);
+				return course;
+			}
+		}
+		return course;
+	}
 }

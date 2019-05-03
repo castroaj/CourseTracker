@@ -128,7 +128,7 @@ public class Cluster {
 	 */
 	public Course getPreferedClass() {
 		int highestRatedScore = -1;
-		Course tempCourse = new Course(null, "tempcourse", false, false);
+		Course tempCourse = new Course(null, "nocourse", false, false);
 		for (Course c : class_list) {
 			if (c.isTaken() == false) {
 				if (c.getPreference() > highestRatedScore) {
