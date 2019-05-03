@@ -121,6 +121,21 @@ public class Cluster {
 		return count;
 	}
 
+	public Course getPreferedClass() {
+		int highestRatedScore = -1;
+		Course tempCourse = new Course(null, "tempcourse", false, false);
+		for (Course c : class_list) {
+			if (c.isTaken() == false) {
+				if (c.getPreference() > highestRatedScore) {
+					tempCourse = c;
+					highestRatedScore = c.getPreference();
+					c.takeClass();
+				}
+			}
+		}
+		return tempCourse;
+	}
+
 	/**
 	 * TODO: generate method, might not be possible due to variance Gets the number
 	 * of credits
@@ -142,8 +157,12 @@ public class Cluster {
 		String s = String.format("Cluster: %-25s\tRule: %-15s\tSize: %2d\n", this.name, this.rule,
 				this.class_list.size());
 		if (verbose) {
+			int count = 0;
 			for (Course c : this.class_list) {
+				// if (count < getClassCount()) //This condition only prints as many as the
+				// cluster needs
 				s += c.toString(verbose);
+				count++;
 			}
 		}
 		return s;

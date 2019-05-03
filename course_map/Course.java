@@ -19,18 +19,19 @@ public class Course {
 	private int credits;
 	private boolean offeredFall;
 	private boolean offeredSpring;
-	private int priority;
+	private int preference;
 
 	/**
-	 * Course constructor with default of 3 credits
+	 * Course constructor with default of 3 credits and prefrence of 5 (no pref)
 	 * 
 	 * @param subject Class subject
 	 * @param classID Class number
 	 * @param fall    Offered in fall (t/f)
 	 * @param spring  Offered in spring (t/f)
+	 * 
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring) {
-		this(subject, classID, fall, spring, 3);
+		this(subject, classID, fall, spring, 3, 5);
 	}
 
 	/**
@@ -43,6 +44,20 @@ public class Course {
 	 * @param credits Number of credits
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits) {
+		this(subject, classID, fall, spring, credits, 5);
+	}
+
+	/**
+	 * Course constructor with explicit credits
+	 * 
+	 * @param subject   Class subject
+	 * @param classID   Class number
+	 * @param fall      Offered in fall (t/f)
+	 * @param spring    Offered in spring (t/f)
+	 * @param credits   Number of credits
+	 * @param prefrence Ranking of preference 0-10
+	 */
+	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits, int prefrence) {
 		this.subject = subject;
 		this.classID = classID;
 		this.offeredFall = fall;
@@ -50,7 +65,7 @@ public class Course {
 		this.requiredFor = new HashSet<Course>();
 		this.myCoreqs = new HashSet<Course>();
 		this.credits = credits;
-		this.priority = 0;
+		this.preference = prefrence;
 		this.classTaken = false;
 	}
 
@@ -62,7 +77,7 @@ public class Course {
 	public void addPostreq(Course newPostreq) {
 		if (newPostreq != null) {
 			requiredFor.add(newPostreq);
-			this.priority++;
+			this.preference++;
 		}
 	}
 
@@ -113,6 +128,24 @@ public class Course {
 	}
 
 	/**
+	 * Get the preference for this class (0: Don't include, 10 Must include)
+	 * 
+	 * @return
+	 */
+	public int getPreference() {
+		return this.preference;
+	}
+
+	/**
+	 * Change the preference of a class 0=least preferred 10 = most preferred
+	 * 
+	 * @param preference
+	 */
+	public void setPrefrence(int preference) {
+		this.preference = preference;
+	}
+
+	/**
 	 * Evaluates equals
 	 * 
 	 * @param o other course
@@ -137,9 +170,9 @@ public class Course {
 	 */
 	public String toString(boolean verbose) {
 		if (verbose) {
-			String s = "\t[" + String.format("%02d", this.priority) + "]" + this.subject + this.classID + " ("
+			String s = "\t[" + String.format("%02d", this.preference) + "]" + this.subject + this.classID + " ("
 					+ this.credits + ") Offered in ";
-			s = String.format("\t[%02d]%-5s%-5s (%d) Offered:  ", this.priority, this.subject, this.classID,
+			s = String.format("\t[%02d]%-5s%-5s (%d) Offered:  ", this.preference, this.subject, this.classID,
 					this.credits);
 			if (offeredFall) {
 				s += "Fa";
@@ -174,8 +207,17 @@ public class Course {
 
 	}
 
+	/**
+	 * Boolean condition if class has been taken already
+	 * 
+	 * @return
+	 */
 	public boolean isTaken() {
 		return this.classTaken;
+	}
+
+	public void takeClass() {
+		this.classTaken = true;
 	}
 
 	/**
@@ -184,7 +226,6 @@ public class Course {
 	 * @return The Subject and Class id IE: CS101
 	 */
 	public String toStringSimple() {
-		String s = this.subject + this.classID;
-		return s;
+		return String.format("%-5s %-3s", this.subject, this.classID);
 	}
 }

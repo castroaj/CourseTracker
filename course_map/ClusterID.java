@@ -7,9 +7,9 @@ package course_map;
  * @author zeru
  *
  */
-@Deprecated //Not useful
+
 public enum ClusterID {
 	// GEN EDS: https://www.jmu.edu/gened/_files/GeneralEducationPlanner.pdf
-	GEN_ED, MAJOR_REQUIRED, MAJOR_ELECTIVE,
+	GEN_ED, MAJOR,MINOR
 
 }

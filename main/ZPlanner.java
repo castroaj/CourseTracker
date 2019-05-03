@@ -1,24 +1,26 @@
 package main;
+
 import java.util.ArrayList;
 
 import java.util.HashSet;
 import graph.*;
 import course_map.*;
-@SuppressWarnings("unused")
 
 public class ZPlanner {
 
 	private String name;
 	private Semester currentSemester;
-	
+
 	private int totalCreditsNeeded;
 	private CourseGraph courseGraph;
 
 	private Course[][] year = new Course[8][5]; // 8 semesters, 5 classes each
-	//TODO: private HashSet<Course> coursesTaken;
+	// TODO: private HashSet<Course> coursesTaken;
 	private HashSet<Program> programs;
 	private HashSet<Cluster> allClusters;
 	private HashSet<Course> courses;
+
+	private HashSet<Course> calander;
 
 	public ZPlanner() {
 
@@ -30,13 +32,15 @@ public class ZPlanner {
 		this.programs = programs;
 		this.totalCreditsNeeded = creditsToGraduate;
 		this.courseGraph = new CourseGraph();
+		this.calander = new HashSet<Course>();
 		allClusters = new HashSet<Cluster>();
 		for (Program p : programs)
 			allClusters.addAll(p.getClusters());
 	}
 
 	public String toString(boolean verbose) {
-		String s = String.format("%s\nCurrent Semester: %s\nPrograms: %d\nClusters: %d\nMin Classes: %d\n============\n", this.name,
+		String s = String.format(
+				"%s\nCurrent Semester: %s\nPrograms: %d\nClusters: %d\nMin Classes: %d\n============\n", this.name,
 				this.currentSemester.toString(), this.programs.size(), this.allClusters.size(), getClassCount());
 		for (Cluster c : allClusters) {
 			s += c.toString(verbose) + "";
@@ -91,6 +95,38 @@ public class ZPlanner {
 
 		}
 		System.out.println(year.toString());
+	}
+
+	/**
+	 * TODO: Implement method Create a Planner with the following specifications: 1.
+	 * Add the minimum required classes in each cluster to a collection b.
+	 * Prioritize highest preferred class 2. Check prerequisite graph b. Add any
+	 * missing prereqs 3. Fill in schedule b. Prioritize classes with most pre-reqs
+	 */
+	public void createPlanner() {
+
+		for (Program p : programs) {
+			for (Cluster cl : p.getClusters()) {
+				for (int i = 0; i < cl.getClassCount(); i ++)
+				calander.add(cl.getPreferedClass());
+			}
+		}
+	}
+
+	public String toStringCalander(boolean verbose) {
+		String s = "";
+		s += "Calander\n\n";
+		s+= "Class count : " + calander.size() + "\n"; 
+		int count = 0;
+		for (Course c : calander) {
+			int sem = count - (count %5);
+			if (count%5 == 0)
+				s+= String.format("Year: %d Semester: %d\n", count/10 +1, sem%2 + 1);
+			s += c.toString(verbose);
+			count++;
+		}
+
+		return s;
 	}
 
 }

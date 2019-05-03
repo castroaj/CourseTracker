@@ -171,7 +171,7 @@ public class ZGenerator {
 		return new Program("Computer Science", cs_clusters);
 		// intro_programming.add(CS149)
 	}
-
+	@Deprecated
 	public static Program makeGenED() throws IOException {
 
 		StringBuilder sb = new StringBuilder();
@@ -230,7 +230,7 @@ public class ZGenerator {
 				String className = classes[j].split(",")[1].split(" ")[0];
 				String classID = classes[j].split(",")[1].split(" ")[1];
 				// System.out.println(className);
-				Course currentCourse = new Course(Enum.valueOf(Subject.class, className), classID, true, true, 3);
+				Course currentCourse = new Course(Enum.valueOf(Subject.class, className), classID, true, true, 3,Integer.parseInt(priority));
 				currentCluster.add(currentCourse);
 			}
 			clusters.add(currentCluster);
