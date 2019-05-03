@@ -216,6 +216,9 @@ public class Course {
 		return this.classTaken;
 	}
 
+	/**
+	 * Change the status of the class to taken = true
+	 */
 	public void takeClass() {
 		this.classTaken = true;
 	}

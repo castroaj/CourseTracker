@@ -121,6 +121,11 @@ public class Cluster {
 		return count;
 	}
 
+	/**
+	 * Evaluate the class in class_list that should be taken based on rating
+	 * 
+	 * @return highest priority class that has not been taken
+	 */
 	public Course getPreferedClass() {
 		int highestRatedScore = -1;
 		Course tempCourse = new Course(null, "tempcourse", false, false);

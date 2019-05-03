@@ -7,52 +7,54 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import course_map.*;
 
-@SuppressWarnings("unused")
-public class ZGenerator {
 
-	private static Course tempCourse = new Course(Subject.CS, "000", false, false);
-	private static Course cs101 = new Course(Subject.CS, "101", true, true);
-	private static Course cs149 = new Course(Subject.CS, "149", true, true);
-	private static Course cs159 = new Course(Subject.CS, "159", true, true);
-	private static Course cs227 = new Course(Subject.CS, "227", true, true);
-	private static Course cs240 = new Course(Subject.CS, "240", true, true);
-	private static Course cs260 = new Course(Subject.CS, "260", true, true);
-	private static Course cs261 = new Course(Subject.CS, "261", true, true);
-	private static Course cs280 = new Course(Subject.CS, "280", true, true, 1);
-	private static Course cs327 = new Course(Subject.CS, "327", true, true);
-	private static Course cs330 = new Course(Subject.CS, "330", true, true);
-	private static Course cs345 = new Course(Subject.CS, "345", true, true);
-	private static Course cs347 = new Course(Subject.CS, "347", true, false);
-	private static Course cs349 = new Course(Subject.CS, "349", true, true);
-	private static Course cs354 = new Course(Subject.CS, "354", true, false);
-	private static Course cs361 = new Course(Subject.CS, "361", true, true);
-	private static Course cs430 = new Course(Subject.CS, "430", false, true);
-	private static Course cs432 = new Course(Subject.CS, "432", true, false);
-	private static Course cs442 = new Course(Subject.CS, "442", false, true);
-	private static Course cs444 = new Course(Subject.CS, "444", false, true);
-	private static Course cs446 = new Course(Subject.CS, "446", false, true);
-	private static Course cs447 = new Course(Subject.CS, "447", true, false);
-	private static Course cs448 = new Course(Subject.CS, "448", true, false);
-	private static Course cs449 = new Course(Subject.CS, "449", true, false);
-	private static Course cs450 = new Course(Subject.CS, "450", true, false);
-	private static Course cs452 = new Course(Subject.CS, "452", false, true);
-	private static Course cs456 = new Course(Subject.CS, "456", false, true);
-	private static Course cs457 = new Course(Subject.CS, "457", true, false);
-	private static Course cs458 = new Course(Subject.CS, "458", false, true);
-	private static Course cs461 = new Course(Subject.CS, "461", false, true);
-	private static Course cs462 = new Course(Subject.CS, "462", false, true);
-	private static Course cs470 = new Course(Subject.CS, "470", false, true);
-	private static Course cs474 = new Course(Subject.CS, "474", false, true);
-	private static Course cs475 = new Course(Subject.CS, "475", false, true);
-	private static Course cs476 = new Course(Subject.CS, "476", false, true);
-	private static Course cs480 = new Course(Subject.CS, "480", true, true);
-	private static Course cs482 = new Course(Subject.CS, "482", false, true);
-	private static Course cs488 = new Course(Subject.CS, "442", true, true);
+public class Generator {
+	/**
+	 * @deprecated use {@link #createProgram(String)}
+	 * 
+	 */
+	public static Program makeCSMajor() {
+		Course tempCourse = new Course(Subject.CS, "000", false, false);
+		Course cs101 = new Course(Subject.CS, "101", true, true);
+		Course cs149 = new Course(Subject.CS, "149", true, true);
+		Course cs159 = new Course(Subject.CS, "159", true, true);
+		Course cs227 = new Course(Subject.CS, "227", true, true);
+		Course cs240 = new Course(Subject.CS, "240", true, true);
+		Course cs260 = new Course(Subject.CS, "260", true, true);
+		Course cs261 = new Course(Subject.CS, "261", true, true);
+		Course cs280 = new Course(Subject.CS, "280", true, true, 1);
+		Course cs327 = new Course(Subject.CS, "327", true, true);
+		Course cs330 = new Course(Subject.CS, "330", true, true);
+		Course cs345 = new Course(Subject.CS, "345", true, true);
+		Course cs347 = new Course(Subject.CS, "347", true, false);
+		Course cs349 = new Course(Subject.CS, "349", true, true);
+		Course cs354 = new Course(Subject.CS, "354", true, false);
+		Course cs361 = new Course(Subject.CS, "361", true, true);
+		Course cs430 = new Course(Subject.CS, "430", false, true);
+		Course cs432 = new Course(Subject.CS, "432", true, false);
+		Course cs442 = new Course(Subject.CS, "442", false, true);
+		Course cs444 = new Course(Subject.CS, "444", false, true);
+		Course cs446 = new Course(Subject.CS, "446", false, true);
+		Course cs447 = new Course(Subject.CS, "447", true, false);
+		Course cs448 = new Course(Subject.CS, "448", true, false);
+		Course cs449 = new Course(Subject.CS, "449", true, false);
+		Course cs450 = new Course(Subject.CS, "450", true, false);
+		Course cs452 = new Course(Subject.CS, "452", false, true);
+		Course cs456 = new Course(Subject.CS, "456", false, true);
+		Course cs457 = new Course(Subject.CS, "457", true, false);
+		Course cs458 = new Course(Subject.CS, "458", false, true);
+		Course cs461 = new Course(Subject.CS, "461", false, true);
+		Course cs462 = new Course(Subject.CS, "462", false, true);
+		Course cs470 = new Course(Subject.CS, "470", false, true);
+		Course cs474 = new Course(Subject.CS, "474", false, true);
+		Course cs475 = new Course(Subject.CS, "475", false, true);
+		Course cs476 = new Course(Subject.CS, "476", false, true);
+		Course cs480 = new Course(Subject.CS, "480", true, true);
+		Course cs482 = new Course(Subject.CS, "482", false, true);
+		Course cs488 = new Course(Subject.CS, "442", true, true);
 
-	private static Course math235 = new Course(Subject.MATH, "235", true, true, 4);
-	private static Course stat200 = new Course(Subject.STAT, "200", true, true);
-
-	public void createCSClasses() {
+		Course math235 = new Course(Subject.MATH, "235", true, true, 4);
+		Course stat200 = new Course(Subject.STAT, "200", true, true);
 		cs149.addPostreq(cs159);
 
 		cs159.addPostreq(cs227);
@@ -104,10 +106,6 @@ public class ZGenerator {
 
 		cs474.addPostreq(cs475);
 		cs474.addPostreq(cs476);
-	}
-
-	public static Program makeCSMajor() {
-
 		HashSet<Cluster> cs_clusters = new HashSet<Cluster>();
 		Cluster core = new Cluster("CS Core", Rule.TAKE_ALL, new HashSet<Course>());
 		core.add(cs159);
@@ -171,7 +169,11 @@ public class ZGenerator {
 		return new Program("Computer Science", cs_clusters);
 		// intro_programming.add(CS149)
 	}
-	@Deprecated
+
+	/**
+	 * @deprecated use {@link #createProgram(String)}
+	 * 
+	 */
 	public static Program makeGenED() throws IOException {
 
 		StringBuilder sb = new StringBuilder();
@@ -205,6 +207,12 @@ public class ZGenerator {
 		return new Program("Gen Ed", clusters);
 	}
 
+	/**
+	 * Create a program
+	 * 
+	 * @param file .zagp file TODO: Update for database integration
+	 * @return Program object with all required clusters
+	 */
 	public static Program createProgram(String file) {
 		StringBuilder sb = new StringBuilder();
 		String programName = "";
@@ -230,7 +238,8 @@ public class ZGenerator {
 				String className = classes[j].split(",")[1].split(" ")[0];
 				String classID = classes[j].split(",")[1].split(" ")[1];
 				// System.out.println(className);
-				Course currentCourse = new Course(Enum.valueOf(Subject.class, className), classID, true, true, 3,Integer.parseInt(priority));
+				Course currentCourse = new Course(Enum.valueOf(Subject.class, className), classID, true, true, 3,
+						Integer.parseInt(priority));
 				currentCluster.add(currentCourse);
 			}
 			clusters.add(currentCluster);

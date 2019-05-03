@@ -2,6 +2,8 @@ package main;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Scanner;
+
 import course_map.*;
 import gui.StartScreen;
 
@@ -16,19 +18,19 @@ public class Driver {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		//StartScreen startScreenGUI = new StartScreen("CourseTracker");
+		StartScreen startScreenGUI = new StartScreen("CourseTracker");
 
-		Program GE = ZGenerator.createProgram("resources/gen_ed.zagp");
-		Program CS_M = ZGenerator.makeCSMajor();
-		Program CIS_m = ZGenerator.createProgram("resources/cis_minor.zagp");
+		Program GE = Generator.createProgram("resources/gen_ed.zagp");
+		Program CS_M = Generator.makeCSMajor();
+		Program CIS_m = Generator.createProgram("resources/cis_minor.zagp");
 		HashSet<Program> degree = new HashSet<Program>();
 		degree.add(GE);
 		degree.add(CIS_m);
 		degree.add(CS_M);
 		ZPlanner planner = new ZPlanner("ZAG", Semester.SO_SP, degree, 120);
 		planner.createPlanner();
-		System.out.println(planner.toString(true));  //Change boolean for less detail
-		System.out.println(planner.toStringCalander(true)); //Change boolean for less detail
+		System.out.println(planner.toString(true)); // Change boolean for less detail
+		System.out.println(planner.toStringCalander(true)); // Change boolean for less detail
 
 	}
 }
