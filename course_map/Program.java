@@ -3,7 +3,6 @@ package course_map;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * A program is a part of a degree; such as a major, minor, general educations
