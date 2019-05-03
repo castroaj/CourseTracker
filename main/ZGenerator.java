@@ -179,7 +179,7 @@ public class ZGenerator {
 
 		StringBuilder sb = new StringBuilder();
 
-		try (BufferedReader br = Files.newBufferedReader(Paths.get("gen_ed.zagp"))) {
+		try (BufferedReader br = Files.newBufferedReader(Paths.get("resources/gen_ed.zagp"))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				sb.append(line);

@@ -1,6 +1,7 @@
 package gui;
+
 import java.awt.Color;
-import resources.*;
+
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -19,10 +20,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import graph.*;
-import gui.*;
 import main.*;
 import temp.*;
 import course_map.*;
+
 public class StartScreen {
 
 	private boolean isVisible = false;
@@ -287,7 +288,7 @@ public class StartScreen {
 					if (csSelected) {
 						olderStudentPlanner = new Planner(new Major(Subject.CS));
 						olderStudentPlanner = (MajorCreator.addCsMajor(olderStudentPlanner));
-					} 
+					}
 					if (cisSelected) {
 						olderStudentPlanner = new Planner(new Major(Subject.CIS));
 						olderStudentPlanner = (MajorCreator.addCisMajor(olderStudentPlanner));
@@ -304,7 +305,7 @@ public class StartScreen {
 						newStudentPlanner = new Planner(new Major(Subject.CS));
 						newStudentPlanner = (MajorCreator.addCsMajor(newStudentPlanner));
 
-					} 
+					}
 					if (cisSelected) {
 						newStudentPlanner = new Planner(new Major(Subject.CIS));
 						newStudentPlanner = (MajorCreator.addCisMajor(newStudentPlanner));
