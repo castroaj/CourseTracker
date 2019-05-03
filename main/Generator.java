@@ -261,7 +261,7 @@ public class Generator {
 			System.err.format("IOException: %s%n", e);
 		}
 		courseDatabase = sb.toString();
-		System.out.println(courseDatabase);
+		//System.out.println(courseDatabase);
 	}
 
 	public static Course findCourse(String subject, String number) {
@@ -303,7 +303,7 @@ public class Generator {
 		String fileText = sb.toString();
 
 		String[] lines = fileText.split("\n");
-
+		HashSet<Cluster> clusters = new HashSet<Cluster>();
 		for (int i = 1; i < lines.length; i++) {
 			String[] fields = lines[i].split(",");
 			String newName = fields[0];
@@ -316,12 +316,13 @@ public class Generator {
 					newCourses.add(findCourse(fields[f].split(" ")[0], fields[f].split(" ")[1]));
 				}
 			}
-
+			Cluster newCluster = new Cluster(newName,rule,newCourses);
+			clusters.add(newCluster);
 			
 
 		}
 
-		return null;
+		return new Program(file, clusters);
 	}
 
 }
