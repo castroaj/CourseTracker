@@ -11,9 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import course_map.Program;
 import course_map.Semester;
 import main.ZPlanner;
 import temp.*;
@@ -46,6 +49,7 @@ public class SetupScreen {
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setBounds(200, 200, 800, 400);
 		newStudentScreen.add(mainPanel);
 		createTopPanel();
 		createLeftSidePanel();
@@ -54,6 +58,7 @@ public class SetupScreen {
 		createBottomPanel();
 	
 		newStudentScreen.setSize(800, 400);
+
 		newStudentScreen.setResizable(false);
 		newStudentScreen.setLocation(200, 200);
 
@@ -97,9 +102,6 @@ public class SetupScreen {
 		topPanel.add(semesterLabel);
 		topPanel.add(semestersBox);
 		
-		
-		//topPanel.add(continueButton);
-		
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
 	
@@ -108,24 +110,22 @@ public class SetupScreen {
 		leftSidePanel = new JPanel();
 		leftSidePanel.setLayout(new BoxLayout(leftSidePanel, BoxLayout.PAGE_AXIS));
 		
-		JButton addMajorButton = new JButton("Add Major");
-		JButton addMinorButton = new JButton("Add Minor");
+		JButton addButton = new JButton("Add Program");
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
 		
-		leftSidePanel.add(addMajorButton);
-		leftSidePanel.add(addMinorButton);
+		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
 		
-		mainPanel.add(leftSidePanel, BorderLayout.EAST);
+		mainPanel.add(leftSidePanel, BorderLayout.WEST);
 	}
 	
 	private void createCurrentProgramsPanel()
 	{
 		currentProgramsPanel = new JPanel();
 		
-		JButton continueButton = new JButton("Continue");
-		continueButton.addActionListener(new ContinueButtonActionListener());
+		JList<Program> currentProgramsList = new JList<Program>();
 		
+		currentProgramsPanel.add(currentProgramsList);
 		
 		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
 	}
@@ -144,7 +144,10 @@ public class SetupScreen {
 		
 		JButton continueButton = new JButton("Continue");
 		continueButton.addActionListener(new ContinueButtonActionListener());
+		JButton resetButton = new JButton("Reset");
+		// TODO action listener
 		
+		bottomPanel.add(resetButton);
 		bottomPanel.add(continueButton);
 		
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);

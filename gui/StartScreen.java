@@ -137,7 +137,7 @@ public class StartScreen {
 			JButton button = (JButton) e.getSource();
 			if (button.isEnabled()) {
 				SetupScreen sus = new SetupScreen("Setup", new ZPlanner());
-
+				startScreen.dispose();
 			}
 		}
 
