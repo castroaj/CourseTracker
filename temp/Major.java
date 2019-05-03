@@ -1,6 +1,11 @@
+package temp;
 import java.util.ArrayList;
 import java.util.HashSet;
-
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 public class Major {
 
 	private HashSet<Course> requiredCourses;

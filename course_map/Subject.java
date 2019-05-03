@@ -1,3 +1,4 @@
+package course_map;
 
 public enum Subject {
 	CS, CIS, MATH, STAT,

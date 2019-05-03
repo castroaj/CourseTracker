@@ -1,3 +1,9 @@
+package course_map;
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 /**
  * IDs for groups or pool of classes
  * For example, gen ed clusters, major electives, systems electives

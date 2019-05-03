@@ -1,5 +1,10 @@
+package gui;
 import javax.swing.JFrame;
-
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 public class PlannerScreen {
 
 	JFrame plannerScreen;

@@ -1,3 +1,4 @@
+package main;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -5,7 +6,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
-
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 public class ZGenerator {
 
 	private static Course tempCourse = new Course(Subject.CS, "000", false, false);

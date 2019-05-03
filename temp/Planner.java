@@ -1,3 +1,10 @@
+package temp;
+
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 import java.util.HashSet;
 
 public class Planner {
@@ -44,14 +51,12 @@ public class Planner {
 	public Major getMajorObject() {
 		return this.major;
 	}
-	
-	public void setYear(int year)
-	{
+
+	public void setYear(int year) {
 		this.year = year;
 	}
-	
-	public int getYear()
-	{
+
+	public int getYear() {
 		return year;
 	}
 

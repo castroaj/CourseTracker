@@ -1,4 +1,6 @@
+package gui;
 import java.awt.Color;
+import resources.*;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
@@ -16,7 +18,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 public class StartScreen {
 
 	private boolean isVisible = false;

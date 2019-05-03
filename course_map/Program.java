@@ -1,3 +1,9 @@
+package course_map;
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 

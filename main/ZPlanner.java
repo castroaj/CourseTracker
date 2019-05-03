@@ -1,6 +1,11 @@
+package main;
 import java.util.ArrayList;
 import java.util.HashSet;
-
+import graph.*;
+import gui.*;
+import main.*;
+import temp.*;
+import course_map.*;
 public class ZPlanner {
 
 	private String name;
@@ -27,7 +32,6 @@ public class ZPlanner {
 		universalSet = new HashSet<Cluster>();
 		for (Program p : programs)
 			universalSet.addAll(p.getClusters());
-
 	}
 
 	public String toString(boolean verbose) {
