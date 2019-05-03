@@ -1,11 +1,5 @@
 package course_map;
-import graph.*;
-import gui.*;
-import main.*;
-import temp.*;
-import course_map.*;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Course object ie: CS101, CS149, ECON200..etc Every course object contains a
@@ -144,6 +138,7 @@ public class Course {
 		if (verbose) {
 			String s = "\t[" + String.format("%02d", this.priority) + "]" + this.subject + this.classID + " ("
 					+ this.credits + ") Offered in ";
+			s = String.format("\t[%02d]%-5s%-5s (%d) Offered:  ", this.priority,this.subject,this.classID,this.credits);
 			if (offeredFall) {
 				s += "Fa";
 			}

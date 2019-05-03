@@ -1,11 +1,8 @@
 package graph;
 
 import java.util.Set;
-import graph.*;
-import gui.*;
-import main.*;
-import temp.*;
-import course_map.*;
+
+import course_map.Course;
 
 public interface Graph {
 

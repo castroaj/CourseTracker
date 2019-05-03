@@ -1,16 +1,12 @@
 package main;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
-import graph.*;
-import gui.*;
-import main.*;
-import temp.*;
 import course_map.*;
+
 public class ZGenerator {
 
 	private static Course tempCourse = new Course(Subject.CS, "000", false, false);
@@ -204,11 +200,42 @@ public class ZGenerator {
 			}
 			clusters.add(currentCluster);
 		}
-		
+
 		return new Program("Gen Ed", clusters);
 	}
 
-	public static void makeCISMinor() {
+	public static Program createProgram(String file) {
+		StringBuilder sb = new StringBuilder();
+		String programName = "";
+		try (BufferedReader br = Files.newBufferedReader(Paths.get(file))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+		} catch (IOException e) {
+			System.err.format("IOException: %s%n", e);
+		}
+		String text = sb.toString();
+		HashSet<Cluster> clusters = new HashSet<Cluster>();
+		String[] clusterText = text.split("CLUSTER");
+		programName = text.split("\n")[0];
+		for (int i = 1; i < clusterText.length; i++) {
+			Cluster currentCluster = new Cluster(clusterText[i].split(",")[0]);
+			Rule currentRule = Enum.valueOf(Rule.class, clusterText[i].split(",")[1].split("=")[0]);
+			currentCluster.setRule(currentRule);
+			String[] classes = clusterText[i].split("=")[1].split(";");
+			for (int j = 0; j < classes.length; j++) {
+				String priority = classes[j].split(",")[0];
+				String className = classes[j].split(",")[1].split(" ")[0];
+				String classID = classes[j].split(",")[1].split(" ")[1];
+				// System.out.println(className);
+				Course currentCourse = new Course(Enum.valueOf(Subject.class, className), classID, true, true, 3);
+				currentCluster.add(currentCourse);
+			}
+			clusters.add(currentCluster);
+		}
 
+		return new Program(programName, clusters);
 	}
+
 }

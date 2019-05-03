@@ -1,0 +1,30 @@
+CIS_Minor
+CLUSTER Intro Information-Systems,TAKE_ONE=
+0,COB 204,( );
+CLUSTER Computer Programming,TAKE_ONE=
+ 0,CIS 221,( );
+ 0,ISAT 252,( );
+ 0,IA 241,( );
+ 0,CS 149,( );
+CLUSTER Calculus,TAKE_ONE=
+ 0,MATH 205,( );
+ 0,MATH 231,( );
+ 0,MATH 235,( );
+ 0,ISAT 151,( );
+CLUSTER Statistics,TAKE_ONE=
+ 0,COB 191,( );
+ 0,MATH 220,( );
+CLUSTER Writing,TAKE_ONE=
+ 0,WRTC 103,( );
+CLUSTER Economics/Business,TAKE_ONE=
+ 0,ECON 200,( );
+ 0,ECON 201,( );
+ 0,COB 241,( );
+ 0,COB 242,( );
+ 0,COB 291,( );
+CLUSTER Core,TAKE_ALL=
+ 0,CIS 304,( );
+ 0,CIS 330,( );
+ 0,CIS 454,( );
+CLUSTER CIS_Elective,TAKE_ONE=
+ 0,CIS 320,( );

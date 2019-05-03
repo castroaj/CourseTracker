@@ -19,8 +19,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import graph.*;
-import main.*;
 import temp.*;
 import course_map.*;
 

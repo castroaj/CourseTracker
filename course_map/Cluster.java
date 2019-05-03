@@ -1,11 +1,5 @@
 package course_map;
 
-import graph.*;
-import gui.*;
-import main.*;
-import temp.*;
-import course_map.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 //IE: Choose one(or more) from this list
@@ -124,7 +118,7 @@ public class Cluster {
 	}
 
 	public int getCreditCount() {
-		return 0; //TODO: not really doable but maybe
+		return 0; // TODO: not really doable but maybe
 	}
 
 	/**
@@ -134,16 +128,16 @@ public class Cluster {
 	 * @return String
 	 */
 	public String toString(boolean verbose) {
+
+		String s = String.format("Cluster: %-25s\tRule: %-15s\tSize: %2d\n", this.name, this.rule,
+				this.class_list.size());
 		if (verbose) {
-			String s = "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
 			for (Course c : this.class_list) {
 				s += c.toString(verbose);
 			}
-			return s;
-		} else {
-			return String.format("Cluster: %-25s\tRule: %-15s\tSize: %2d\n", this.name,this.rule,this.class_list.size());
-			//return "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
 		}
+		return s;
+
 	}
 
 	/**

@@ -1,9 +1,6 @@
 package temp;
 
 import graph.*;
-import gui.*;
-import main.*;
-import temp.*;
 import course_map.*;
 import java.util.HashSet;
 

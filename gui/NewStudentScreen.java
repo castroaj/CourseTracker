@@ -1,5 +1,4 @@
 package gui;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import graph.*;
-import gui.*;
-import main.*;
 import temp.*;
-import course_map.*;
 public class NewStudentScreen {
 
 	private Planner planner;
