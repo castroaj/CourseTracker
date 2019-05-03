@@ -85,7 +85,7 @@ public class SetupScreen {
 		
 		JLabel yearLabel = new JLabel("What year at JMU are you: ");
 		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		String[] years = {"--", "Freshman", "Sophmore", "Junior", "Senior", "Senior+"};
+		String[] years = {"--", "Freshman", "Sophmore", "Junior", "Senior"};
 		JComboBox<String> yearBox = new JComboBox<String>(years);
 		yearBox.addActionListener(new DropdownYearActionListener());
 		
@@ -211,11 +211,6 @@ public class SetupScreen {
 				year = 4;
 				yearEntered = true;
 			}
-			if (box.getSelectedIndex() == 5)
-			{
-				year = 5;
-				yearEntered = true;
-			}
 		}
 	}
 	
@@ -232,13 +227,43 @@ public class SetupScreen {
 			}
 			if (box.getSelectedIndex() == 1)
 			{
-				
+				switch (year)
+				{
+					case 1:
+						semester = Semester.FR_FA;
+						break;
+					case 2:
+						semester = Semester.SO_FA;
+						break;
+					case 3:
+						semester = Semester.JU_FA;
+						break;
+					case 4:
+						semester = Semester.SE_FA;
+						break;
+				}
 				semesterEntered = true;
 			}
 			if (box.getSelectedIndex() == 2)
 			{
+				switch (year)
+				{
+					case 1:
+						semester = Semester.FR_SP;
+						break;
+					case 2:
+						semester = Semester.SO_SP;
+						break;
+					case 3:
+						semester = Semester.JU_SP;
+						break;
+					case 4:
+						semester = Semester.SE_SP;
+						break;
+				}
 				semesterEntered = true;
 			}
+			System.out.println(semester.toString());
 			
 		}
 		
