@@ -24,11 +24,6 @@ import course_map.*;
 import main.ZPlanner;
 
 public class StartScreen {
-	
-	// New student selection
-	private boolean nothingSelected = true;
-	private boolean yesSelected = false;
-	private boolean noSelected = false;
 
 	// GUI Components
 	JFrame startScreen;
@@ -87,7 +82,6 @@ public class StartScreen {
 		title = new JPanel();
 		logo = new JPanel();
 		options = new JPanel();
-		newStudentOption = new JPanel();
 		startOption = new JPanel();
 
 		options.setLayout(new BoxLayout(options, BoxLayout.PAGE_AXIS));
@@ -107,32 +101,15 @@ public class StartScreen {
 
 		logo.add(logoLabel);
 
-		// Option
-		JLabel newStudentQuestion = new JLabel("Are you a new student or currently enrolled?");
-
-		newStudentQuestion.setFont(new Font("Monospaced", Font.PLAIN, 14));
-
-		// YesOrNoDropdown
-		String[] yesOrNo = { "--", "New student", "Currently enrolled" };
-		JComboBox<String> yesOrNoDropdown = new JComboBox<String>(yesOrNo);
-		yesOrNoDropdown.setBounds(new Rectangle(100, 100, 100, 100));
-
-		yesOrNoDropdown.addActionListener(new NewStudentSelectionOptionActionListener());
-
 		// StartButton
 		JButton startButton = new JButton("Get started");
 		startButton.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		startButton.addActionListener(new GetStartedButtonActionListener());
 
-		// Add newStudent option components
-		newStudentOption.add(newStudentQuestion);
-		newStudentOption.add(yesOrNoDropdown);
-
 		// Add start button component
 		startOption.add(startButton);
 
 		// Add each panel to options panel
-		options.add(newStudentOption);
 		options.add(startOption);
 
 		// Add each sub panel to the main panel
@@ -152,51 +129,14 @@ public class StartScreen {
 		mainPanel.add(creators);
 	}
 
-	private class NewStudentSelectionOptionActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JComboBox box = (JComboBox) e.getSource();
-			if (box.getSelectedIndex() == 0) {
-				nothingSelected = true;
-
-				yesSelected = false;
-				noSelected = false;
-			}
-			
-			if (box.getSelectedIndex() == 1) {
-				yesSelected = true;
-
-				nothingSelected = false;
-				noSelected = false;
-			}
-			
-			if (box.getSelectedIndex() == 2) {
-				noSelected = true;
-
-				yesSelected = false;
-				nothingSelected = false;
-			}
-
-		}
-	}
 
 	private class GetStartedButtonActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
-			if (button.isEnabled() && !nothingSelected) {
-
-				if (yesSelected) {
-					SetupScreen nss = new SetupScreen("Setup", new ZPlanner());
-					startScreen.dispose();
-
-				}
-
-				if (noSelected) {
-					OlderStudentScreen oss = new OlderStudentScreen("Older Student");
-					startScreen.dispose();
-				}
+			if (button.isEnabled()) {
+				SetupScreen sus = new SetupScreen("Setup", new ZPlanner());
 
 			}
 		}
