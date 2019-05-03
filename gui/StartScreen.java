@@ -188,7 +188,7 @@ public class StartScreen {
 			if (button.isEnabled() && !nothingSelected) {
 
 				if (yesSelected) {
-					NewStudentScreen nss = new NewStudentScreen("New Student");
+					SetupScreen nss = new SetupScreen("Setup", new ZPlanner());
 					startScreen.dispose();
 
 				}

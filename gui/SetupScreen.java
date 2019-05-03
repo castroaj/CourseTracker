@@ -1,4 +1,5 @@
 package gui;
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,37 +14,46 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import course_map.Semester;
 import main.ZPlanner;
 import temp.*;
-public class NewStudentScreen {
+public class SetupScreen {
 
 	private ZPlanner planner;
 	private String name;
 	private int year;
+	private Semester semester;
 	private boolean nameEntered;
 	private boolean yearEntered;
+	private boolean semesterEntered;
 
 	JFrame newStudentScreen;
 	
 	JPanel mainPanel;
-	JPanel titlePanel;
-	JPanel namePanel;
-	JPanel yearPanel;
-	JPanel buttonPanel;
+	JPanel topPanel;
+	JPanel leftSidePanel;
+	JPanel currentProgramsPanel;
+	JPanel availableProgramsPanel;
+	JPanel bottomPanel;
 	
 	JTextField nameField;
 	
-		
-	public NewStudentScreen(String title)
+	public SetupScreen(String title, ZPlanner planner)
 	{
-		this.planner = new ZPlanner();
+		this.planner = planner;
+		
+		
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+		mainPanel.setLayout(new BorderLayout());
 		newStudentScreen.add(mainPanel);
-		createNewStudentScreen();
+		createTopPanel();
+		createLeftSidePanel();
+		createCurrentProgramsPanel();
+		createAvailableProgramsPanel();
+		createBottomPanel();
 	
-		newStudentScreen.setSize(500, 400);
+		newStudentScreen.setSize(800, 400);
 		newStudentScreen.setResizable(false);
 		newStudentScreen.setLocation(200, 200);
 
@@ -52,12 +62,9 @@ public class NewStudentScreen {
 		newStudentScreen.setVisible(true);
 	}
 	
-	private void createNewStudentScreen()
+	private void createTopPanel()
 	{
-		titlePanel = new JPanel();
-		namePanel = new JPanel();
-		yearPanel = new JPanel();
-		buttonPanel = new JPanel();
+		topPanel = new JPanel();
 		
 		JLabel titleLabel = new JLabel("Welcome to CourseTracker");
 		JLabel titleLabel2 = new JLabel("Please fill out the following information:");
@@ -68,35 +75,79 @@ public class NewStudentScreen {
 		
 		JLabel nameLabel = new JLabel("Enter your first name: ");
 		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		nameField = new JTextField(15);
+		nameField = new JTextField(8);
 		nameField.addKeyListener(new NameFieldKeyListener());
 		
 		JLabel yearLabel = new JLabel("What year at JMU are you: ");
 		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		String[] years = {"--", "Freshman", "Sophmore", "Junior", "Senior", "Senior+"};
 		JComboBox<String> yearBox = new JComboBox<String>(years);
-		yearBox.addActionListener(new DropdownActionListener());
+		yearBox.addActionListener(new DropdownYearActionListener());
+		
+		JLabel semesterLabel = new JLabel("What semester: ");
+		semesterLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		String[] semesters = {"--", "Fall", "Spring"};
+		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
+		semestersBox.addActionListener(new DropdownSemesterActionListener());
+		
+		topPanel.add(nameLabel);
+		topPanel.add(nameField);	
+		topPanel.add(yearLabel);
+		topPanel.add(yearBox);
+		topPanel.add(semesterLabel);
+		topPanel.add(semestersBox);
+		
+		
+		//topPanel.add(continueButton);
+		
+		mainPanel.add(topPanel, BorderLayout.NORTH);
+	}
+	
+	private void createLeftSidePanel()
+	{
+		leftSidePanel = new JPanel();
+		leftSidePanel.setLayout(new BoxLayout(leftSidePanel, BoxLayout.PAGE_AXIS));
+		
+		JButton addMajorButton = new JButton("Add Major");
+		JButton addMinorButton = new JButton("Add Minor");
+		JButton addGenEdButton = new JButton("Add Gen Ed Program");
+		
+		leftSidePanel.add(addMajorButton);
+		leftSidePanel.add(addMinorButton);
+		leftSidePanel.add(addGenEdButton);
+		
+		mainPanel.add(leftSidePanel, BorderLayout.EAST);
+	}
+	
+	private void createCurrentProgramsPanel()
+	{
+		currentProgramsPanel = new JPanel();
 		
 		JButton continueButton = new JButton("Continue");
 		continueButton.addActionListener(new ContinueButtonActionListener());
 		
-		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.PAGE_AXIS));
-		titlePanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-		titlePanel.add(titleLabel);
-		titlePanel.add(titleLabel2);
 		
-		namePanel.add(nameLabel);
-		namePanel.add(nameField);
+		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
+	}
+	
+	private void createAvailableProgramsPanel()
+	{
+		availableProgramsPanel = new JPanel();
 		
-		yearPanel.add(yearLabel);
-		yearPanel.add(yearBox);
 		
-		buttonPanel.add(continueButton);
+		mainPanel.add(availableProgramsPanel, BorderLayout.WEST);
+	}
+	
+	private void createBottomPanel()
+	{
+		bottomPanel = new JPanel();
 		
-		mainPanel.add(titlePanel);
-		mainPanel.add(namePanel);
-		mainPanel.add(yearPanel);
-		mainPanel.add(buttonPanel);
+		JButton continueButton = new JButton("Continue");
+		continueButton.addActionListener(new ContinueButtonActionListener());
+		
+		bottomPanel.add(continueButton);
+		
+		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 	}
 	
 	
@@ -125,7 +176,7 @@ public class NewStudentScreen {
 		}
 	}
 	
-	private class DropdownActionListener implements ActionListener
+	private class DropdownYearActionListener implements ActionListener
 	{
 
 		@Override
@@ -165,6 +216,31 @@ public class NewStudentScreen {
 		}
 	}
 	
+	private class DropdownSemesterActionListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox<String> box = (JComboBox<String>) e.getSource();
+			
+			if (box.getSelectedIndex() == 0)
+			{
+				semesterEntered = false;
+			}
+			if (box.getSelectedIndex() == 1)
+			{
+				
+				semesterEntered = true;
+			}
+			if (box.getSelectedIndex() == 2)
+			{
+				semesterEntered = true;
+			}
+			
+		}
+		
+	}
+	
 	private class ContinueButtonActionListener implements ActionListener
 	{
 
@@ -177,7 +253,6 @@ public class NewStudentScreen {
 				name = nameField.getText();
 				newStudentScreen.dispose();
 				planner.setName(name);
-				PlannerScreen plannerScreen = new PlannerScreen("Planner", planner);
 			}
 		}
 		
