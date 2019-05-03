@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import course_map.*;
 
@@ -288,4 +289,39 @@ public class Generator {
 		}
 		return course;
 	}
+
+	public static Program parseProgram(String file) {
+		StringBuilder sb = new StringBuilder();
+		try (BufferedReader br = Files.newBufferedReader(Paths.get(file))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+		} catch (IOException e) {
+			System.err.format("IOException: %s%n", e);
+		}
+		String fileText = sb.toString();
+
+		String[] lines = fileText.split("\n");
+
+		for (int i = 1; i < lines.length; i++) {
+			String[] fields = lines[i].split(",");
+			String newName = fields[0];
+			HashSet<Course> newCourses = new HashSet<Course>();
+			Rule rule = Enum.valueOf(Rule.class, fields[1]);
+			
+			for (int f = 2; f < fields.length; f++) {
+				if (fields[f].length() > 2) {
+					//System.out.println(fields[f].split(" ")[0]);
+					newCourses.add(findCourse(fields[f].split(" ")[0], fields[f].split(" ")[1]));
+				}
+			}
+
+			
+
+		}
+
+		return null;
+	}
+
 }

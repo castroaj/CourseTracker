@@ -20,7 +20,8 @@ public class Driver {
 	public static void main(String[] args) throws IOException {
 		runGui();
 		//runGenerator();
-		runParser();
+		//runParser();
+		//parse("resources/gen_ed.zagp");
 		
 
 	}
@@ -30,9 +31,9 @@ public class Driver {
 	}
 
 	public static void runGenerator() {
-		Program GE = Generator.createProgram("resources/gen_ed.zagp");
+		Program GE = Generator.createProgram("resources/gen_ed.zagpold");
 		Program CS_M = Generator.makeCSMajor();
-		Program CIS_m = Generator.createProgram("resources/cis_minor.zagp");
+		Program CIS_m = Generator.createProgram("resources/cis_minor.zagpold");
 		HashSet<Program> degree = new HashSet<Program>();
 		degree.add(GE);
 		degree.add(CIS_m);
@@ -46,5 +47,10 @@ public class Driver {
 	public static void runParser() {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 		System.out.println(Generator.findCourse("CS", "149").toString(true));
+		//parse("");
+	}
+	public static void parse(String file) {
+		Generator.parseProgram(file);
+		//System.out.println(Generator.findCourse("CS", "149").toString(true));
 	}
 }
