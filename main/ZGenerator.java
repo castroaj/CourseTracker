@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import course_map.*;
 
+@SuppressWarnings("unused")
 public class ZGenerator {
 
 	private static Course tempCourse = new Course(Subject.CS, "000", false, false);

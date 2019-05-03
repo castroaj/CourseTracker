@@ -143,6 +143,7 @@ public class Cluster {
 	/**
 	 * Default toString, shows full detail
 	 */
+	@Override
 	public String toString() {
 		return toString(true);
 	}

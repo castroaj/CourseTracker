@@ -1,4 +1,5 @@
 package course_map;
+
 import java.util.HashSet;
 
 /**
@@ -18,7 +19,6 @@ public class Course {
 	private int credits;
 	private boolean offeredFall;
 	private boolean offeredSpring;
-	private boolean isElective;
 	private int priority;
 
 	/**
@@ -51,6 +51,7 @@ public class Course {
 		this.myCoreqs = new HashSet<Course>();
 		this.credits = credits;
 		this.priority = 0;
+		this.classTaken = false;
 	}
 
 	/**
@@ -138,7 +139,8 @@ public class Course {
 		if (verbose) {
 			String s = "\t[" + String.format("%02d", this.priority) + "]" + this.subject + this.classID + " ("
 					+ this.credits + ") Offered in ";
-			s = String.format("\t[%02d]%-5s%-5s (%d) Offered:  ", this.priority,this.subject,this.classID,this.credits);
+			s = String.format("\t[%02d]%-5s%-5s (%d) Offered:  ", this.priority, this.subject, this.classID,
+					this.credits);
 			if (offeredFall) {
 				s += "Fa";
 			}
@@ -170,6 +172,10 @@ public class Course {
 			return "\t" + toStringSimple() + "\n";
 		}
 
+	}
+
+	public boolean isTaken() {
+		return this.classTaken;
 	}
 
 	/**
