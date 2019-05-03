@@ -161,7 +161,6 @@ public class StartScreen {
 
 				yesSelected = false;
 				noSelected = false;
-				System.out.println("yes:" + yesSelected + "  no:" + noSelected);
 			}
 			
 			if (box.getSelectedIndex() == 1) {
@@ -169,7 +168,6 @@ public class StartScreen {
 
 				nothingSelected = false;
 				noSelected = false;
-				System.out.println("yes:" + yesSelected + "  no:" + noSelected);
 			}
 			
 			if (box.getSelectedIndex() == 2) {
@@ -177,7 +175,6 @@ public class StartScreen {
 
 				yesSelected = false;
 				nothingSelected = false;
-				System.out.println("yes:" + yesSelected + "  no:" + noSelected);
 			}
 
 		}
@@ -189,7 +186,6 @@ public class StartScreen {
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
 			if (button.isEnabled() && !nothingSelected) {
-				System.out.println("We can start");
 
 				if (yesSelected) {
 					NewStudentScreen nss = new NewStudentScreen("New Student");

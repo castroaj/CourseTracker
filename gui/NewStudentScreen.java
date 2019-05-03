@@ -43,7 +43,7 @@ public class NewStudentScreen {
 		newStudentScreen.add(mainPanel);
 		createNewStudentScreen();
 	
-		newStudentScreen.setSize(400, 200);
+		newStudentScreen.setSize(500, 400);
 		newStudentScreen.setResizable(false);
 		newStudentScreen.setLocation(200, 200);
 
@@ -62,7 +62,7 @@ public class NewStudentScreen {
 		JLabel titleLabel = new JLabel("Welcome to CourseTracker");
 		JLabel titleLabel2 = new JLabel("Please fill out the following information:");
 		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
-		titleLabel.setHorizontalAlignment(0);
+		titleLabel.setHorizontalAlignment(JLabel.LEFT);
 		titleLabel2.setFont(new Font("Monospaced", Font.BOLD, 14));
 
 		
