@@ -29,6 +29,8 @@ public class NewStudentScreen {
 	JPanel yearPanel;
 	JPanel buttonPanel;
 	
+	JTextField nameField;
+	
 		
 	public NewStudentScreen(String title, Planner planner)
 	{
@@ -64,7 +66,7 @@ public class NewStudentScreen {
 		
 		JLabel nameLabel = new JLabel("Enter your first name: ");
 		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		JTextField nameField = new JTextField(15);
+		nameField = new JTextField(15);
 		nameField.addKeyListener(new NameFieldKeyListener());
 		
 		JLabel yearLabel = new JLabel("What year at JMU are you: ");
@@ -98,6 +100,7 @@ public class NewStudentScreen {
 	
 	private class NameFieldKeyListener implements KeyListener {
 
+		
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// Not used
@@ -106,7 +109,6 @@ public class NewStudentScreen {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			JTextField field = (JTextField) e.getComponent();
-			name = field.getText();
 			nameEntered = true;
 			
 			if (field.getText() == "")
@@ -117,7 +119,7 @@ public class NewStudentScreen {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			System.out.println(name);
+			// Not used
 		}
 	}
 	
@@ -126,6 +128,7 @@ public class NewStudentScreen {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			@SuppressWarnings("unchecked")
 			JComboBox<String> box = (JComboBox<String>)e.getSource();
 			
 			if (box.getSelectedIndex() == 0)
@@ -169,6 +172,7 @@ public class NewStudentScreen {
 			
 			if (button.isEnabled() && yearEntered && nameEntered)
 			{
+				name = nameField.getText();
 				newStudentScreen.dispose();
 				planner.setName(name);
 				planner.setYear(year);
