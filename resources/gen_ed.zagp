@@ -1,18 +1,18 @@
 Program
-CLUSTER Critical Thinking,TAKE_ONE=
+CLUSTERCritical Thinking,TAKE_ONE=
 0,BUS 160;
 0,HIST 150;
 0,ISAT 160;
 0,SMAD 150;
 0,PHIL 120;
 0,PHIL 150;
-CLUSTER Human Communication,TAKE_ONE=
+CLUSTERHuman Communication,TAKE_ONE=
 0,SCOM 121;
 0,SCOM 122;
 0,SCOM 123;
-CLUSTER Writing,TAKE_ONE=
+CLUSTERWriting,TAKE_ONE=
 0,WRTC 103;
-CLUSTER Human Questions and Contexts,TAKE_ONE=
+CLUSTERHuman Questions and Contexts,TAKE_ONE=
 0,AMST 200;
 0,ANTH 205;
 0,HIST 101;
@@ -23,7 +23,7 @@ CLUSTER Human Questions and Contexts,TAKE_ONE=
 0,PHIL 101;
 0,REL 101;
 0,REL 102;
-CLUSTER Visual and Performing Arts,TAKE_ONE=
+CLUSTERVisual and Performing Arts,TAKE_ONE=
 0,ART 200;
 0,ARTH 205;
 0,ARTH 206;
@@ -31,7 +31,7 @@ CLUSTER Visual and Performing Arts,TAKE_ONE=
 0,MUS 203;
 0,MUS 206;
 0,THEA 210;
-CLUSTER Literature,TAKE_ONE=
+CLUSTERLiterature,TAKE_ONE=
 0,ENG 221;
 0,ENG 222;
 0,ENG 235;
@@ -41,7 +41,7 @@ CLUSTER Literature,TAKE_ONE=
 0,ENG 248;
 0,ENG 260;
 0,HUM 200;
-CLUSTER Quantitative Reasoning,TAKE_ONE=
+CLUSTERQuantitative Reasoning,TAKE_ONE=
 0,ISAT 151;
 0,ISAT 251;
 0,MATH 103;
@@ -53,7 +53,7 @@ CLUSTER Quantitative Reasoning,TAKE_ONE=
 0,MATH 231;
 0,MATH 233;
 0,MATH 235;
-CLUSTER Physical Principles,TAKE_ONE=
+CLUSTERPhysical Principles,TAKE_ONE=
 0,ASTR 120;
 0,ASTR 121;
 0,CHEM 120;
@@ -66,7 +66,7 @@ CLUSTER Physical Principles,TAKE_ONE=
 0,PHYS 140;
 0,PHYS 215;
 0,PHYS 240;
-CLUSTER Natural Systems,TAKE_ONE=
+CLUSTERNatural Systems,TAKE_ONE=
 0,BIO 140;
 0,BIO 222;
 0,BIO 270;
@@ -81,21 +81,21 @@ CLUSTER Natural Systems,TAKE_ONE=
 0,ISAT 113;
 0,ISCI 171;
 0,PSYC 122;
-CLUSTER The American Experience,TAKE_ONE=
+CLUSTERThe American Experience,TAKE_ONE=
 0,HIST 225;
 0,JUST 225;
 0,POSC 225;
-CLUSTER The Global Experience,TAKE_ONE=
+CLUSTERThe Global Experience,TAKE_ONE=
 0,AAAD 200;
 0,ANTH 195;
 0,ECON 200;
 0,GEOG 200;
 0,POSC 200;
 0,SOCI 110;
-CLUSTER Wellness Domain,TAKE_ONE=
+CLUSTERWellness Domain,TAKE_ONE=
 0,HTH 100;
 0,KIN 100;
-CLUSTER Sociocultural Domain,TAKE_ONE=
+CLUSTERSociocultural Domain,TAKE_ONE=
 0,PSYC 101;
 0,PSYC 160;
 0,SOCI 140;

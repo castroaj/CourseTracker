@@ -141,7 +141,8 @@ public class Cluster {
 			}
 			return s;
 		} else {
-			return "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
+			return String.format("Cluster: %-25s\tRule: %-15s\tSize: %2d\n", this.name,this.rule,this.class_list.size());
+			//return "Cluster: " + this.name + "\tRule: " + this.rule + "\tSize: " + this.class_list.size() + "\n";
 		}
 	}
 
