@@ -17,11 +17,14 @@ public class Driver {
 	 * @param args
 	 * @throws IOException
 	 */
+	
+	
 	public static void main(String[] args) throws IOException {
 		runGui();
-		// runParser();
-		// parse("resources/gen_ed.zagp");
-		// parse("resources/cs_major.zagp");
+		//runPlanner();
+		//parseProgram("gen_ed");
+		//parseProgram("cs_major");
+		//parseProgram("cis_minor");
 	}
 
 	public static void runGui() {
@@ -38,6 +41,29 @@ public class Driver {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 		Program p = Generator.loadProgram(file);
 		System.out.println(p.toString(true));
-		// System.out.println(Generator.findCourse("CS", "149").toString(true));
 	}
+
+	public static Program parseProgram(String file) {
+		Generator.loadCourseDatabase("resources/courses.zagbase");
+		Program p = Generator.loadProgram("resources/" + file + ".zagp");
+		//System.out.println(p.toString(true));
+		return p;
+	}
+	
+	public static void runPlanner() {
+		HashSet<Program> programs = new HashSet<Program>();
+		
+		programs.add(parseProgram("gen_ed"));
+		programs.add(parseProgram("cs_major"));
+		programs.add(parseProgram("cis_minor"));
+
+		ZPlanner plan = new ZPlanner("Zeru",Semester.FR_FA, programs, 120);
+		
+		System.out.println(plan);
+
+		
+	}
+	
+	
+
 }

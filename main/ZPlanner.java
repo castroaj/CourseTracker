@@ -96,6 +96,15 @@ public class ZPlanner {
 	}
 
 	/**
+	 * Get all of the clusters in every program
+	 * 
+	 * @return HshSet of Clusters
+	 */
+	public HashSet<Cluster> getAllClusters() {
+		return this.allClusters;
+	}
+
+	/**
 	 * Test method for inserting classes into planner
 	 * 
 	 * @deprecated do not use, only for testing
@@ -144,15 +153,14 @@ public class ZPlanner {
 
 		for (Program p : programs) {
 			for (Cluster cl : p.getClusters()) {
-				for (int i = 0; i < cl.getClassCount(); i++){
+				for (int i = 0; i < cl.getClassCount(); i++) {
 					Course c = cl.getPreferedClass();
 					if (!c.getClassID().equals("nocourse"))
-					calander.add(c);
+						calander.add(c);
 				}
 			}
 		}
-			
-		
+
 	}
 
 	/**
@@ -180,19 +188,16 @@ public class ZPlanner {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setSemester(Semester s)
-	{
+
+	public void setSemester(Semester s) {
 		this.currentSemester = s;
 	}
-	
-	public void addProgram(Program p)
-	{
+
+	public void addProgram(Program p) {
 		this.programs.add(p);
 	}
-	
-	public void addClusters(HashSet<Cluster> clusters)
-	{
+
+	public void addClusters(HashSet<Cluster> clusters) {
 		this.allClusters.addAll(clusters);
 	}
 

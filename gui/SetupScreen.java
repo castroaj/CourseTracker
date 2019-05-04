@@ -50,7 +50,7 @@ public class SetupScreen {
 		this.planner = planner;
 		semester = Semester.FR_FA;
 		year = 1;
-		
+
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -152,9 +152,9 @@ public class SetupScreen {
 		bottomPanel = new JPanel();
 
 		JButton continueButton = new JButton("Continue");
-		continueButton.addActionListener(new ContinueButtonActionListener());
+		continueButton.addActionListener(new NavigationButtons());
 		JButton resetButton = new JButton("Reset");
-		resetButton.addActionListener(new ContinueButtonActionListener());
+		resetButton.addActionListener(new NavigationButtons());
 		// TODO action listener
 
 		bottomPanel.add(resetButton);
@@ -262,6 +262,8 @@ public class SetupScreen {
 
 		}
 
+		
+
 	}
 
 	private class GenEdButtonActionListener implements ActionListener {
@@ -282,7 +284,7 @@ public class SetupScreen {
 
 	}
 
-	private class ContinueButtonActionListener implements ActionListener {
+	private class NavigationButtons implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -304,10 +306,9 @@ public class SetupScreen {
 				break;
 
 			}
-			
+
 		}
 
 	}
 
-	
 }
