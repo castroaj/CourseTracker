@@ -122,7 +122,12 @@ public class Cluster {
 	}
 
 	/**
-	 * Evaluate the class in class_list that should be taken based on rating
+	 * Evaluate the class in class_list that should be taken based on the following:
+	 * 
+	 * 1.Finds the highest (personally) rated class. 
+	 * 2. If there is a tie it will
+	 * pick the one offered in the most semesters 
+	 * 3. If there is another tie it will pick the first course found
 	 * 
 	 * @return highest priority class that has not been taken
 	 */
@@ -131,10 +136,24 @@ public class Cluster {
 		Course tempCourse = new Course(null, "nocourse", false, false);
 		for (Course c : class_list) {
 			if (c.isTaken() == false) {
+				if (c.getPreference() == highestRatedScore) {
+					if (c.getOfferedCount() > tempCourse.getOfferedCount()) {
+						if (c.getClassID().equals("coursenotfoundindatabase")) {
+						} else {
+							tempCourse = c;
+							highestRatedScore = c.getPreference();
+							// c.takeClass();
+						}
+					}
+
+				}
 				if (c.getPreference() > highestRatedScore) {
-					tempCourse = c;
-					highestRatedScore = c.getPreference();
-					c.takeClass();
+					if (c.getClassID().equals("coursenotfoundindatabase")) {
+					} else {
+						tempCourse = c;
+						highestRatedScore = c.getPreference();
+						// c.takeClass();
+					}
 				}
 			}
 		}
@@ -159,8 +178,14 @@ public class Cluster {
 	 */
 	public String toString(boolean verbose) {
 
-		String s = String.format("Cluster: %-25s\tRule: %-15s\tSize: %2d\n", this.name, this.rule,
+		String s = String.format("Cluster: %-25s\tRule: %-10s\tSize: %2d\n", this.name, this.rule,
 				this.class_list.size());
+		try {
+			s += String.format("\t\tPreferred Class: %s %-3s\n", getPreferedClass().getSubject().toString(),
+					getPreferedClass().getClassID());
+		} catch (NullPointerException e) {
+			s += "No Preffered Class\n";
+		}
 		if (verbose) {
 			int count = 0;
 			for (Course c : this.class_list) {

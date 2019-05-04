@@ -18,11 +18,11 @@ public class Driver {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		// runGui();
+		runGui();
 		// runParser();
 		parse("resources/gen_ed.zagp");
 		parse("resources/cs_major.zagp");
-		
+
 	}
 
 	public static void runGui() {
@@ -31,7 +31,7 @@ public class Driver {
 
 	public static void parseCourseDatabase() {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
-		System.out.println(Generator.findCourse("CS", "149").toString(true));	
+		System.out.println(Generator.findCourse("CS", "149").toString(true));
 	}
 
 	public static void parse(String file) {

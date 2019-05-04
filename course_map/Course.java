@@ -227,6 +227,19 @@ public class Course {
 	}
 
 	/**
+	 * Gets the number of time a course is offered
+	 * @return
+	 */
+	public int getOfferedCount() {
+		int x = 0;
+		if (offeredFall)
+			x++;
+		if (offeredSpring)
+			x++;
+		return x;
+	}
+
+	/**
 	 * Get the simplified version of to String
 	 * 
 	 * @return The Subject and Class id IE: CS101
