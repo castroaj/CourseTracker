@@ -1,14 +1,14 @@
-Cluster Name,Rule,,,,,,,,,,,,,,
-Critical Thinking,TAKE_ONE,BUS 160,HIST 150,ISAT 160,SMAD 150,PHIL 120,PHIL 150,,,,,,,,
-Human Communication,TAKE_ONE,SCOM 121,SCOM 122,SCOM 123,,,,,,,,,,,
-Writing,TAKE_ONE,WRTC 103,,,,,,,,,,,,,
-Human Questions and Contexts,TAKE_ONE,AMST 200,ANTH 205,HIST 101,HIST 102,HUM 250,HUM 251,HUM 252,PHIL 101,REL 101,REL 102,,,,
-Visual and Performing Arts,TAKE_ONE,ART 200,ARTH 205,ARTH 206,MUS 200,MUS 203,MUS 206,THEA 210,,,,,,,
-Literature,TAKE_ONE,ENG 221,ENG 222,ENG 235,ENG 236,ENG 239,ENG 247,ENG 248,ENG 260,HUM 200,,,,,
-Quantitative Reasoning,TAKE_ONE,ISAT 151,ISAT 251,MATH 103,MATH 105,MATH 107,MATH 205,MATH 220,MATH 229,MATH 231,MATH 233,MATH 235,,,
-Physical Principles,TAKE_ONE,ASTR 120,ASTR 121,CHEM 120,CHEM 131,ISAT 100,ISAT 112,ISCI 101,ISCI 172,PHYS 121,PHYS 140,PHYS 215,PHYS 240,,
-Natural Systems,TAKE_ONE,BIO 140,BIO 222,BIO 270,ANTH 196,BIO 103,GEOL 110,GEOL 200,GEOL 210,GEOL 211,GEOL 102,GEOL 115,ISAT 113,ISCI 171,PSYC 122
-The American Experience,TAKE_ONE,HIST 225,JUST 225,POSC 225,,,,,,,,,,,
-The Global Experience,TAKE_ONE,AAAD 200,ANTH 195,ECON 200,GEOG 200,POSC 200,SOCI 110,,,,,,,,
-Wellness Domain,TAKE_ONE,HTH 100,KIN 100,,,,,,,,,,,,
-Sociocultural Domain,TAKE_ONE,PSYC 101,PSYC 160,SOCI 140,WGSS 200,,,,,,,,,,
+"Cluster Name","Rule","","","","","","","","","","","","","",""
+"Critical Thinking","TAKE_ONE","BUS 160","HIST 150","ISAT 160","SMAD 150","PHIL 120","PHIL 150","","","","","","","",""
+"Human Communication","TAKE_ONE","SCOM 121","SCOM 122","SCOM 123","","","","","","","","","","",""
+"Writing","TAKE_ONE","WRTC 103","","","","","","","","","","","","",""
+"Human Questions and Contexts","TAKE_ONE","AMST 200","ANTH 205","HIST 101","HIST 102","HUM 250","HUM 251","HUM 252","PHIL 101","REL 101","REL 102","","","",""
+"Visual and Performing Arts","TAKE_ONE","ART 200","ARTH 205","ARTH 206","MUS 200","MUS 203","MUS 206","THEA 210","","","","","","",""
+"Literature","TAKE_ONE","ENG 221","ENG 222","ENG 235","ENG 236","ENG 239","ENG 247","ENG 248","ENG 260","HUM 200","","","","",""
+"Quantitative Reasoning","TAKE_ONE","ISAT 151","ISAT 251","MATH 103","MATH 105","MATH 107","MATH 205","MATH 220","MATH 229","MATH 231","MATH 233","MATH 235","","",""
+"Physical Principles","TAKE_ONE","ASTR 120","ASTR 121","CHEM 120","CHEM 131","ISAT 100","ISAT 112","ISCI 101","ISCI 172","PHYS 121","PHYS 140","PHYS 215","PHYS 240","",""
+"Natural Systems","TAKE_ONE","BIO 140","BIO 222","BIO 270","ANTH 196","BIO 103","GEOL 110","GEOL 200","GEOL 210","GEOL 211","GEOL 102","GEOL 115","ISAT 113","ISCI 171","PSYC 122"
+"The American Experience","TAKE_ONE","HIST 225","JUST 225","POSC 225","","","","","","","","","","",""
+"The Global Experience","TAKE_ONE","AAAD 200","ANTH 195","ECON 200","GEOG 200","POSC 200","SOCI 110","","","","","","","",""
+"Wellness Domain","TAKE_ONE","HTH 100","KIN 100","","","","","","","","","","","",""
+"Sociocultural Domain","TAKE_ONE","PSYC 101","PSYC 160","SOCI 140","WGSS 200","","","","","","","","","",""

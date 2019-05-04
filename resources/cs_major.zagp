@@ -1,0 +1,7 @@
+"Cluster Name","Rule","Classes ->","","","","","","","",""
+"CS_M Core","TAKE_ALL","CS 159","CS 240","CS 260","CS 261","CS 327","CS 345","CS 361","CS 430","CS 474"
+"CS_M Introductory Programming ","TAKE_ONE","CS 139","CS 149","","","","","","",""
+"CS_M Introductory Discrete Math","TAKE_ONE","CS 227","MATH 227","","","","","","",""
+"CS_M Calculus Sequence","TAKE_ONE","MATH 231","","","","","","","",""
+"CS_M Statistics ","TAKE_ONE","MATH 220","MATH 318","","","","","","",""
+"CS_M Systems Elective","TAKE_THREE","CS 432","CS 450","CS 456","CS 470","","","","",""

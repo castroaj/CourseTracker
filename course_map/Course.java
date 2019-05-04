@@ -20,6 +20,7 @@ public class Course {
 	private boolean offeredFall;
 	private boolean offeredSpring;
 	private int preference;
+	private String discription;
 
 	/**
 	 * Course constructor with default of 3 credits and prefrence of 5 (no pref)
@@ -31,7 +32,7 @@ public class Course {
 	 * 
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring) {
-		this(subject, classID, fall, spring, 3, 5);
+		this(subject, classID, fall, spring, 3, 5, "No discription");
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class Course {
 	 * @param credits Number of credits
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits) {
-		this(subject, classID, fall, spring, credits, 5);
+		this(subject, classID, fall, spring, credits, 5, "no discription");
 	}
 
 	/**
@@ -57,7 +58,8 @@ public class Course {
 	 * @param credits   Number of credits
 	 * @param prefrence Ranking of preference 0-10
 	 */
-	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits, int prefrence) {
+	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits, int prefrence,
+			String discription) {
 		this.subject = subject;
 		this.classID = classID;
 		this.offeredFall = fall;
@@ -67,6 +69,7 @@ public class Course {
 		this.credits = credits;
 		this.preference = prefrence;
 		this.classTaken = false;
+		this.discription = discription;
 	}
 
 	/**

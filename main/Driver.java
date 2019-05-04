@@ -18,42 +18,26 @@ public class Driver {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		//runGui();
-		//runGenerator();
-		runParser();
+		// runGui();
+		// runParser();
 		parse("resources/gen_ed.zagp");
+		parse("resources/cs_major.zagp");
 		
-
 	}
 
 	public static void runGui() {
 		StartScreen startScreenGUI = new StartScreen("CourseTracker");
 	}
 
-	public static void runGenerator() {
-		Program GE = Generator.createProgram("resources/gen_ed.zagpold");
-		Program CS_M = Generator.makeCSMajor();
-		Program CIS_m = Generator.createProgram("resources/cis_minor.zagpold");
-		HashSet<Program> degree = new HashSet<Program>();
-		degree.add(GE);
-		degree.add(CIS_m);
-		degree.add(CS_M);
-		ZPlanner planner = new ZPlanner("ZAG", Semester.SO_SP, degree, 120);
-
-		planner.createPlanner();
-		System.out.println(planner.toString(true)); // Change boolean for less detail
-		System.out.println(planner.toStringCalander(true)); // Change boolean for less detail
-	}
-	public static void runParser() {
+	public static void parseCourseDatabase() {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
-		System.out.println(Generator.findCourse("CS", "149").toString(true));
-		//parse("");
+		System.out.println(Generator.findCourse("CS", "149").toString(true));	
 	}
+
 	public static void parse(String file) {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
-		Program p = Generator.parseProgram(file);
-		
+		Program p = Generator.loadProgram(file);
 		System.out.println(p.toString(true));
-		//System.out.println(Generator.findCourse("CS", "149").toString(true));
+		// System.out.println(Generator.findCourse("CS", "149").toString(true));
 	}
 }
