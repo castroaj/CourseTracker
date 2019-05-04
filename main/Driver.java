@@ -20,15 +20,13 @@ public class Driver {
 	public static void main(String[] args) throws IOException {
 		runGui();
 		// runParser();
-		parse("resources/gen_ed.zagp");
-		//parse("resources/cs_major.zagp");
-
+		// parse("resources/gen_ed.zagp");
+		// parse("resources/cs_major.zagp");
 	}
 
 	public static void runGui() {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 		StartScreen startScreenGUI = new StartScreen("CourseTracker");
-		
 	}
 
 	public static void parseCourseDatabase() {

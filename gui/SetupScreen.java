@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -35,20 +36,20 @@ public class SetupScreen {
 	private boolean semesterEntered;
 
 	JFrame newStudentScreen;
-	
+
 	JPanel mainPanel;
 	JPanel topPanel;
 	JPanel leftSidePanel;
 	JPanel currentProgramsPanel;
 	JPanel availableProgramsPanel;
 	JPanel bottomPanel;
-	
+
 	JTextField nameField;
-	
-	public SetupScreen(String title, ZPlanner planner)
-	{
+
+	public SetupScreen(String title, ZPlanner planner) {
 		this.planner = planner;
-		
+		semester = Semester.FR_FA;
+		year = 1;
 		
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
@@ -60,7 +61,7 @@ public class SetupScreen {
 		createCurrentProgramsPanel();
 		createAvailableProgramsPanel();
 		createBottomPanel();
-	
+
 		newStudentScreen.setSize(800, 400);
 
 		newStudentScreen.setResizable(false);
@@ -70,107 +71,100 @@ public class SetupScreen {
 		newStudentScreen.setTitle(title);
 		newStudentScreen.setVisible(true);
 	}
-	
-	private void createTopPanel()
-	{
+
+	private void createTopPanel() {
 		topPanel = new JPanel();
-		
+
 		JLabel titleLabel = new JLabel("Welcome to CourseTracker");
 		JLabel titleLabel2 = new JLabel("Please fill out the following information:");
 		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
 		titleLabel.setHorizontalAlignment(JLabel.LEFT);
 		titleLabel2.setFont(new Font("Monospaced", Font.BOLD, 14));
 
-		
 		JLabel nameLabel = new JLabel("Enter your first name: ");
 		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		nameField = new JTextField(8);
 		nameField.addKeyListener(new NameFieldKeyListener());
-		
+
 		JLabel yearLabel = new JLabel("What year at JMU are you: ");
 		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		String[] years = {"--", "Freshman", "Sophmore", "Junior", "Senior"};
+		String[] years = { "--", "Freshman", "Sophmore", "Junior", "Senior" };
 		JComboBox<String> yearBox = new JComboBox<String>(years);
 		yearBox.addActionListener(new DropdownYearActionListener());
-		
+
 		JLabel semesterLabel = new JLabel("What semester: ");
 		semesterLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		String[] semesters = {"--", "Fall", "Spring"};
+		String[] semesters = { "--", "Fall", "Spring" };
 		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
 		semestersBox.addActionListener(new DropdownSemesterActionListener());
-		
+
 		topPanel.add(nameLabel);
-		topPanel.add(nameField);	
+		topPanel.add(nameField);
 		topPanel.add(yearLabel);
 		topPanel.add(yearBox);
 		topPanel.add(semesterLabel);
 		topPanel.add(semestersBox);
-		
+
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
-	
-	private void createLeftSidePanel()
-	{
+
+	private void createLeftSidePanel() {
 		leftSidePanel = new JPanel();
 		leftSidePanel.setLayout(new BoxLayout(leftSidePanel, BoxLayout.PAGE_AXIS));
-		
+
 		JButton addButton = new JButton("Add Program");
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
 		addGenEdButton.addActionListener(new GenEdButtonActionListener());
-		
+
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
-		
+
 		mainPanel.add(leftSidePanel, BorderLayout.WEST);
 	}
-	
-	private void createCurrentProgramsPanel()
-	{
+
+	private void createCurrentProgramsPanel() {
 		currentProgramsPanel = new JPanel();
-		
+
 		Program program = Generator.loadProgram("resources/gen_ed.zagp");
 		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
 		JList<Program> currentProgramsList = new JList<Program>(listModel);
 		listModel.addElement(program);
 
 		currentProgramsPanel.add(currentProgramsList);
-		
+
 		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
 	}
-	
-	private void createAvailableProgramsPanel()
-	{
+
+	private void createAvailableProgramsPanel() {
 		availableProgramsPanel = new JPanel();
-		
+
 		Program program = Generator.loadProgram("resources/gen_ed.zagp");
 		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
 		JList<Program> currentProgramsList = new JList<Program>(listModel);
 		listModel.addElement(program);
 
 		availableProgramsPanel.add(currentProgramsList);
-		
+
 		mainPanel.add(availableProgramsPanel, BorderLayout.EAST);
 	}
-	
-	private void createBottomPanel()
-	{
+
+	private void createBottomPanel() {
 		bottomPanel = new JPanel();
-		
+
 		JButton continueButton = new JButton("Continue");
 		continueButton.addActionListener(new ContinueButtonActionListener());
 		JButton resetButton = new JButton("Reset");
+		resetButton.addActionListener(new ContinueButtonActionListener());
 		// TODO action listener
-		
+
 		bottomPanel.add(resetButton);
 		bottomPanel.add(continueButton);
-		
+
 		mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 	}
-	
-	
+
 	private class NameFieldKeyListener implements KeyListener {
 
-		
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// Not used
@@ -180,9 +174,8 @@ public class SetupScreen {
 		public void keyPressed(KeyEvent e) {
 			JTextField field = (JTextField) e.getComponent();
 			nameEntered = true;
-			
-			if (field.getText() == "")
-			{
+
+			if (field.getText() == "") {
 				nameEntered = false;
 			}
 		}
@@ -192,134 +185,129 @@ public class SetupScreen {
 			// Not used
 		}
 	}
-	
-	private class DropdownYearActionListener implements ActionListener
-	{
+
+	private class DropdownYearActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			@SuppressWarnings("unchecked")
-			JComboBox<String> box = (JComboBox<String>)e.getSource();
-			
-			if (box.getSelectedIndex() == 0)
-			{
+			JComboBox<String> box = (JComboBox<String>) e.getSource();
+
+			if (box.getSelectedIndex() == 0) {
 				yearEntered = false;
 			}
-			if (box.getSelectedIndex() == 1)
-			{
+			if (box.getSelectedIndex() == 1) {
 				year = 1;
 				yearEntered = true;
 			}
-			if (box.getSelectedIndex() == 2)
-			{
+			if (box.getSelectedIndex() == 2) {
 				year = 2;
 				yearEntered = true;
 			}
-			if (box.getSelectedIndex() == 3)
-			{
+			if (box.getSelectedIndex() == 3) {
 				year = 3;
 				yearEntered = true;
 			}
-			if (box.getSelectedIndex() == 4)
-			{
+			if (box.getSelectedIndex() == 4) {
 				year = 4;
 				yearEntered = true;
 			}
 		}
 	}
-	
-	private class DropdownSemesterActionListener implements ActionListener
-	{
+
+	private class DropdownSemesterActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JComboBox<String> box = (JComboBox<String>) e.getSource();
-			
-			if (box.getSelectedIndex() == 0)
-			{
+
+			if (box.getSelectedIndex() == 0) {
 				semesterEntered = false;
 			}
-			if (box.getSelectedIndex() == 1)
-			{
-				switch (year)
-				{
-					case 1:
-						semester = Semester.FR_FA;
-						break;
-					case 2:
-						semester = Semester.SO_FA;
-						break;
-					case 3:
-						semester = Semester.JU_FA;
-						break;
-					case 4:
-						semester = Semester.SE_FA;
-						break;
+			if (box.getSelectedIndex() == 1) {
+				switch (year) {
+				case 1:
+					semester = Semester.FR_FA;
+					break;
+				case 2:
+					semester = Semester.SO_FA;
+					break;
+				case 3:
+					semester = Semester.JU_FA;
+					break;
+				case 4:
+					semester = Semester.SE_FA;
+					break;
 				}
 				semesterEntered = true;
 			}
-			if (box.getSelectedIndex() == 2)
-			{
-				switch (year)
-				{
-					case 1:
-						semester = Semester.FR_SP;
-						break;
-					case 2:
-						semester = Semester.SO_SP;
-						break;
-					case 3:
-						semester = Semester.JU_SP;
-						break;
-					case 4:
-						semester = Semester.SE_SP;
-						break;
+			if (box.getSelectedIndex() == 2) {
+				switch (year) {
+				case 1:
+					semester = Semester.FR_SP;
+					break;
+				case 2:
+					semester = Semester.SO_SP;
+					break;
+				case 3:
+					semester = Semester.JU_SP;
+					break;
+				case 4:
+					semester = Semester.SE_SP;
+					break;
 				}
 				semesterEntered = true;
 			}
 			System.out.println(semester.toString());
-			
+
 		}
-		
+
 	}
-	
-	private class GenEdButtonActionListener implements ActionListener
-	{
+
+	private class GenEdButtonActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton button = (JButton)e.getSource();
-			
-			if (button.isEnabled())
-			{
+			JButton button = (JButton) e.getSource();
+
+			if (button.isEnabled()) {
 				Program program = Generator.loadProgram("resources/gen_ed.zagp");
 				HashSet<Cluster> clusters = program.getClusters();
 				planner.addProgram(program);
 				planner.addClusters(clusters);
 				button.setEnabled(false);
 			}
-			
+
 		}
-	
+
 	}
-	
-	private class ContinueButtonActionListener implements ActionListener
-	{
+
+	private class ContinueButtonActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton button = (JButton)e.getSource();
-			
-			if (button.isEnabled() && yearEntered && nameEntered)
-			{
-				name = nameField.getText();
+			JButton button = (JButton) e.getSource();
+			switch (e.getActionCommand()) {
+			case "Reset":
 				newStudentScreen.dispose();
-				
-				planner.setName(name);
-				planner.setSemester(semester);
-				PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
+				SetupScreen sus = new SetupScreen("Setup", new ZPlanner());
+				break;
+			case "Continue":
+				if (button.isEnabled() && yearEntered && nameEntered) {
+					name = nameField.getText();
+					newStudentScreen.dispose();
+
+					planner.setName(name);
+					planner.setSemester(semester);
+					PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
+				}
+				break;
+
 			}
+			
 		}
-		
+
 	}
+
+	
 }
