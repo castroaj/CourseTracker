@@ -121,7 +121,7 @@ public class SetupScreen {
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
 		
-		mainPanel.add(leftSidePanel, BorderLayout.CENTER);
+		mainPanel.add(leftSidePanel, BorderLayout.WEST);
 	}
 	
 	private void createCurrentProgramsPanel()
@@ -135,15 +135,21 @@ public class SetupScreen {
 
 		currentProgramsPanel.add(currentProgramsList);
 		
-		mainPanel.add(currentProgramsPanel, BorderLayout.EAST);
+		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
 	}
 	
 	private void createAvailableProgramsPanel()
 	{
 		availableProgramsPanel = new JPanel();
 		
+		Program program = Generator.loadProgram("resources/gen_ed.zagp");
+		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
+		JList<Program> currentProgramsList = new JList<Program>(listModel);
+		listModel.addElement(program);
+
+		availableProgramsPanel.add(currentProgramsList);
 		
-		mainPanel.add(availableProgramsPanel, BorderLayout.WEST);
+		mainPanel.add(availableProgramsPanel, BorderLayout.EAST);
 	}
 	
 	private void createBottomPanel()
