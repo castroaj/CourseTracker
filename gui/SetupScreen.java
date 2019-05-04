@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,8 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import course_map.Cluster;
 import course_map.Program;
 import course_map.Semester;
+import main.Generator;
 import main.ZPlanner;
 import temp.*;
 public class SetupScreen {
@@ -112,11 +115,12 @@ public class SetupScreen {
 		
 		JButton addButton = new JButton("Add Program");
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
+		addGenEdButton.addActionListener(new GenEdButtonActionListener());
 		
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
 		
-		mainPanel.add(leftSidePanel, BorderLayout.WEST);
+		mainPanel.add(leftSidePanel, BorderLayout.EAST);
 	}
 	
 	private void createCurrentProgramsPanel()
@@ -269,6 +273,26 @@ public class SetupScreen {
 		
 	}
 	
+	private class GenEdButtonActionListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton button = (JButton)e.getSource();
+			
+			if (button.isEnabled())
+			{
+				Program program = Generator.loadProgram("resources/gen_ed.zagp");
+				HashSet<Cluster> clusters = program.getClusters();
+				planner.addProgram(program);
+				planner.addClusters(clusters);
+				button.setEnabled(false);
+			}
+			
+		}
+	
+	}
+	
 	private class ContinueButtonActionListener implements ActionListener
 	{
 
@@ -280,7 +304,10 @@ public class SetupScreen {
 			{
 				name = nameField.getText();
 				newStudentScreen.dispose();
+				
 				planner.setName(name);
+				planner.setSemester(semester);
+				PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
 			}
 		}
 		

@@ -3,15 +3,15 @@ import javax.swing.JFrame;
 
 import main.ZPlanner;
 import temp.*;
-public class OlderStudentScreen {
+public class PreferencesSetupScreen {
 
 	private ZPlanner planner;
 	
 	JFrame olderStudentScreen;
 	
-	public OlderStudentScreen(String title)
+	public PreferencesSetupScreen(String title, ZPlanner planner)
 	{
-		this.planner = new ZPlanner();
+		this.planner = planner;
 		olderStudentScreen = new JFrame();
 		
 		olderStudentScreen.setSize(400, 600);
@@ -21,5 +21,7 @@ public class OlderStudentScreen {
 		olderStudentScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		olderStudentScreen.setTitle(title);
 		olderStudentScreen.setVisible(true);
+		
+		System.out.println(planner.toString());
 	}
 }

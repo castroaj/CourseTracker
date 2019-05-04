@@ -180,5 +180,20 @@ public class ZPlanner {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void setSemester(Semester s)
+	{
+		this.currentSemester = s;
+	}
+	
+	public void addProgram(Program p)
+	{
+		this.programs.add(p);
+	}
+	
+	public void addClusters(HashSet<Cluster> clusters)
+	{
+		this.allClusters.addAll(clusters);
+	}
 
 }
