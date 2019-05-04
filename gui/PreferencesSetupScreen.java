@@ -2,7 +2,7 @@ package gui;
 import javax.swing.JFrame;
 
 import main.ZPlanner;
-import temp.*;
+
 public class PreferencesSetupScreen {
 
 	private ZPlanner planner;

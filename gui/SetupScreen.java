@@ -23,7 +23,7 @@ import course_map.Program;
 import course_map.Semester;
 import main.Generator;
 import main.ZPlanner;
-import temp.*;
+
 public class SetupScreen {
 
 	private ZPlanner planner;

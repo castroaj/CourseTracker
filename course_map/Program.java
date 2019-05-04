@@ -30,9 +30,10 @@ public class Program {
 	 * Gets detailed information of Program as a string
 	 */
 	public String toString() {
-		return toString(true);
+		return name.split("/")[1].split("\\.")[0];
 	}
-
+	
+	
 	/**
 	 * Gets information of Program as a string
 	 * 
