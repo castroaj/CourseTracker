@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.util.HashSet;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -120,18 +121,21 @@ public class SetupScreen {
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
 		
-		mainPanel.add(leftSidePanel, BorderLayout.EAST);
+		mainPanel.add(leftSidePanel, BorderLayout.CENTER);
 	}
 	
 	private void createCurrentProgramsPanel()
 	{
 		currentProgramsPanel = new JPanel();
 		
-		JList<Program> currentProgramsList = new JList<Program>();
-		
+		Program program = Generator.loadProgram("resources/gen_ed.zagp");
+		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
+		JList<Program> currentProgramsList = new JList<Program>(listModel);
+		listModel.addElement(program);
+
 		currentProgramsPanel.add(currentProgramsList);
 		
-		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
+		mainPanel.add(currentProgramsPanel, BorderLayout.EAST);
 	}
 	
 	private void createAvailableProgramsPanel()
