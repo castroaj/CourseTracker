@@ -45,6 +45,8 @@ public class SetupScreen {
 
 	JPanel mainPanel;
 	JPanel topPanel;
+	JPanel topPanelBack;
+	JPanel topPanelQs;
 	JPanel currentProgramsPanel;
 	JPanel availableProgramsPanel;
 	JPanel bottomPanel;
@@ -89,32 +91,41 @@ public class SetupScreen {
 
 	private void createTopPanel() {
 		topPanel = new JPanel();
+		topPanelBack = new JPanel();
+		topPanelQs = new JPanel();
+		
+		JButton backButton = new JButton("Return to Home Page");
 
-		JLabel nameLabel = new JLabel("Enter your name: ");
+		JLabel nameLabel = new JLabel("Name: ");
 		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		nameField = new JTextField(8);
 		nameField.addKeyListener(new NameFieldKeyListener());
 
-		JLabel yearLabel = new JLabel("   What year at JMU are you: ");
+		JLabel yearLabel = new JLabel("   Year: ");
 		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		String[] years = { "--", "Freshman", "Sophmore", "Junior", "Senior" };
 		JComboBox<String> yearBox = new JComboBox<String>(years);
 		yearBox.addActionListener(new DropdownYearActionListener());
 
-		JLabel semesterLabel = new JLabel("   What semester: ");
+		JLabel semesterLabel = new JLabel("   Semester: ");
 		semesterLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		String[] semesters = { "--", "Fall", "Spring" };
 		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
 		semestersBox.addActionListener(new DropdownSemesterActionListener());
 
-		topPanel.add(nameLabel);
-		topPanel.add(nameField);
-		topPanel.add(yearLabel);
-		topPanel.add(yearBox);
-		topPanel.add(semesterLabel);
-		topPanel.add(semestersBox);
+		topPanelBack.add(backButton);
 		
-		topPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 1)));
+		topPanelQs.add(nameLabel);
+		topPanelQs.add(nameField);
+		topPanelQs.add(yearLabel);
+		topPanelQs.add(yearBox);
+		topPanelQs.add(semesterLabel);
+		topPanelQs.add(semestersBox);
+		
+		topPanelQs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 1)));
+		
+		topPanel.add(topPanelBack);
+		topPanel.add(topPanelQs);
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
@@ -345,7 +356,7 @@ public class SetupScreen {
 			case "Add Selected Program":
 				Program curProgram = availableProgramsList.getSelectedValue();
 				if (availableProgramsList.getSelectedValue() != null) {
-					if (!currentlySelectedPrograms.contains(curProgram))
+					if (!currentlySelectedPrograms.contains(curProgram) && !(currentlySelectedPrograms.size() > 10))
 					{
 						HashSet<Cluster> curProgramClusters = curProgram.getClusters();
 						planner.addProgram(curProgram);
