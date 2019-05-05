@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -44,7 +45,6 @@ public class SetupScreen {
 
 	JPanel mainPanel;
 	JPanel topPanel;
-	JPanel leftSidePanel;
 	JPanel currentProgramsPanel;
 	JPanel availableProgramsPanel;
 	JPanel bottomPanel;
@@ -73,7 +73,6 @@ public class SetupScreen {
 		mainPanel.setLayout(new BorderLayout());
 		newStudentScreen.add(mainPanel);
 		createTopPanel();
-		createAddButtonPanel();
 		createCurrentProgramsPanel();
 		createAvailableProgramsPanel();
 		createBottomPanel();
@@ -96,13 +95,13 @@ public class SetupScreen {
 		nameField = new JTextField(8);
 		nameField.addKeyListener(new NameFieldKeyListener());
 
-		JLabel yearLabel = new JLabel("What year at JMU are you: ");
+		JLabel yearLabel = new JLabel("   What year at JMU are you: ");
 		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		String[] years = { "--", "Freshman", "Sophmore", "Junior", "Senior" };
 		JComboBox<String> yearBox = new JComboBox<String>(years);
 		yearBox.addActionListener(new DropdownYearActionListener());
 
-		JLabel semesterLabel = new JLabel("What semester: ");
+		JLabel semesterLabel = new JLabel("   What semester: ");
 		semesterLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		String[] semesters = { "--", "Fall", "Spring" };
 		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
@@ -142,7 +141,7 @@ public class SetupScreen {
 		currentProgramsPanel.add(currentProgramsLabel);
 		currentProgramsPanel.add(currentProgramsSP);
 		
-		currentProgramsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		currentProgramsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		
 		mainPanel.add(currentProgramsPanel, BorderLayout.WEST);
 	}
@@ -174,15 +173,16 @@ public class SetupScreen {
 
 		availableProgramsPanel.add(availableProgramsLabel);
 		availableProgramsPanel.add(availableProgramsSP);
+		
+		availableProgramsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		mainPanel.add(availableProgramsPanel, BorderLayout.CENTER);
 	}
 
-	private void createAddButtonPanel() {
-		leftSidePanel = new JPanel();
-		leftSidePanel.setLayout(new BoxLayout(leftSidePanel, BoxLayout.PAGE_AXIS));
-
-		JButton addButton = new JButton("Add Program");
+	private void createBottomPanel() {
+		bottomPanel = new JPanel();
+		
+		JButton addButton = new JButton("Add Selected Program");
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
 		addButton.addActionListener(new AddButtonActionListener());
 		addGenEdButton.addActionListener(new AddButtonActionListener());
@@ -191,20 +191,13 @@ public class SetupScreen {
 		addButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
 		addGenEdButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
 		
-		JLabel searchFieldLabel = new JLabel("Search(Potential Feature):");
+		JLabel searchFieldLabel = new JLabel("       Search:");
 		searchFieldLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		searchFieldLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
-		leftSidePanel.add(addButton);
-		leftSidePanel.add(addGenEdButton);
-		leftSidePanel.add(searchFieldLabel);
-
-		mainPanel.add(leftSidePanel, BorderLayout.EAST);
-	}
-
-	private void createBottomPanel() {
-		bottomPanel = new JPanel();
-
+		JTextField searchField = new JTextField(10);
+		searchField.setText("Not working");
+		
 		continueButton = new JButton("Continue");
 		continueButton.addActionListener(new NavigationButtons());
 		continueButton.setEnabled(false);
@@ -212,6 +205,10 @@ public class SetupScreen {
 		resetButton.addActionListener(new NavigationButtons());
 		// TODO action listener
 
+		bottomPanel.add(addButton);
+		bottomPanel.add(addGenEdButton);
+		bottomPanel.add(searchFieldLabel);
+		bottomPanel.add(searchField);
 		bottomPanel.add(resetButton);
 		bottomPanel.add(continueButton);
 
@@ -234,7 +231,7 @@ public class SetupScreen {
 				nameEntered = false;
 			}
 
-			if (nameEntered && yearEntered && semesterEntered) {
+			if (nameEntered && yearEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
 				continueButton.setEnabled(true);
 			}
 		}
@@ -272,7 +269,7 @@ public class SetupScreen {
 				yearEntered = true;
 			}
 
-			if (nameEntered && yearEntered && semesterEntered) {
+			if (nameEntered && yearEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
 				continueButton.setEnabled(true);
 			}
 		}
@@ -322,7 +319,7 @@ public class SetupScreen {
 				semesterEntered = true;
 			}
 
-			if (nameEntered && yearEntered && semesterEntered) {
+			if (nameEntered && yearEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
 				continueButton.setEnabled(true);
 			}
 		}
@@ -345,7 +342,7 @@ public class SetupScreen {
 				currentListModel.add(currentListModel.getSize(), genEd);
 				currentlySelectedPrograms.add(genEd);
 				break;
-			case "Add Program":
+			case "Add Selected Program":
 				Program curProgram = availableProgramsList.getSelectedValue();
 				if (availableProgramsList.getSelectedValue() != null) {
 					if (!currentlySelectedPrograms.contains(curProgram))
@@ -355,6 +352,10 @@ public class SetupScreen {
 						planner.addClusters(curProgramClusters);
 						currentListModel.add(currentListModel.getSize(), curProgram);
 						currentlySelectedPrograms.add(curProgram);
+						
+						if (nameEntered && yearEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
+							continueButton.setEnabled(true);
+						}
 					}
 				}
 				break;
@@ -373,7 +374,7 @@ public class SetupScreen {
 				newStudentScreen.dispose();
 				break;
 			case "Continue":
-				if (button.isEnabled() && yearEntered && nameEntered) {
+				if (button.isEnabled() && yearEntered && nameEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
 					name = nameField.getText();
 					newStudentScreen.dispose();
 
