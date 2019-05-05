@@ -45,6 +45,7 @@ public class SetupScreen {
 	JPanel bottomPanel;
 
 	JTextField nameField;
+	JButton continueButton;
 
 	public SetupScreen(String title, ZPlanner planner) {
 		this.planner = planner;
@@ -151,8 +152,9 @@ public class SetupScreen {
 	private void createBottomPanel() {
 		bottomPanel = new JPanel();
 
-		JButton continueButton = new JButton("Continue");
+		continueButton = new JButton("Continue");
 		continueButton.addActionListener(new NavigationButtons());
+		continueButton.setEnabled(false);
 		JButton resetButton = new JButton("Reset");
 		resetButton.addActionListener(new NavigationButtons());
 		// TODO action listener
@@ -177,6 +179,11 @@ public class SetupScreen {
 
 			if (field.getText() == "") {
 				nameEntered = false;
+			}
+			
+			if (nameEntered && yearEntered && semesterEntered)
+			{
+				continueButton.setEnabled(true);
 			}
 		}
 
@@ -211,6 +218,11 @@ public class SetupScreen {
 			if (box.getSelectedIndex() == 4) {
 				year = 4;
 				yearEntered = true;
+			}
+			
+			if (nameEntered && yearEntered && semesterEntered)
+			{
+				continueButton.setEnabled(true);
 			}
 		}
 	}
@@ -258,8 +270,11 @@ public class SetupScreen {
 				}
 				semesterEntered = true;
 			}
-			System.out.println(semester.toString());
 
+			if (nameEntered && yearEntered && semesterEntered)
+			{
+				continueButton.setEnabled(true);
+			}
 		}
 
 		
