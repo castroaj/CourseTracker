@@ -1,15 +1,15 @@
 package gui;
 import javax.swing.JFrame;
 
-import main.ZPlanner;
+import main.Planner;
 
 public class PreferencesSetupScreen {
 
-	private ZPlanner planner;
+	private Planner planner;
 	
 	JFrame olderStudentScreen;
 	
-	public PreferencesSetupScreen(String title, ZPlanner planner)
+	public PreferencesSetupScreen(String title, Planner planner)
 	{
 		this.planner = planner;
 		olderStudentScreen = new JFrame();

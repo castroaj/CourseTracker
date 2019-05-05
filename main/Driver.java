@@ -57,7 +57,7 @@ public class Driver {
 		programs.add(parseProgram("cs_major"));
 		programs.add(parseProgram("cis_minor"));
 
-		ZPlanner plan = new ZPlanner("Zeru",Semester.FR_FA, programs, 120);
+		Planner plan = new Planner("Zeru",Semester.FR_FA, programs, 120);
 		
 		System.out.println(plan);
 

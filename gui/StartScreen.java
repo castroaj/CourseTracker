@@ -22,7 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import course_map.*;
-import main.ZPlanner;
+import main.Planner;
 
 public class StartScreen {
 
@@ -142,7 +142,7 @@ public class StartScreen {
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
 			if (button.isEnabled()) {
-				SetupScreen sus = new SetupScreen("Setup", new ZPlanner());
+				SetupScreen sus = new SetupScreen("Setup", new Planner());
 				startScreen.dispose();
 			}
 		}

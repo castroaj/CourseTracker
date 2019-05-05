@@ -29,11 +29,11 @@ import course_map.Cluster;
 import course_map.Program;
 import course_map.Semester;
 import main.Generator;
-import main.ZPlanner;
+import main.Planner;
 
 public class SetupScreen {
 
-	private ZPlanner planner;
+	private Planner planner;
 	private String name;
 	private int year;
 	private Semester semester;
@@ -63,7 +63,7 @@ public class SetupScreen {
 	
 	ArrayList<Program> currentlySelectedPrograms; // used to check containment
 
-	public SetupScreen(String title, ZPlanner planner) {
+	public SetupScreen(String title, Planner planner) {
 		this.planner = planner;
 		semester = Semester.FR_FA;
 		year = 1;
@@ -160,6 +160,7 @@ public class SetupScreen {
 	private void createAvailableProgramsPanel() {
 		Program csMajorProgram = Generator.loadProgram("resources/cs_major.zagp");
 		Program cisMinorProgram = Generator.loadProgram("resources/cis_minor.zagp");
+		Program csMinorProgram = Generator.loadProgram("resources/cs_minor.zagp");
 		
 		availableProgramsPanel = new JPanel();
 		availableProgramsPanel.setLayout(new BoxLayout(availableProgramsPanel, BoxLayout.PAGE_AXIS));
@@ -181,6 +182,7 @@ public class SetupScreen {
 
 		availableListModel.addElement(csMajorProgram);
 		availableListModel.addElement(cisMinorProgram);
+		availableListModel.addElement(csMinorProgram);
 
 		availableProgramsPanel.add(availableProgramsLabel);
 		availableProgramsPanel.add(availableProgramsSP);
@@ -381,7 +383,7 @@ public class SetupScreen {
 			JButton button = (JButton) e.getSource();
 			switch (e.getActionCommand()) {
 			case "Reset":
-				SetupScreen sus = new SetupScreen("Setup", new ZPlanner());
+				SetupScreen sus = new SetupScreen("Setup", new Planner());
 				newStudentScreen.dispose();
 				break;
 			case "Continue":
