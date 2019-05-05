@@ -137,6 +137,7 @@ public class SetupScreen {
 		currentProgramsList.setFixedCellHeight(40);
 		currentProgramsList.setFixedCellWidth(200);
 		currentProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		currentProgramsList.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
 		currentProgramsPanel.add(currentProgramsLabel);
 		currentProgramsPanel.add(currentProgramsSP);
@@ -159,6 +160,7 @@ public class SetupScreen {
 
 		availableListModel = new DefaultListModel<Program>();
 		availableProgramsList = new JList<Program>(availableListModel);
+		availableProgramsList.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		
 		availableProgramsSP = new JScrollPane(availableProgramsList);
 		
@@ -186,9 +188,16 @@ public class SetupScreen {
 		addGenEdButton.addActionListener(new AddButtonActionListener());
 		addButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		addGenEdButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		addButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
+		addGenEdButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
+		
+		JLabel searchFieldLabel = new JLabel("Search(Potential Feature):");
+		searchFieldLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		searchFieldLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
+		leftSidePanel.add(searchFieldLabel);
 
 		mainPanel.add(leftSidePanel, BorderLayout.EAST);
 	}

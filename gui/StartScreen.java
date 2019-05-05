@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -66,8 +67,10 @@ public class StartScreen {
 		JMenuBar menuBar = new JMenuBar();
 		JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JMenu menu = new JMenu("File");
+		menu.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
 		load = new JMenuItem("Load Plan (Not finished)");
+		load.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
 		menu.add(load);
 		menu.setBackground(Color.BLACK);
@@ -90,6 +93,7 @@ public class StartScreen {
 		JLabel titleLabel = new JLabel("Course Tracker");
 		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 50));
 		title.add(titleLabel);
+		//title.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 2)));
 
 		// Logo
 		ImageIcon jmuIcon = createImageIcon("jmuLogo.jpg", "JMU icon");
@@ -98,6 +102,8 @@ public class StartScreen {
 		jmuIcon = new ImageIcon(image);
 
 		JLabel logoLabel = new JLabel(jmuIcon);
+		
+		logoLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		logo.add(logoLabel);
 
