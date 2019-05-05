@@ -155,10 +155,12 @@ public class SetupScreen {
 		currentProgramsList.addListSelectionListener(new JListSelectionListener());
 
 		Program genEdProgram = Generator.loadProgram("resources/gen_ed.zagp");
-		Program csMinorProgram = Generator.loadProgram("resoures/cs_major.zagp");
+		Program csMajorProgram = Generator.loadProgram("resources/cs_major.zagp");
+		Program cisMinorProgram = Generator.loadProgram("resources/cis_minor.zagp");
 		
 		listModel.addElement(genEdProgram);
-		listModel.addElement(csMinorProgram);
+		listModel.addElement(csMajorProgram);
+		listModel.addElement(cisMinorProgram);
 
 		availableProgramsPanel.add(currentProgramsList);
 
