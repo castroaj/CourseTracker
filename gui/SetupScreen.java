@@ -18,6 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import course_map.Cluster;
 import course_map.Program;
@@ -46,6 +48,9 @@ public class SetupScreen {
 
 	JTextField nameField;
 	JButton continueButton;
+	
+	DefaultListModel<Program> listModel;
+	JList<Program> currentProgramsList;
 
 	public SetupScreen(String title, ZPlanner planner) {
 		this.planner = planner;
@@ -125,12 +130,19 @@ public class SetupScreen {
 
 	private void createCurrentProgramsPanel() {
 		currentProgramsPanel = new JPanel();
+		currentProgramsPanel.setLayout(new BoxLayout(currentProgramsPanel, BoxLayout.PAGE_AXIS));
+		
+		JLabel currentProgramsLabel = new JLabel("Currently Selected Programs:");
+		
+		listModel = new DefaultListModel<Program>();
+		listModel.setSize(5);
+		currentProgramsList = new JList<Program>(listModel);
+		//currentProgramsList.setEnabled(false);
+		currentProgramsList.setFixedCellHeight(25);
+		currentProgramsList.setFixedCellWidth(200);
+		//listModel.add(0, program);
 
-		Program program = Generator.loadProgram("resources/gen_ed.zagp");
-		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
-		JList<Program> currentProgramsList = new JList<Program>(listModel);
-		listModel.addElement(program);
-
+		currentProgramsPanel.add(currentProgramsLabel);
 		currentProgramsPanel.add(currentProgramsList);
 
 		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
@@ -138,11 +150,15 @@ public class SetupScreen {
 
 	private void createAvailableProgramsPanel() {
 		availableProgramsPanel = new JPanel();
-
-		Program program = Generator.loadProgram("resources/gen_ed.zagp");
 		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
 		JList<Program> currentProgramsList = new JList<Program>(listModel);
-		listModel.addElement(program);
+		currentProgramsList.addListSelectionListener(new JListSelectionListener());
+
+		Program genEdProgram = Generator.loadProgram("resources/gen_ed.zagp");
+		Program csMinorProgram = Generator.loadProgram("resoures/cs_major.zagp");
+		
+		listModel.addElement(genEdProgram);
+		listModel.addElement(csMinorProgram);
 
 		availableProgramsPanel.add(currentProgramsList);
 
@@ -293,6 +309,7 @@ public class SetupScreen {
 				planner.addProgram(program);
 				planner.addClusters(clusters);
 				button.setEnabled(false);
+				listModel.add(0, program);
 			}
 
 		}
@@ -319,11 +336,20 @@ public class SetupScreen {
 					PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
 				}
 				break;
-
 			}
-
 		}
+	}
+	
+	private class JListSelectionListener implements ListSelectionListener
+	{
 
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			JList<Program> list = (JList<Program>) e.getSource();
+			
+			
+		}
+		
 	}
 
 }
