@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -55,6 +56,8 @@ public class SetupScreen {
 	DefaultListModel<Program> availableListModel;
 	JList<Program> currentProgramsList;
 	JList<Program> availableProgramsList;
+	JScrollPane currentProgramsSP;
+	JScrollPane availableProgramsSP;
 	
 	ArrayList<Program> currentlySelectedPrograms; // used to check containment
 
@@ -68,7 +71,6 @@ public class SetupScreen {
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		mainPanel.setBounds(200, 200, 800, 400);
 		newStudentScreen.add(mainPanel);
 		createTopPanel();
 		createAddButtonPanel();
@@ -76,7 +78,7 @@ public class SetupScreen {
 		createAvailableProgramsPanel();
 		createBottomPanel();
 
-		newStudentScreen.setSize(800, 400);
+		newStudentScreen.setSize(850, 400);
 
 		newStudentScreen.setResizable(false);
 		newStudentScreen.setLocation(200, 200);
@@ -89,25 +91,19 @@ public class SetupScreen {
 	private void createTopPanel() {
 		topPanel = new JPanel();
 
-		JLabel titleLabel = new JLabel("Welcome to CourseTracker");
-		JLabel titleLabel2 = new JLabel("Please fill out the following information:");
-		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
-		titleLabel.setHorizontalAlignment(JLabel.LEFT);
-		titleLabel2.setFont(new Font("Monospaced", Font.BOLD, 14));
-
-		JLabel nameLabel = new JLabel("Enter your first name: ");
-		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		JLabel nameLabel = new JLabel("Enter your name: ");
+		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		nameField = new JTextField(8);
 		nameField.addKeyListener(new NameFieldKeyListener());
 
 		JLabel yearLabel = new JLabel("What year at JMU are you: ");
-		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		yearLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		String[] years = { "--", "Freshman", "Sophmore", "Junior", "Senior" };
 		JComboBox<String> yearBox = new JComboBox<String>(years);
 		yearBox.addActionListener(new DropdownYearActionListener());
 
 		JLabel semesterLabel = new JLabel("What semester: ");
-		semesterLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		semesterLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
 		String[] semesters = { "--", "Fall", "Spring" };
 		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
 		semestersBox.addActionListener(new DropdownSemesterActionListener());
@@ -118,6 +114,8 @@ public class SetupScreen {
 		topPanel.add(yearBox);
 		topPanel.add(semesterLabel);
 		topPanel.add(semestersBox);
+		
+		topPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 1)));
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
@@ -127,18 +125,24 @@ public class SetupScreen {
 		currentProgramsPanel.setLayout(new BoxLayout(currentProgramsPanel, BoxLayout.PAGE_AXIS));
 
 		JLabel currentProgramsLabel = new JLabel("Currently Selected Programs:");
-		//currentProgramsLabel.setHorizontalAlignment(0);
-
+		currentProgramsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		currentProgramsLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		
 		currentListModel = new DefaultListModel<Program>();
 		currentListModel.setSize(0);
 		currentProgramsList = new JList<Program>(currentListModel);
+		
+		currentProgramsSP = new JScrollPane(currentProgramsList);
+		
 		currentProgramsList.setFixedCellHeight(40);
 		currentProgramsList.setFixedCellWidth(200);
 		currentProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
 		currentProgramsPanel.add(currentProgramsLabel);
-		currentProgramsPanel.add(currentProgramsList);
-
+		currentProgramsPanel.add(currentProgramsSP);
+		
+		currentProgramsPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
 		mainPanel.add(currentProgramsPanel, BorderLayout.WEST);
 	}
 	
@@ -150,12 +154,15 @@ public class SetupScreen {
 		availableProgramsPanel.setLayout(new BoxLayout(availableProgramsPanel, BoxLayout.PAGE_AXIS));
 
 		JLabel availableProgramsLabel = new JLabel("Available Programs:");
-		//availableProgramsLabel.setHorizontalAlignment(0);
+		availableProgramsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		availableProgramsLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
 		availableListModel = new DefaultListModel<Program>();
 		availableProgramsList = new JList<Program>(availableListModel);
+		
+		availableProgramsSP = new JScrollPane(availableProgramsList);
+		
 		availableProgramsList.addListSelectionListener(new JListSelectionListener());
-		availableListModel.setSize(0);
 		availableProgramsList.setFixedCellHeight(40);
 		availableProgramsList.setFixedCellWidth(200);
 		availableProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -164,7 +171,7 @@ public class SetupScreen {
 		availableListModel.addElement(cisMinorProgram);
 
 		availableProgramsPanel.add(availableProgramsLabel);
-		availableProgramsPanel.add(availableProgramsList);
+		availableProgramsPanel.add(availableProgramsSP);
 
 		mainPanel.add(availableProgramsPanel, BorderLayout.CENTER);
 	}
@@ -177,7 +184,9 @@ public class SetupScreen {
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
 		addButton.addActionListener(new AddButtonActionListener());
 		addGenEdButton.addActionListener(new AddButtonActionListener());
-
+		addButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		addGenEdButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
 
