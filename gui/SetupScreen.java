@@ -1,13 +1,16 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -48,14 +50,20 @@ public class SetupScreen {
 
 	JTextField nameField;
 	JButton continueButton;
-	
-	DefaultListModel<Program> listModel;
+
+	DefaultListModel<Program> currentListModel;
+	DefaultListModel<Program> availableListModel;
 	JList<Program> currentProgramsList;
+	JList<Program> availableProgramsList;
+	
+	ArrayList<Program> currentlySelectedPrograms; // used to check containment
 
 	public SetupScreen(String title, ZPlanner planner) {
 		this.planner = planner;
 		semester = Semester.FR_FA;
 		year = 1;
+		
+		currentlySelectedPrograms = new ArrayList<Program>();
 
 		newStudentScreen = new JFrame();
 		mainPanel = new JPanel();
@@ -63,7 +71,7 @@ public class SetupScreen {
 		mainPanel.setBounds(200, 200, 800, 400);
 		newStudentScreen.add(mainPanel);
 		createTopPanel();
-		createLeftSidePanel();
+		createAddButtonPanel();
 		createCurrentProgramsPanel();
 		createAvailableProgramsPanel();
 		createBottomPanel();
@@ -113,58 +121,67 @@ public class SetupScreen {
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
+	
+	private void createCurrentProgramsPanel() {
+		currentProgramsPanel = new JPanel();
+		currentProgramsPanel.setLayout(new BoxLayout(currentProgramsPanel, BoxLayout.PAGE_AXIS));
 
-	private void createLeftSidePanel() {
+		JLabel currentProgramsLabel = new JLabel("Currently Selected Programs:");
+		//currentProgramsLabel.setHorizontalAlignment(0);
+
+		currentListModel = new DefaultListModel<Program>();
+		currentListModel.setSize(0);
+		currentProgramsList = new JList<Program>(currentListModel);
+		currentProgramsList.setFixedCellHeight(40);
+		currentProgramsList.setFixedCellWidth(200);
+		currentProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+		currentProgramsPanel.add(currentProgramsLabel);
+		currentProgramsPanel.add(currentProgramsList);
+
+		mainPanel.add(currentProgramsPanel, BorderLayout.WEST);
+	}
+	
+	private void createAvailableProgramsPanel() {
+		Program csMajorProgram = Generator.loadProgram("resources/cs_major.zagp");
+		Program cisMinorProgram = Generator.loadProgram("resources/cis_minor.zagp");
+		
+		availableProgramsPanel = new JPanel();
+		availableProgramsPanel.setLayout(new BoxLayout(availableProgramsPanel, BoxLayout.PAGE_AXIS));
+
+		JLabel availableProgramsLabel = new JLabel("Available Programs:");
+		//availableProgramsLabel.setHorizontalAlignment(0);
+
+		availableListModel = new DefaultListModel<Program>();
+		availableProgramsList = new JList<Program>(availableListModel);
+		availableProgramsList.addListSelectionListener(new JListSelectionListener());
+		availableListModel.setSize(0);
+		availableProgramsList.setFixedCellHeight(40);
+		availableProgramsList.setFixedCellWidth(200);
+		availableProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+		availableListModel.addElement(csMajorProgram);
+		availableListModel.addElement(cisMinorProgram);
+
+		availableProgramsPanel.add(availableProgramsLabel);
+		availableProgramsPanel.add(availableProgramsList);
+
+		mainPanel.add(availableProgramsPanel, BorderLayout.CENTER);
+	}
+
+	private void createAddButtonPanel() {
 		leftSidePanel = new JPanel();
 		leftSidePanel.setLayout(new BoxLayout(leftSidePanel, BoxLayout.PAGE_AXIS));
 
 		JButton addButton = new JButton("Add Program");
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
-		addGenEdButton.addActionListener(new GenEdButtonActionListener());
+		addButton.addActionListener(new AddButtonActionListener());
+		addGenEdButton.addActionListener(new AddButtonActionListener());
 
 		leftSidePanel.add(addButton);
 		leftSidePanel.add(addGenEdButton);
 
-		mainPanel.add(leftSidePanel, BorderLayout.WEST);
-	}
-
-	private void createCurrentProgramsPanel() {
-		currentProgramsPanel = new JPanel();
-		currentProgramsPanel.setLayout(new BoxLayout(currentProgramsPanel, BoxLayout.PAGE_AXIS));
-		
-		JLabel currentProgramsLabel = new JLabel("Currently Selected Programs:");
-		
-		listModel = new DefaultListModel<Program>();
-		listModel.setSize(5);
-		currentProgramsList = new JList<Program>(listModel);
-		//currentProgramsList.setEnabled(false);
-		currentProgramsList.setFixedCellHeight(25);
-		currentProgramsList.setFixedCellWidth(200);
-		//listModel.add(0, program);
-
-		currentProgramsPanel.add(currentProgramsLabel);
-		currentProgramsPanel.add(currentProgramsList);
-
-		mainPanel.add(currentProgramsPanel, BorderLayout.CENTER);
-	}
-
-	private void createAvailableProgramsPanel() {
-		availableProgramsPanel = new JPanel();
-		DefaultListModel<Program> listModel = new DefaultListModel<Program>();
-		JList<Program> currentProgramsList = new JList<Program>(listModel);
-		currentProgramsList.addListSelectionListener(new JListSelectionListener());
-
-		Program genEdProgram = Generator.loadProgram("resources/gen_ed.zagp");
-		Program csMajorProgram = Generator.loadProgram("resources/cs_major.zagp");
-		Program cisMinorProgram = Generator.loadProgram("resources/cis_minor.zagp");
-		
-		listModel.addElement(genEdProgram);
-		listModel.addElement(csMajorProgram);
-		listModel.addElement(cisMinorProgram);
-
-		availableProgramsPanel.add(currentProgramsList);
-
-		mainPanel.add(availableProgramsPanel, BorderLayout.EAST);
+		mainPanel.add(leftSidePanel, BorderLayout.EAST);
 	}
 
 	private void createBottomPanel() {
@@ -198,9 +215,8 @@ public class SetupScreen {
 			if (field.getText() == "") {
 				nameEntered = false;
 			}
-			
-			if (nameEntered && yearEntered && semesterEntered)
-			{
+
+			if (nameEntered && yearEntered && semesterEntered) {
 				continueButton.setEnabled(true);
 			}
 		}
@@ -237,9 +253,8 @@ public class SetupScreen {
 				year = 4;
 				yearEntered = true;
 			}
-			
-			if (nameEntered && yearEntered && semesterEntered)
-			{
+
+			if (nameEntered && yearEntered && semesterEntered) {
 				continueButton.setEnabled(true);
 			}
 		}
@@ -289,33 +304,44 @@ public class SetupScreen {
 				semesterEntered = true;
 			}
 
-			if (nameEntered && yearEntered && semesterEntered)
-			{
+			if (nameEntered && yearEntered && semesterEntered) {
 				continueButton.setEnabled(true);
 			}
 		}
 
-		
-
 	}
 
-	private class GenEdButtonActionListener implements ActionListener {
+	private class AddButtonActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton button = (JButton) e.getSource();
 
-			if (button.isEnabled()) {
-				Program program = Generator.loadProgram("resources/gen_ed.zagp");
-				HashSet<Cluster> clusters = program.getClusters();
-				planner.addProgram(program);
+			switch (e.getActionCommand()) {
+			case "Add Gen Ed Program":
+				Program genEd = Generator.loadProgram("resources/gen_ed.zagp");
+				HashSet<Cluster> clusters = genEd.getClusters();
+				planner.addProgram(genEd);
 				planner.addClusters(clusters);
 				button.setEnabled(false);
-				listModel.add(0, program);
+				currentListModel.add(currentListModel.getSize(), genEd);
+				currentlySelectedPrograms.add(genEd);
+				break;
+			case "Add Program":
+				Program curProgram = availableProgramsList.getSelectedValue();
+				if (availableProgramsList.getSelectedValue() != null) {
+					if (!currentlySelectedPrograms.contains(curProgram))
+					{
+						HashSet<Cluster> curProgramClusters = curProgram.getClusters();
+						planner.addProgram(curProgram);
+						planner.addClusters(curProgramClusters);
+						currentListModel.add(currentListModel.getSize(), curProgram);
+						currentlySelectedPrograms.add(curProgram);
+					}
+				}
+				break;
 			}
-
 		}
-
 	}
 
 	private class NavigationButtons implements ActionListener {
@@ -325,8 +351,8 @@ public class SetupScreen {
 			JButton button = (JButton) e.getSource();
 			switch (e.getActionCommand()) {
 			case "Reset":
-				newStudentScreen.dispose();
 				SetupScreen sus = new SetupScreen("Setup", new ZPlanner());
+				newStudentScreen.dispose();
 				break;
 			case "Continue":
 				if (button.isEnabled() && yearEntered && nameEntered) {
@@ -341,17 +367,15 @@ public class SetupScreen {
 			}
 		}
 	}
-	
-	private class JListSelectionListener implements ListSelectionListener
-	{
+
+	private class JListSelectionListener implements ListSelectionListener {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			JList<Program> list = (JList<Program>) e.getSource();
-			
-			
+
 		}
-		
+
 	}
 
 }
