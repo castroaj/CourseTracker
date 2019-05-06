@@ -2,6 +2,8 @@ package course_map;
 
 import java.util.HashSet;
 
+import main.Generator;
+
 //IE: Choose one(or more) from this list
 /**
  * A collection of courses containing a rule for fulfilling the requirement IE:
@@ -100,6 +102,9 @@ public class Cluster {
 	 * @return HashSet of courses
 	 */
 	public HashSet<Course> getCourses() {
+		if (this.class_list.size() == 0)
+			this.class_list.add(Generator.findCourse("JMU", "000"));
+			
 		return this.class_list;
 	}
 

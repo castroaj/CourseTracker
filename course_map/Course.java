@@ -118,6 +118,8 @@ public class Course {
 	 * @return Subject enum.
 	 */
 	public Subject getSubject() {
+		if (subject == null)
+			return Subject.JMU;
 		return subject;
 	}
 
@@ -228,6 +230,7 @@ public class Course {
 
 	/**
 	 * Gets the number of time a course is offered
+	 * 
 	 * @return
 	 */
 	public int getOfferedCount() {
