@@ -2,12 +2,12 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -33,10 +32,12 @@ public class PreferencesSetupScreen {
 
 	JFrame preferencesScreen;
 
-	JPanel mainBorder;
-	JPanel midSplit;
-
-	JPanel rightBorder;
+	JPanel mainPanel;
+	JPanel pcPanel;
+	JPanel coursePanel;
+	JPanel infoPanel;
+	
+	
 	JPanel topRight;
 	JPanel centerRight;
 	JPanel bottomRight;
@@ -46,16 +47,23 @@ public class PreferencesSetupScreen {
 	JSlider coursePreference;
 	JTextArea courseDescription;
 	
-	JScrollPane listScroller;
-	
+	JScrollPane programListScroller;
+	JScrollPane	clusterListScroller;
+	JScrollPane courseListScroller;
+		
+	JList<Program> programList;
+	JList<Cluster> clusterList;
 	JList<Course> courseList;
+	
+	DefaultListModel<Program> programListModel;
+	DefaultListModel<Cluster> clusterListModel;
 	DefaultListModel<Course> courseListModel;
 
 	public PreferencesSetupScreen(String title, Planner planner) {
 		this.planner = planner;
 		preferencesScreen = new JFrame();
 
-		preferencesScreen.setSize(450, 600);
+		preferencesScreen.setSize(600, 700);
 		preferencesScreen.setResizable(false);
 		preferencesScreen.setLocation(200, 100);
 
@@ -63,22 +71,64 @@ public class PreferencesSetupScreen {
 		preferencesScreen.setTitle(title);
 		preferencesScreen.setVisible(true);
 
-		listSetUp();
-		courseInfoSetup(null); 
-		borderSetUp();
+		pcPanel = new JPanel();
+		pcPanel.setLayout(new BoxLayout(pcPanel, BoxLayout.PAGE_AXIS));
+		coursePanel = new JPanel();
+		infoPanel = new JPanel(new GridLayout(3, 1));
+		
+		programListSetUp();
+		clusterListSetUp();
+		courseListSetUp();
+		courseInfoSetup(); 
+		panelSetUp();
+		
+		System.out.println(planner.toString());
 		
 	}
+	
+	public void programListSetUp()
+	{
+		programListModel = new DefaultListModel<Program>();
+		programList = new JList<Program>(programListModel);
+		
+		programList.setVisibleRowCount(10);
+		programListScroller = new JScrollPane(programList);
+		programListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
+				BorderFactory.createLineBorder(Color.BLACK)));
+		
+		pcPanel.add(programListScroller);
+	}
+	
+	public void clusterListSetUp()
+	{
+		clusterListModel = new DefaultListModel<Cluster>();
+		clusterList = new JList<Cluster>(clusterListModel);
+		
+		clusterList.setVisibleRowCount(10);
+		clusterListScroller = new JScrollPane(clusterList);
+		clusterListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
+				BorderFactory.createLineBorder(Color.BLACK)));
+	
+//		ArrayList<Cluster> clusters = planner.getListAllClusters();
+//		
+//		for (Cluster c : clusters)
+//		{
+//			//clusterListModel.addElement(c);
+//		}
 
-	public void listSetUp() {
+		pcPanel.add(clusterListScroller);
+	}
+	
+	
+
+	public void courseListSetUp() {
 		courseListModel = new DefaultListModel<Course>();
-
 		courseList = new JList<Course>(courseListModel);
-
-		// courseList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		courseList.setVisibleRowCount(-1);
-		courseList.addListSelectionListener(new JListListener());
-		listScroller = new JScrollPane(courseList);
-		listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
+		
+		courseList.setVisibleRowCount(10);
+		courseList.addListSelectionListener(new CourseListListener());
+		courseListScroller = new JScrollPane(courseList);
+		courseListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
 				BorderFactory.createLineBorder(Color.BLACK)));
 
 		// TODO: (ALEX) I added this to put all of the clusters into the JList, needs to be
@@ -92,26 +142,22 @@ public class PreferencesSetupScreen {
 				}
 			}
 		}
+		//coursePanel.add(courseListScroller);
 	}
 
-	public void courseInfoSetup(Course c) {
-		if (c == null) {
-			c = new Course(Subject.JMU, "000", false, false, 0, 0, "Place Holder");
-		}
-		rightBorder = new JPanel(new GridLayout(3, 1));
+	public void courseInfoSetup() {
 		topRight = new JPanel(new GridLayout(2, 1));
 		centerRight = new JPanel(new BorderLayout());
 		bottomRight = new JPanel(new BorderLayout());
 
 		centerRight.add(BorderLayout.NORTH, new JLabel("Description"));
 
-		courseName = new JLabel("Course: " + c.getSubject() + " " + c.getClassID());
+		courseName = new JLabel("Course: ");
 		courseTaken = new JCheckBox("Taken: ");
 		coursePreference = new JSlider();
-	    courseDescription = new JTextArea(c.getDescription());
+	    courseDescription = new JTextArea();
 		coursePreference.setMinimum(0);
 		coursePreference.setMaximum(10);
-		coursePreference.setValue(c.getPreference());
 
 		centerRight.add(BorderLayout.CENTER, courseDescription);
 		topRight.add(courseName);
@@ -119,26 +165,26 @@ public class PreferencesSetupScreen {
 		bottomRight.add(coursePreference);
 		courseDescription.setLineWrap(true);
 
-		rightBorder.add(topRight);
-		rightBorder.add(centerRight);
-		rightBorder.add(bottomRight);
+		infoPanel.add(topRight);
+		infoPanel.add(centerRight);
+		infoPanel.add(bottomRight);
 
 	}
 
-	public void borderSetUp() {
-		mainBorder = new JPanel(new BorderLayout());
-		midSplit = new JPanel(new GridLayout(1, 2));
+	public void panelSetUp() {
+		mainPanel = new JPanel(new BorderLayout());
 
-		midSplit.add(listScroller);
-		midSplit.add(rightBorder);
+		mainPanel.add(pcPanel, BorderLayout.WEST);
+		mainPanel.add(courseListScroller, BorderLayout.CENTER);
+		mainPanel.add(infoPanel, BorderLayout.EAST);
 
-		mainBorder.add(BorderLayout.NORTH, new JLabel("PREFERENCES"));
-		mainBorder.add(BorderLayout.CENTER, midSplit);
-
-		preferencesScreen.add(mainBorder);
+		preferencesScreen.add(mainPanel);
 	}
 	
-	private class JListListener implements ListSelectionListener
+	
+	
+	
+	private class CourseListListener implements ListSelectionListener
 	{
 
 		@Override
