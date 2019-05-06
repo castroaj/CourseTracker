@@ -37,7 +37,6 @@ public class PreferencesSetupScreen {
 	JPanel coursePanel;
 	JPanel infoPanel;
 	
-	
 	JPanel topRight;
 	JPanel centerRight;
 	JPanel bottomRight;
@@ -92,9 +91,17 @@ public class PreferencesSetupScreen {
 		programList = new JList<Program>(programListModel);
 		
 		programList.setVisibleRowCount(10);
+		programList.addListSelectionListener(new ProgramListListener());
 		programListScroller = new JScrollPane(programList);
 		programListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
 				BorderFactory.createLineBorder(Color.BLACK)));
+		
+		ArrayList<Program> programs = planner.getPrograms();
+		
+		for (Program p : programs)
+		{
+			programListModel.addElement(p);
+		}
 		
 		pcPanel.add(programListScroller);
 	}
@@ -105,16 +112,10 @@ public class PreferencesSetupScreen {
 		clusterList = new JList<Cluster>(clusterListModel);
 		
 		clusterList.setVisibleRowCount(10);
+		clusterList.addListSelectionListener(new ClusterListListener());
 		clusterListScroller = new JScrollPane(clusterList);
 		clusterListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
 				BorderFactory.createLineBorder(Color.BLACK)));
-	
-//		ArrayList<Cluster> clusters = planner.getListAllClusters();
-//		
-//		for (Cluster c : clusters)
-//		{
-//			//clusterListModel.addElement(c);
-//		}
 
 		pcPanel.add(clusterListScroller);
 	}
@@ -130,19 +131,6 @@ public class PreferencesSetupScreen {
 		courseListScroller = new JScrollPane(courseList);
 		courseListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
 				BorderFactory.createLineBorder(Color.BLACK)));
-
-		// TODO: (ALEX) I added this to put all of the clusters into the JList, needs to be
-		// organized
-		ArrayList<Cluster> clusters = planner.getListAllClusters();
-		for (Cluster curCluster : clusters) {
-			HashSet<Course> courses = curCluster.getCourses();
-			for (Course curCourse : courses) {
-				if (!(curCourse.getSubject() == null)) {
-					courseListModel.addElement(curCourse);
-				}
-			}
-		}
-		//coursePanel.add(courseListScroller);
 	}
 
 	public void courseInfoSetup() {
@@ -168,7 +156,6 @@ public class PreferencesSetupScreen {
 		infoPanel.add(topRight);
 		infoPanel.add(centerRight);
 		infoPanel.add(bottomRight);
-
 	}
 
 	public void panelSetUp() {
@@ -181,19 +168,54 @@ public class PreferencesSetupScreen {
 		preferencesScreen.add(mainPanel);
 	}
 	
-	
-	
-	
-	private class CourseListListener implements ListSelectionListener
+	private class ProgramListListener implements ListSelectionListener
 	{
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
+			Program p = programList.getSelectedValue();
+			clusterListModel.clear();
+				
+			HashSet<Cluster> clusters = p.getClusters();
 			
+			for (Cluster curCluster : clusters)
+			{
+				clusterListModel.addElement(curCluster);
+			}
+			
+		}	
+	}
+	
+	private class ClusterListListener implements ListSelectionListener
+	{
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			Cluster c = clusterList.getSelectedValue();
+			courseListModel.clear();
+			
+			HashSet<Course> courses = c.getCourses();
+			
+			for (Course curCourse : courses)
+			{
+				courseListModel.addElement(curCourse);
+			}
+			
+		}
+		
+	}
+	
+	private class CourseListListener implements ListSelectionListener
+	{
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if (courseListModel.size() > 0)
+			{
 			Course c = courseList.getSelectedValue();
-			courseName.setText("Course: " + c.getSubject() + " " + c.getClassID());	
+			courseName.setText("Course: " + c.getSubject() + " " + c.getClassID());
 			courseTaken.setSelected(c.isTaken());
 			courseDescription.setText(c.getDescription());
+			}
 		}
 	}
 }

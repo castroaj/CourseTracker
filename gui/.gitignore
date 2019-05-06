@@ -14,3 +14,5 @@
 /SetupScreen$NavigationButtons.class
 /PreferencesSetupScreen$JListListener.class
 /PreferencesSetupScreen$CourseListListener.class
+/PreferencesSetupScreen$ProgramListListener.class
+/PreferencesSetupScreen$ClusterListListener.class
