@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,7 +24,6 @@ import javax.swing.event.ListSelectionListener;
 import course_map.Cluster;
 import course_map.Course;
 import course_map.Program;
-import course_map.Subject;
 import main.Planner;
 
 public class PreferencesSetupScreen {
@@ -40,6 +40,10 @@ public class PreferencesSetupScreen {
 	JPanel topRight;
 	JPanel centerRight;
 	JPanel bottomRight;
+	
+	JLabel programLabel;
+	JLabel clusterLabel;
+	JLabel courseLabel;
 
 	JLabel courseName;
 	JCheckBox courseTaken;
@@ -75,6 +79,7 @@ public class PreferencesSetupScreen {
 		pcPanel = new JPanel();
 		pcPanel.setLayout(new BoxLayout(pcPanel, BoxLayout.PAGE_AXIS));
 		coursePanel = new JPanel();
+		coursePanel.setLayout(new BoxLayout(coursePanel, BoxLayout.PAGE_AXIS));
 		infoPanel = new JPanel(new GridLayout(3, 1));
 		
 		programListSetUp();
@@ -92,11 +97,17 @@ public class PreferencesSetupScreen {
 		programListModel = new DefaultListModel<Program>();
 		programList = new JList<Program>(programListModel);
 		
+		programLabel = new JLabel("Programs:");
+		programLabel.setFont(new Font("Monospaced", Font.BOLD, 18));
+		programLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		
 		programList.setVisibleRowCount(10);
 		programList.addListSelectionListener(new ProgramListListener());
+		programList.setFixedCellHeight(20);
+		programList.setFixedCellWidth(200);
 		programListScroller = new JScrollPane(programList);
-		programListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
-				BorderFactory.createLineBorder(Color.BLACK)));
+		programListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
+				BorderFactory.createLineBorder(Color.BLACK, 2)));
 		
 		ArrayList<Program> programs = planner.getPrograms();
 		
@@ -105,6 +116,9 @@ public class PreferencesSetupScreen {
 			programListModel.addElement(p);
 		}
 		
+		programListScroller.setBackground(preferencesScreen.getBackground());
+		
+		pcPanel.add(programLabel);
 		pcPanel.add(programListScroller);
 	}
 	
@@ -113,12 +127,21 @@ public class PreferencesSetupScreen {
 		clusterListModel = new DefaultListModel<Cluster>();
 		clusterList = new JList<Cluster>(clusterListModel);
 		
+		clusterLabel = new JLabel("Clusters:");
+		clusterLabel.setFont(new Font("Monospaced", Font.BOLD, 18));
+		clusterLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+
 		clusterList.setVisibleRowCount(10);
 		clusterList.addListSelectionListener(new ClusterListListener());
+		clusterList.setFixedCellHeight(20);
+		clusterList.setFixedCellWidth(200);
 		clusterListScroller = new JScrollPane(clusterList);
-		clusterListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
-				BorderFactory.createLineBorder(Color.BLACK)));
+		clusterListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
+				BorderFactory.createLineBorder(Color.BLACK, 2)));
 
+		clusterListScroller.setBackground(preferencesScreen.getBackground());
+		
+		pcPanel.add(clusterLabel);
 		pcPanel.add(clusterListScroller);
 	}
 	
@@ -128,11 +151,22 @@ public class PreferencesSetupScreen {
 		courseListModel = new DefaultListModel<Course>();
 		courseList = new JList<Course>(courseListModel);
 		
+		courseLabel = new JLabel("Courses:");
+		courseLabel.setFont(new Font("Monospaced", Font.BOLD, 18));
+		courseLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		
 		courseList.setVisibleRowCount(10);
 		courseList.addListSelectionListener(new CourseListListener());
+		courseList.setFixedCellHeight(20);
+		courseList.setFixedCellWidth(100);
 		courseListScroller = new JScrollPane(courseList);
-		courseListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
-				BorderFactory.createLineBorder(Color.BLACK)));
+		courseListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
+				BorderFactory.createLineBorder(Color.BLACK, 2)));
+		
+		courseListScroller.setBackground(preferencesScreen.getBackground());
+		
+		coursePanel.add(courseLabel);
+		coursePanel.add(courseListScroller);
 	}
 
 	public void courseInfoSetup() {
@@ -164,7 +198,7 @@ public class PreferencesSetupScreen {
 		mainPanel = new JPanel(new BorderLayout());
 
 		mainPanel.add(pcPanel, BorderLayout.WEST);
-		mainPanel.add(courseListScroller, BorderLayout.CENTER);
+		mainPanel.add(coursePanel, BorderLayout.CENTER);
 		mainPanel.add(infoPanel, BorderLayout.EAST);
 
 		preferencesScreen.add(mainPanel);
