@@ -13,7 +13,7 @@ import course_map.*;
  * @author Zeru Tadesse
  *
  */
-public class ZPlanner {
+public class Planner {
 
 	private String name;
 	private Semester currentSemester;
@@ -37,7 +37,7 @@ public class ZPlanner {
 	 * @param programs          Program collection
 	 * @param creditsToGraduate Total credits needed for graduation
 	 */
-	public ZPlanner(String studentName, Semester currentSemester, HashSet<Program> programs, int creditsToGraduate) {
+	public Planner(String studentName, Semester currentSemester, HashSet<Program> programs, int creditsToGraduate) {
 		this.name = studentName;
 		this.currentSemester = currentSemester;
 		this.programs = programs;
@@ -49,7 +49,7 @@ public class ZPlanner {
 			allClusters.addAll(p.getClusters());
 	}
 
-	public ZPlanner() {
+	public Planner() {
 		this.name = "";
 		this.currentSemester = null;
 		this.programs = new HashSet<Program>();

@@ -1,14 +1,14 @@
 package gui;
 import javax.swing.JFrame;
 
-import main.ZPlanner;
+import main.Planner;
 
 public class PlannerScreen {
 
 	JFrame plannerScreen;
-	ZPlanner planner;
+	Planner planner;
 	
-	public PlannerScreen(String title, ZPlanner planner)
+	public PlannerScreen(String title, Planner planner)
 	{
 		this.planner = planner;
 		plannerScreen = new JFrame();

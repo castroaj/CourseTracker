@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.DefaultListModel;
@@ -14,11 +15,11 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import course_map.Course;
-import main.ZPlanner;
+import main.Planner;
 
 public class PreferencesSetupScreen {
 
-  private ZPlanner planner;
+  private Planner planner;
 
   JFrame olderStudentScreen;
   
@@ -34,7 +35,7 @@ public class PreferencesSetupScreen {
   JList list;
   DefaultListModel model;
 
-  public PreferencesSetupScreen(String title, ZPlanner planner) {
+  public PreferencesSetupScreen(String title, Planner planner) {
     this.planner = planner;
     olderStudentScreen = new JFrame();
 
@@ -110,4 +111,5 @@ public class PreferencesSetupScreen {
 
     olderStudentScreen.add(mainBorder);
   }
+  
 }

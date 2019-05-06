@@ -9,3 +9,6 @@
 /StartScreen$GetStartedButtonActionListener.class
 /StartScreen.class
 /PlannerListItem.class
+/SetupScreen$AddButtonActionListener.class
+/SetupScreen$JListSelectionListener.class
+/SetupScreen$NavigationButtons.class
