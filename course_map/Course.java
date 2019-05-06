@@ -162,7 +162,7 @@ public class Course {
 	 * Default to string with full detail of course
 	 */
 	public String toString() {
-		return String.format("%-5s %-3s", this.subject, this.classID);
+		return String.format("%s %s", this.subject, this.classID);
 	}
 
 	/**
