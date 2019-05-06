@@ -20,7 +20,7 @@ public class Course {
 	private boolean offeredFall;
 	private boolean offeredSpring;
 	private int preference;
-	private String discription;
+	private String description;
 
 	/**
 	 * Course constructor with default of 3 credits and prefrence of 5 (no pref)
@@ -59,7 +59,7 @@ public class Course {
 	 * @param prefrence Ranking of preference 0-10
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits, int prefrence,
-			String discription) {
+			String description) {
 		this.subject = subject;
 		this.classID = classID;
 		this.offeredFall = fall;
@@ -69,7 +69,7 @@ public class Course {
 		this.credits = credits;
 		this.preference = prefrence;
 		this.classTaken = false;
-		this.discription = discription;
+		this.description = description;
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class Course {
 		return String.format("%-5s %-3s", this.subject, this.classID);
 	}
 
-	public String getDiscription() {
-		return this.discription;
+	public String getDescription() {
+		return this.description;
 	}
 }

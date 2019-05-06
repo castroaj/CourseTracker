@@ -18,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import course_map.Cluster;
 import course_map.Course;
@@ -39,8 +41,13 @@ public class PreferencesSetupScreen {
 	JPanel centerRight;
 	JPanel bottomRight;
 
+	JLabel courseName;
+	JCheckBox courseTaken;
+	JSlider coursePreference;
+	JTextArea courseDescription;
+	
 	JScrollPane listScroller;
-
+	
 	JList<Course> courseList;
 	DefaultListModel<Course> courseListModel;
 
@@ -48,7 +55,7 @@ public class PreferencesSetupScreen {
 		this.planner = planner;
 		preferencesScreen = new JFrame();
 
-		preferencesScreen.setSize(400, 600);
+		preferencesScreen.setSize(450, 600);
 		preferencesScreen.setResizable(false);
 		preferencesScreen.setLocation(200, 100);
 
@@ -59,8 +66,7 @@ public class PreferencesSetupScreen {
 		listSetUp();
 		courseInfoSetup(null); 
 		borderSetUp();
-
-		System.out.println(planner.toString());
+		
 	}
 
 	public void listSetUp() {
@@ -70,6 +76,7 @@ public class PreferencesSetupScreen {
 
 		// courseList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		courseList.setVisibleRowCount(-1);
+		courseList.addListSelectionListener(new JListListener());
 		listScroller = new JScrollPane(courseList);
 		listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
 				BorderFactory.createLineBorder(Color.BLACK)));
@@ -98,19 +105,19 @@ public class PreferencesSetupScreen {
 
 		centerRight.add(BorderLayout.NORTH, new JLabel("Description"));
 
-		JLabel courseName = new JLabel("Course: " + c.getSubject() + " " + c.getClassID());
-		JCheckBox courseTaken = new JCheckBox("Taken: ");
-		JSlider coursePrefrence = new JSlider();
-		JTextArea courseDiscription = new JTextArea(c.getDiscription());
-		coursePrefrence.setMinimum(0);
-		coursePrefrence.setMaximum(10);
-		coursePrefrence.setValue(c.getPreference());
+		courseName = new JLabel("Course: " + c.getSubject() + " " + c.getClassID());
+		courseTaken = new JCheckBox("Taken: ");
+		coursePreference = new JSlider();
+	    courseDescription = new JTextArea(c.getDescription());
+		coursePreference.setMinimum(0);
+		coursePreference.setMaximum(10);
+		coursePreference.setValue(c.getPreference());
 
-		centerRight.add(BorderLayout.CENTER, courseDiscription);
+		centerRight.add(BorderLayout.CENTER, courseDescription);
 		topRight.add(courseName);
 		topRight.add(courseTaken);
-		bottomRight.add(coursePrefrence);
-		courseDiscription.setLineWrap(true);
+		bottomRight.add(coursePreference);
+		courseDescription.setLineWrap(true);
 
 		rightBorder.add(topRight);
 		rightBorder.add(centerRight);
@@ -129,5 +136,18 @@ public class PreferencesSetupScreen {
 		mainBorder.add(BorderLayout.CENTER, midSplit);
 
 		preferencesScreen.add(mainBorder);
+	}
+	
+	private class JListListener implements ListSelectionListener
+	{
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			
+			Course c = courseList.getSelectedValue();
+			courseName.setText("Course: " + c.getSubject() + " " + c.getClassID());	
+			courseTaken.setSelected(c.isTaken());
+			courseDescription.setText(c.getDescription());
+		}
 	}
 }
