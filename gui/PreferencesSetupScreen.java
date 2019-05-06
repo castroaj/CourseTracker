@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.DefaultListModel;
@@ -73,7 +72,7 @@ public class PreferencesSetupScreen {
   }
 
   public void rightSideSetUp() {
-    rightBorder = new JPanel(new BorderLayout());
+    rightBorder = new JPanel(new GridLayout(3, 1));
     topRight = new JPanel(new GridLayout(2, 1));
     centerRight = new JPanel(new BorderLayout()); 
     bottomRight = new JPanel(new BorderLayout());
@@ -93,9 +92,9 @@ public class PreferencesSetupScreen {
     bottomRight.add(BorderLayout.NORTH, new JLabel("Preference:"));
     bottomRight.add(BorderLayout.CENTER, new JSlider());
     
-    rightBorder.add(BorderLayout.NORTH, topRight);
-    rightBorder.add(BorderLayout.CENTER, centerRight);
-    rightBorder.add(BorderLayout.SOUTH, bottomRight);
+    rightBorder.add(topRight);
+    rightBorder.add(centerRight);
+    rightBorder.add(bottomRight);
   }
 
   
@@ -111,5 +110,4 @@ public class PreferencesSetupScreen {
 
     olderStudentScreen.add(mainBorder);
   }
-  
 }
