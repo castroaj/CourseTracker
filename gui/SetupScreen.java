@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,12 +42,10 @@ public class SetupScreen {
 	private boolean yearEntered;
 	private boolean semesterEntered;
 
-	JFrame newStudentScreen;
+	JFrame setupScreen;
 
 	JPanel mainPanel;
 	JPanel topPanel;
-	JPanel topPanelBack;
-	JPanel topPanelQs;
 	JPanel currentProgramsPanel;
 	JPanel availableProgramsPanel;
 	JPanel bottomPanel;
@@ -70,31 +69,27 @@ public class SetupScreen {
 		
 		currentlySelectedPrograms = new ArrayList<Program>();
 
-		newStudentScreen = new JFrame();
+		setupScreen = new JFrame();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		newStudentScreen.add(mainPanel);
+		setupScreen.add(mainPanel);
 		createTopPanel();
 		createCurrentProgramsPanel();
 		createAvailableProgramsPanel();
 		createBottomPanel();
 
-		newStudentScreen.setSize(850, 400);
+		setupScreen.setSize(850, 400);
 
-		newStudentScreen.setResizable(false);
-		newStudentScreen.setLocation(200, 200);
+		setupScreen.setResizable(false);
+		setupScreen.setLocation(200, 200);
 
-		newStudentScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		newStudentScreen.setTitle(title);
-		newStudentScreen.setVisible(true);
+		setupScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setupScreen.setTitle(title);
+		setupScreen.setVisible(true);
 	}
 
 	private void createTopPanel() {
 		topPanel = new JPanel();
-		topPanelBack = new JPanel();
-		topPanelQs = new JPanel();
-		
-		JButton backButton = new JButton("Return to Home Page");
 
 		JLabel nameLabel = new JLabel("Name: ");
 		nameLabel.setFont(new Font("Monospaced", Font.PLAIN, 11));
@@ -112,20 +107,15 @@ public class SetupScreen {
 		String[] semesters = { "--", "Fall", "Spring" };
 		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
 		semestersBox.addActionListener(new DropdownSemesterActionListener());
-
-		topPanelBack.add(backButton);
 		
-		topPanelQs.add(nameLabel);
-		topPanelQs.add(nameField);
-		topPanelQs.add(yearLabel);
-		topPanelQs.add(yearBox);
-		topPanelQs.add(semesterLabel);
-		topPanelQs.add(semestersBox);
+		topPanel.add(nameLabel);
+		topPanel.add(nameField);
+		topPanel.add(yearLabel);
+		topPanel.add(yearBox);
+		topPanel.add(semesterLabel);
+		topPanel.add(semestersBox);
 		
-		topPanelQs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 1)));
-		
-		topPanel.add(topPanelBack);
-		topPanel.add(topPanelQs);
+		topPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 1)));
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
@@ -204,12 +194,12 @@ public class SetupScreen {
 		addButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
 		addGenEdButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
 		
-		JLabel searchFieldLabel = new JLabel("       Search:");
+		JLabel searchFieldLabel = new JLabel("            ");
 		searchFieldLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		searchFieldLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
-		JTextField searchField = new JTextField(10);
-		searchField.setText("Not working");
+		JButton backButton = new JButton("Return to Home Page");
+		backButton.addActionListener(new NavigationButtons());
 		
 		continueButton = new JButton("Continue");
 		continueButton.addActionListener(new NavigationButtons());
@@ -221,7 +211,7 @@ public class SetupScreen {
 		bottomPanel.add(addButton);
 		bottomPanel.add(addGenEdButton);
 		bottomPanel.add(searchFieldLabel);
-		bottomPanel.add(searchField);
+		bottomPanel.add(backButton);
 		bottomPanel.add(resetButton);
 		bottomPanel.add(continueButton);
 
@@ -384,17 +374,21 @@ public class SetupScreen {
 			switch (e.getActionCommand()) {
 			case "Reset":
 				SetupScreen sus = new SetupScreen("Setup", new Planner());
-				newStudentScreen.dispose();
+				setupScreen.dispose();
 				break;
 			case "Continue":
 				if (button.isEnabled() && yearEntered && nameEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
 					name = nameField.getText();
-					newStudentScreen.dispose();
+					setupScreen.dispose();
 
 					planner.setName(name);
 					planner.setSemester(semester);
 					PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
 				}
+				break;
+			case "Return to Home Page":
+				StartScreen ss = new StartScreen("Start");
+				setupScreen.dispose();
 				break;
 			}
 		}
