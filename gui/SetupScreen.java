@@ -148,6 +148,7 @@ public class SetupScreen {
 	}
 	
 	private void createAvailableProgramsPanel() {
+		// PROGRAM ADDITION
 		Program csMajorProgram = Generator.loadProgram("resources/cs_major.zagp");
 		Program cisMinorProgram = Generator.loadProgram("resources/cis_minor.zagp");
 		Program csMinorProgram = Generator.loadProgram("resources/cs_minor.zagp");
@@ -170,6 +171,8 @@ public class SetupScreen {
 		availableProgramsList.setFixedCellWidth(200);
 		availableProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+		
+		// PROGRAM ADDITION TO LIST
 		availableListModel.addElement(csMajorProgram);
 		availableListModel.addElement(cisMinorProgram);
 		availableListModel.addElement(csMinorProgram);
