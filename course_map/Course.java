@@ -247,4 +247,8 @@ public class Course {
 	public String toStringSimple() {
 		return String.format("%-5s %-3s", this.subject, this.classID);
 	}
+
+	public String getDiscription() {
+		return this.discription;
+	}
 }

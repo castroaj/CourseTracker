@@ -22,108 +22,112 @@ import javax.swing.ListSelectionModel;
 import course_map.Cluster;
 import course_map.Course;
 import course_map.Program;
+import course_map.Subject;
 import main.Planner;
 
 public class PreferencesSetupScreen {
 
-  private Planner planner;
+	private Planner planner;
 
-  JFrame preferencesScreen;
-  
-  JPanel mainBorder;
-  JPanel midSplit;
-  
-  JPanel rightBorder;
-  JPanel topRight;
-  JPanel centerRight;
-  JPanel bottomRight;
-  
-  JScrollPane listScroller;
-  
-  JList<Course> courseList;
-  DefaultListModel<Course> courseListModel;
+	JFrame preferencesScreen;
 
-  public PreferencesSetupScreen(String title, Planner planner) {
-    this.planner = planner;
-    preferencesScreen = new JFrame();
+	JPanel mainBorder;
+	JPanel midSplit;
 
-    preferencesScreen.setSize(400, 600);
-    preferencesScreen.setResizable(false);
-    preferencesScreen.setLocation(200, 100);
+	JPanel rightBorder;
+	JPanel topRight;
+	JPanel centerRight;
+	JPanel bottomRight;
 
-    preferencesScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    preferencesScreen.setTitle(title);
-    preferencesScreen.setVisible(true);
+	JScrollPane listScroller;
 
-    listSetUp();
-    rightSideSetUp();
-    borderSetUp();
+	JList<Course> courseList;
+	DefaultListModel<Course> courseListModel;
 
-    System.out.println(planner.toString());
-  }
-  
-  public void listSetUp() {
-    courseListModel = new DefaultListModel<Course>();
-    
-    courseList = new JList<Course>(courseListModel);
-    
-    //courseList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-    courseList.setVisibleRowCount(-1);
-    listScroller = new JScrollPane(courseList);
-    listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(Color.BLACK)));
-    
-    // (ALEX) I added this to put all of the clusters into the JList, needs to be organized
-    ArrayList<Cluster> clusters = planner.getListAllClusters();
-    for (Cluster curCluster : clusters)
-    {
-    	HashSet<Course> courses = curCluster.getCourses();
-    	for (Course curCourse : courses)
-    	{
-    		if (!(curCourse.getSubject() == null))
-    		{
-    			courseListModel.addElement(curCourse);
-    		}
-    	}
-    }
-  }
+	public PreferencesSetupScreen(String title, Planner planner) {
+		this.planner = planner;
+		preferencesScreen = new JFrame();
 
-  public void rightSideSetUp() {
-    rightBorder = new JPanel(new GridLayout(3, 1));
-    topRight = new JPanel(new GridLayout(2, 1));
-    centerRight = new JPanel(new BorderLayout()); 
-    bottomRight = new JPanel(new BorderLayout());
-    
-    topRight.add(new JLabel("the selected course (ex cs261)"));
-    topRight.add(new JCheckBox("taken?"));
-    
-    centerRight.add(BorderLayout.NORTH, new JLabel("Description"));
-    JTextArea text = new JTextArea("Introduction to the operation of modern "
-        + "interrupt-driven computer systems. Explores the representation "
-        + "of software and information in binary memory, the primary components"
-        + " of a CPU, multithreaded programming and basic interactions with an "
-        + "Operating System. Prerequisite: Grade of “C-” or better in CS 159.:");
-    text.setLineWrap( true );
-    centerRight.add(BorderLayout.CENTER, text);
-    
-    bottomRight.add(BorderLayout.NORTH, new JLabel("Preference:"));
-    bottomRight.add(BorderLayout.CENTER, new JSlider());
-    
-    rightBorder.add(topRight);
-    rightBorder.add(centerRight);
-    rightBorder.add(bottomRight);
-  }
+		preferencesScreen.setSize(400, 600);
+		preferencesScreen.setResizable(false);
+		preferencesScreen.setLocation(200, 100);
 
-  
-  public void borderSetUp() {
-    mainBorder = new JPanel(new BorderLayout());
-    midSplit = new JPanel(new GridLayout(1, 2));
-    
-    midSplit.add(listScroller);
-    midSplit.add(rightBorder);
-    
-    mainBorder.add(BorderLayout.NORTH, new JLabel("PREFERENCES"));
-    mainBorder.add(BorderLayout.CENTER, midSplit);
+		preferencesScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		preferencesScreen.setTitle(title);
+		preferencesScreen.setVisible(true);
 
-    preferencesScreen.add(mainBorder);
-  }
+		listSetUp();
+		courseInfoSetup(null); 
+		borderSetUp();
+
+		System.out.println(planner.toString());
+	}
+
+	public void listSetUp() {
+		courseListModel = new DefaultListModel<Course>();
+
+		courseList = new JList<Course>(courseListModel);
+
+		// courseList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		courseList.setVisibleRowCount(-1);
+		listScroller = new JScrollPane(courseList);
+		listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
+				BorderFactory.createLineBorder(Color.BLACK)));
+
+		// TODO: (ALEX) I added this to put all of the clusters into the JList, needs to be
+		// organized
+		ArrayList<Cluster> clusters = planner.getListAllClusters();
+		for (Cluster curCluster : clusters) {
+			HashSet<Course> courses = curCluster.getCourses();
+			for (Course curCourse : courses) {
+				if (!(curCourse.getSubject() == null)) {
+					courseListModel.addElement(curCourse);
+				}
+			}
+		}
+	}
+
+	public void courseInfoSetup(Course c) {
+		if (c == null) {
+			c = new Course(Subject.JMU, "000", false, false, 0, 0, "Place Holder");
+		}
+		rightBorder = new JPanel(new GridLayout(3, 1));
+		topRight = new JPanel(new GridLayout(2, 1));
+		centerRight = new JPanel(new BorderLayout());
+		bottomRight = new JPanel(new BorderLayout());
+
+		centerRight.add(BorderLayout.NORTH, new JLabel("Description"));
+
+		JLabel courseName = new JLabel("Course: " + c.getSubject() + " " + c.getClassID());
+		JCheckBox courseTaken = new JCheckBox("Taken: ");
+		JSlider coursePrefrence = new JSlider();
+		JTextArea courseDiscription = new JTextArea(c.getDiscription());
+		coursePrefrence.setMinimum(0);
+		coursePrefrence.setMaximum(10);
+		coursePrefrence.setValue(c.getPreference());
+
+		centerRight.add(BorderLayout.CENTER, courseDiscription);
+		topRight.add(courseName);
+		topRight.add(courseTaken);
+		bottomRight.add(coursePrefrence);
+		courseDiscription.setLineWrap(true);
+
+		rightBorder.add(topRight);
+		rightBorder.add(centerRight);
+		rightBorder.add(bottomRight);
+
+	}
+
+	public void borderSetUp() {
+		mainBorder = new JPanel(new BorderLayout());
+		midSplit = new JPanel(new GridLayout(1, 2));
+
+		midSplit.add(listScroller);
+		midSplit.add(rightBorder);
+
+		mainBorder.add(BorderLayout.NORTH, new JLabel("PREFERENCES"));
+		mainBorder.add(BorderLayout.CENTER, midSplit);
+
+		preferencesScreen.add(mainBorder);
+	}
 }
