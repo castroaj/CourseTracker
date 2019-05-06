@@ -104,8 +104,9 @@ public class PreferencesSetupScreen {
 		
 		programList.setVisibleRowCount(10);
 		programList.addListSelectionListener(new ProgramListListener());
-		programList.setFixedCellHeight(20);
+		programList.setFixedCellHeight(30);
 		programList.setFixedCellWidth(200);
+		programList.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		programListScroller = new JScrollPane(programList);
 		programListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
 				BorderFactory.createLineBorder(Color.BLACK, 2)));
@@ -134,8 +135,9 @@ public class PreferencesSetupScreen {
 
 		clusterList.setVisibleRowCount(10);
 		clusterList.addListSelectionListener(new ClusterListListener());
-		clusterList.setFixedCellHeight(20);
+		clusterList.setFixedCellHeight(30);
 		clusterList.setFixedCellWidth(200);
+		clusterList.setFont(new Font("Monospaced", Font.PLAIN, 10));
 		clusterListScroller = new JScrollPane(clusterList);
 		clusterListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
 				BorderFactory.createLineBorder(Color.BLACK, 2)));
@@ -158,8 +160,9 @@ public class PreferencesSetupScreen {
 		
 		courseList.setVisibleRowCount(10);
 		courseList.addListSelectionListener(new CourseListListener());
-		courseList.setFixedCellHeight(20);
+		courseList.setFixedCellHeight(40);
 		courseList.setFixedCellWidth(100);
+		courseList.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		courseListScroller = new JScrollPane(courseList);
 		courseListScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
 				BorderFactory.createLineBorder(Color.BLACK, 2)));
