@@ -3,7 +3,6 @@ package course_map;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-
 /**
  * A program is a part of a degree; such as a major, minor, general educations
  * 
@@ -30,10 +29,16 @@ public class Program {
 	 * Gets detailed information of Program as a string
 	 */
 	public String toString() {
-		return name.split("/")[1].split("\\.")[0];
+		String s = name.split("/")[1].split("\\.")[0];
+
+		String s1 = s.split("\\_")[0].toUpperCase();
+		String s2 = s.split("\\_")[1].substring(0, 1).toUpperCase();
+		String s3 = s.split("\\_")[1].substring(1, s.split("\\_")[1].length());
+
+		s = s1 + " " + s2 + s3;
+		return s;
 	}
-	
-	
+
 	/**
 	 * Gets information of Program as a string
 	 * 
