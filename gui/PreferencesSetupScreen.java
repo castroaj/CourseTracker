@@ -53,6 +53,7 @@ public class PreferencesSetupScreen {
 	JScrollPane programListScroller;
 	JScrollPane	clusterListScroller;
 	JScrollPane courseListScroller;
+	JScrollPane courseDescriptionScroller;
 		
 	JList<Program> programList;
 	JList<Cluster> clusterList;
@@ -180,14 +181,22 @@ public class PreferencesSetupScreen {
 		courseTaken = new JCheckBox("Taken: ");
 		coursePreference = new JSlider();
 	    courseDescription = new JTextArea();
+	    courseDescription.setEditable(false);
+		courseDescription.setLineWrap(true);
+		courseDescription.setWrapStyleWord(true);
 		coursePreference.setMinimum(0);
 		coursePreference.setMaximum(10);
+		
+		courseDescriptionScroller = new JScrollPane(courseDescription);
+		courseDescriptionScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10),
+				BorderFactory.createLineBorder(Color.BLACK, 2)));
+		courseDescriptionScroller.setBackground(preferencesScreen.getBackground());
 
-		centerRight.add(BorderLayout.CENTER, courseDescription);
+		centerRight.add(BorderLayout.CENTER, courseDescriptionScroller);
 		topRight.add(courseName);
 		topRight.add(courseTaken);
 		bottomRight.add(coursePreference);
-		courseDescription.setLineWrap(true);
+
 
 		infoPanel.add(topRight);
 		infoPanel.add(centerRight);

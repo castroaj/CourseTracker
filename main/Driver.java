@@ -20,16 +20,16 @@ public class Driver {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		// runGui();
+		 runGui();
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 
-		Planner test = new Planner();
-		test.setName("test");
-		test.setSemester(Semester.FR_FA);
-		test.addProgram(parseProgram("gen_ed"));
-		test.addProgram(parseProgram("cs_major"));
-		test.addProgram(parseProgram("cis_minor"));
-		PreferencesSetupScreen prefScreen = new PreferencesSetupScreen("Test", test);
+//		Planner test = new Planner();
+//		test.setName("test");
+//		test.setSemester(Semester.FR_FA);
+//		test.addProgram(parseProgram("gen_ed"));
+//		test.addProgram(parseProgram("cs_major"));
+//		test.addProgram(parseProgram("cis_minor"));
+//		PreferencesSetupScreen prefScreen = new PreferencesSetupScreen("Test", test);
 		// runPlanner();
 		// parseProgram("gen_ed");
 		// parseProgram("cs_major");
