@@ -57,6 +57,8 @@ public class PreferencesSetupScreen {
 	DefaultListModel<Program> programListModel;
 	DefaultListModel<Cluster> clusterListModel;
 	DefaultListModel<Course> courseListModel;
+	
+	Course currentCourse;
 
 	public PreferencesSetupScreen(String title, Planner planner) {
 		this.planner = planner;
@@ -211,10 +213,13 @@ public class PreferencesSetupScreen {
 		public void valueChanged(ListSelectionEvent e) {
 			if (courseListModel.size() > 0)
 			{
-			Course c = courseList.getSelectedValue();
-			courseName.setText("Course: " + c.getSubject() + " " + c.getClassID());
-			courseTaken.setSelected(c.isTaken());
-			courseDescription.setText(c.getDescription());
+				if (courseList.getSelectedValue().getSubject() != null)
+				{
+					currentCourse = courseList.getSelectedValue();
+					courseName.setText("Course: " + currentCourse.getSubject() + " " + currentCourse.getClassID());
+					courseTaken.setSelected(currentCourse.isTaken());
+					courseDescription.setText(currentCourse.getDescription());
+				}
 			}
 		}
 	}
