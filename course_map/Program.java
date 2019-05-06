@@ -46,12 +46,7 @@ public class Program {
 	 * @return
 	 */
 	public String toString(boolean verbose) {
-		String s = "Program: " + this.name + "\n";
-
-		for (Cluster c : clusters) {
-			s += c.toString(verbose) + "\n";
-		}
-		return s;
+		return name;
 	}
 
 	/**
@@ -88,7 +83,7 @@ public class Program {
 		}
 		return count;
 	}
-
+	
 	/**
 	 * Sample export to String
 	 * 

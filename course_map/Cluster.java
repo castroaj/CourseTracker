@@ -203,6 +203,6 @@ public class Cluster {
 	 * Default toString, shows full detail
 	 */
 	public String toString() {
-		return toString(true);
+		return name;
 	}
 }

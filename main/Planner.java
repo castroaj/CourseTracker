@@ -191,7 +191,13 @@ public class Planner {
 
 		return s;
 	}
-
+	public ArrayList<Program> getPrograms(){
+		ArrayList<Program> p = new ArrayList<Program>();
+		p.addAll(programs);
+		return p;
+	}
+	
+	
 	public void setName(String name) {
 		this.name = name;
 	}
