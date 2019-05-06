@@ -103,6 +103,13 @@ public class Planner {
 	public HashSet<Cluster> getAllClusters() {
 		return this.allClusters;
 	}
+	
+	public ArrayList<Cluster> getListAllClusters()
+	{
+		ArrayList<Cluster> list = new ArrayList<Cluster>();
+		list.addAll(this.allClusters);
+		return list;
+	}
 
 	/**
 	 * Test method for inserting classes into planner

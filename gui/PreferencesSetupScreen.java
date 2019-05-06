@@ -1,8 +1,13 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -13,14 +18,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+
+import course_map.Cluster;
 import course_map.Course;
+import course_map.Program;
 import main.Planner;
 
 public class PreferencesSetupScreen {
 
   private Planner planner;
 
-  JFrame olderStudentScreen;
+  JFrame preferencesScreen;
   
   JPanel mainBorder;
   JPanel midSplit;
@@ -30,21 +38,22 @@ public class PreferencesSetupScreen {
   JPanel centerRight;
   JPanel bottomRight;
   
+  JScrollPane listScroller;
   
-  JList list;
-  DefaultListModel model;
+  JList<Course> courseList;
+  DefaultListModel<Course> courseListModel;
 
   public PreferencesSetupScreen(String title, Planner planner) {
     this.planner = planner;
-    olderStudentScreen = new JFrame();
+    preferencesScreen = new JFrame();
 
-    olderStudentScreen.setSize(400, 600);
-    olderStudentScreen.setResizable(false);
-    olderStudentScreen.setLocation(200, 100);
+    preferencesScreen.setSize(400, 600);
+    preferencesScreen.setResizable(false);
+    preferencesScreen.setLocation(200, 100);
 
-    olderStudentScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    olderStudentScreen.setTitle(title);
-    olderStudentScreen.setVisible(true);
+    preferencesScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    preferencesScreen.setTitle(title);
+    preferencesScreen.setVisible(true);
 
     listSetUp();
     rightSideSetUp();
@@ -54,21 +63,28 @@ public class PreferencesSetupScreen {
   }
   
   public void listSetUp() {
-    model = new DefaultListModel<String>();
+    courseListModel = new DefaultListModel<Course>();
     
-    list = new JList<String>(model);
+    courseList = new JList<Course>(courseListModel);
     
-    list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-    list.setVisibleRowCount(-1);
-    JScrollPane listScroller = new JScrollPane(list);
+    //courseList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    courseList.setVisibleRowCount(-1);
+    listScroller = new JScrollPane(courseList);
+    listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(Color.BLACK)));
     
-    model.add(0, "so");
-    model.add(1, "currently");
-    model.add(2, "this are strings");
-    model.add(3, "but they will be courses");
-    model.add(4, "and you'll pick one");
-    model.add(5, "and it'll  be shown on the right side");
-    model.add(6, "and the action listeners will respond to the new course");
+    // (ALEX) I added this to put all of the clusters into the JList, needs to be organized
+    ArrayList<Cluster> clusters = planner.getListAllClusters();
+    for (Cluster curCluster : clusters)
+    {
+    	HashSet<Course> courses = curCluster.getCourses();
+    	for (Course curCourse : courses)
+    	{
+    		if (!(curCourse.getSubject() == null))
+    		{
+    			courseListModel.addElement(curCourse);
+    		}
+    	}
+    }
   }
 
   public void rightSideSetUp() {
@@ -102,12 +118,12 @@ public class PreferencesSetupScreen {
     mainBorder = new JPanel(new BorderLayout());
     midSplit = new JPanel(new GridLayout(1, 2));
     
-    midSplit.add(list);
+    midSplit.add(listScroller);
     midSplit.add(rightBorder);
     
     mainBorder.add(BorderLayout.NORTH, new JLabel("PREFERENCES"));
     mainBorder.add(BorderLayout.CENTER, midSplit);
 
-    olderStudentScreen.add(mainBorder);
+    preferencesScreen.add(mainBorder);
   }
 }
