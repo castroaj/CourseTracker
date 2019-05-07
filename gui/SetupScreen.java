@@ -387,6 +387,7 @@ public class SetupScreen {
 					planner.setName(name);
 					planner.setSemester(semester);
 					PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
+					//ZPreff zp = new ZPreff ("Preferences",planner);
 				}
 				break;
 			case "Return to Home Page":

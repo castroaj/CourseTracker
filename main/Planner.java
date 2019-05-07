@@ -92,7 +92,7 @@ public class Planner {
 	 * ToString redirect {@link #toString(boolean)}
 	 */
 	public String toString() {
-		return toString(true);
+		return this.name;
 	}
 
 	/**
@@ -208,6 +208,9 @@ public class Planner {
 
 	public void addProgram(Program p) {
 		this.programs.add(p);
+		for (Cluster c: p.getClusters()) {
+			allClusters.add(c);
+		}
 	}
 
 	public void addClusters(HashSet<Cluster> clusters) {

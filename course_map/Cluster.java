@@ -102,6 +102,8 @@ public class Cluster {
 	 * @return HashSet of courses
 	 */
 	public HashSet<Course> getCourses() {
+		if (this.class_list == null)
+			class_list = new HashSet<Course>();
 		if (this.class_list.size() == 0)
 			this.class_list.add(Generator.findCourse("JMU", "000"));
 			
