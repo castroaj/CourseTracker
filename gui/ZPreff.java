@@ -300,8 +300,8 @@ public class ZPreff {
 				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Done":
+				PlannerScreen ps = new PlannerScreen(planner.getName() + "'s Planner" ,planner);
 				preferenceScreen.dispose();
-
 				break;
 
 			}
