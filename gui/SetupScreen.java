@@ -189,31 +189,38 @@ public class SetupScreen {
 		bottomPanel = new JPanel();
 		
 		JButton addButton = new JButton("Add Selected Program");
-		JButton addGenEdButton = new JButton("Add Gen Ed Program");
 		addButton.addActionListener(new AddButtonActionListener());
-		addGenEdButton.addActionListener(new AddButtonActionListener());
-		addButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-		addGenEdButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-		addButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
-		addGenEdButton.setAlignmentY(JButton.CENTER_ALIGNMENT);
+		addButton.setToolTipText("Add selected program to your programs list");
+		addButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		
-		JLabel searchFieldLabel = new JLabel("            ");
-		searchFieldLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		searchFieldLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		JButton addGenEdButton = new JButton("Add Gen Ed Program");
+		addGenEdButton.addActionListener(new AddButtonActionListener());
+		addGenEdButton.setToolTipText("Add the General Education Program to your program list");
+		addGenEdButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
+
+		JLabel spacingLabel = new JLabel("            ");
+		spacingLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		spacingLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
 		JButton backButton = new JButton("Return to Home Page");
 		backButton.addActionListener(new NavigationButtons());
-		
+		backButton.setToolTipText("Returns you to the start screen");
+		backButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
+
 		continueButton = new JButton("Continue");
 		continueButton.addActionListener(new NavigationButtons());
 		continueButton.setEnabled(false);
+		continueButton.setToolTipText("Continue to the preference screen");
+		continueButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		
 		JButton resetButton = new JButton("Reset");
 		resetButton.addActionListener(new NavigationButtons());
-		// TODO action listener
-
+		resetButton.setToolTipText("Clear the name, year, semester, and programs list");
+		resetButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		
 		bottomPanel.add(addButton);
 		bottomPanel.add(addGenEdButton);
-		bottomPanel.add(searchFieldLabel);
+		bottomPanel.add(spacingLabel);
 		bottomPanel.add(backButton);
 		bottomPanel.add(resetButton);
 		bottomPanel.add(continueButton);
