@@ -179,6 +179,7 @@ public class ZPreff {
 		CourseDiscription.setWrapStyleWord(true);
 		CourseDiscription.setLineWrap(true);
 		CourseDiscription.setEditable(false);
+		CourseDiscription.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		CourseDiscription.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(5, 5, 5, 5, preferenceScreen.getBackground()),
 				BorderFactory.createLineBorder(Color.BLACK, 1)));
