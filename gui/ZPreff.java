@@ -2,10 +2,14 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URI;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -48,16 +52,16 @@ public class ZPreff {
 	JSlider prefSlider;
 	JTextArea CourseDiscription;
 	JButton OkButton;
-	
-	JButton finishButton;
-	JButton helpButton;
-	
 
+	JButton doneButton;
+	JButton helpButton;
+	Course currentCourse;
+	Planner planner;
 	private final Color DARK_PURPLE = new Color(69, 0, 132);
 	private final Color GOLD = new Color(203, 182, 119);
 
 	public ZPreff(String title, Planner planner) {
-
+		this.planner = planner;
 		preferenceScreen = new JFrame();
 		root = new DefaultMutableTreeNode(planner.toString());
 		planner.getPrograms().stream().forEach(p2 -> root.add(getProgramNodes(p2)));
@@ -76,7 +80,8 @@ public class ZPreff {
 			public void valueChanged(TreeSelectionEvent e) {
 				try {
 					String s = e.toString().split(",")[3].split("\\]")[0].substring(1).split("]")[0];
-					updateInfoPanel(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
+					currentCourse = planner.findCourse(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
+					updateInfoPanel(currentCourse);
 
 				} catch (ArrayIndexOutOfBoundsException x) {
 
@@ -87,21 +92,22 @@ public class ZPreff {
 
 	public void setUpLeftPanel() {
 		TreePanel = new JPanel();
-		TreePanel.setPreferredSize(new Dimension(300, 600));
+		TreePanel.setPreferredSize(new Dimension(350, 600));
 
-		TreePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED), "Programs",
-				TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION, new Font("Monospaced", Font.PLAIN, 22),
-				Color.BLACK));
+		TreePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+				"Programs", TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
+				new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
 
 		GridBagLayout gbTreePanel = new GridBagLayout();
 		GridBagConstraints gbcTreePanel = new GridBagConstraints();
 		TreePanel.setLayout(gbTreePanel);
 
 		JScrollPane scptree = new JScrollPane(tree);
-		
-		scptree.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, preferenceScreen.getBackground()),
+
+		scptree.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(5, 5, 5, 5, preferenceScreen.getBackground()),
 				BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1)));
-		
+
 		gbcTreePanel.gridx = 0;
 		gbcTreePanel.gridy = 0;
 		gbcTreePanel.gridwidth = GridBagConstraints.REMAINDER;
@@ -117,8 +123,8 @@ public class ZPreff {
 	public void setUpRightPanel() {
 		InfoPanel = new JPanel();
 		InfoPanel.setPreferredSize(new Dimension(450, 600));
-		InfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED), "Info",
-				TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION, new Font("Monospaced", Font.PLAIN, 22),
+		InfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+				"Info", TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION, new Font("Monospaced", Font.PLAIN, 22),
 				Color.BLACK));
 		GridBagLayout gbInfoPanel = new GridBagLayout();
 		GridBagConstraints gbcInfoPanel = new GridBagConstraints();
@@ -172,9 +178,10 @@ public class ZPreff {
 		CourseDiscription.setWrapStyleWord(true);
 		CourseDiscription.setLineWrap(true);
 		CourseDiscription.setEditable(false);
-		CourseDiscription.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, preferenceScreen.getBackground()),
+		CourseDiscription.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(5, 5, 5, 5, preferenceScreen.getBackground()),
 				BorderFactory.createLineBorder(Color.BLACK, 1)));
-		
+
 		gbcInfoPanel.gridx = 0;
 		gbcInfoPanel.gridy = 2;
 		gbcInfoPanel.gridwidth = 8;
@@ -187,34 +194,36 @@ public class ZPreff {
 		InfoPanel.add(CourseDiscription);
 
 		OkButton = new JButton("Save Changes");
+		OkButton.addActionListener(new ButtonListener());
 		OkButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		OkButton.setToolTipText("Saves the preferences for the current course");
 		gbcInfoPanel.gridx = 7;
 		gbcInfoPanel.gridy = 20;
-		gbcInfoPanel.gridwidth = 1;
+		gbcInfoPanel.gridwidth = 0;
 		gbcInfoPanel.gridheight = 1;
-		gbcInfoPanel.fill = GridBagConstraints.BOTH;
+		gbcInfoPanel.fill = GridBagConstraints.NONE;
 		gbcInfoPanel.weightx = 1;
 		gbcInfoPanel.weighty = 0;
 		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
 		gbInfoPanel.setConstraints(OkButton, gbcInfoPanel);
 		InfoPanel.add(OkButton);
 	}
-	
-	public void setUpBottomPanel()
-	{
+
+	public void setUpBottomPanel() {
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
-		
-		finishButton = new JButton("Finished Setting Preferences");
-		finishButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		finishButton.setToolTipText("Continue to Planner");
-		
+
+		doneButton = new JButton("Done");
+		doneButton.addActionListener(new ButtonListener());
+		doneButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		doneButton.setToolTipText("Continue to Planner");
+
 		helpButton = new JButton("Help");
+		helpButton.addActionListener(new ButtonListener());
 		helpButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		helpButton.setToolTipText("Open wiki for help");
-		
-		bottomPanel.add(finishButton, BorderLayout.EAST);
+
+		bottomPanel.add(doneButton, BorderLayout.EAST);
 		bottomPanel.add(helpButton, BorderLayout.WEST);
 	}
 
@@ -267,5 +276,37 @@ public class ZPreff {
 		MainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		preferenceScreen.add(MainPanel);
+	}
+
+	private class ButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			System.out.println(arg0.getActionCommand());
+			switch (arg0.getActionCommand()) {
+
+			case "Help":
+				try {
+					Desktop desktop = java.awt.Desktop.getDesktop();
+					URI oURL = new URI("https://github.com/castroaj/CourseTracker/wiki#how-to-use");
+					desktop.browse(oURL);
+				} catch (Exception e) {
+					// e.printStackTrace();
+				}
+				break;
+			case "Save Changes":
+				Course theCourse = planner.findCourse(currentCourse);
+				theCourse.setPrefrence(prefSlider.getValue());
+				theCourse.setTaken(hasTaken.isSelected());
+				break;
+			case "Done":
+				preferenceScreen.dispose();
+
+				break;
+
+			}
+
+		}
+
 	}
 }

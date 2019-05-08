@@ -103,9 +103,8 @@ public class Planner {
 	public HashSet<Cluster> getAllClusters() {
 		return this.allClusters;
 	}
-	
-	public ArrayList<Cluster> getListAllClusters()
-	{
+
+	public ArrayList<Cluster> getListAllClusters() {
 		ArrayList<Cluster> list = new ArrayList<Cluster>();
 		list.addAll(this.allClusters);
 		return list;
@@ -191,13 +190,29 @@ public class Planner {
 
 		return s;
 	}
-	public ArrayList<Program> getPrograms(){
+
+	public ArrayList<Program> getPrograms() {
 		ArrayList<Program> p = new ArrayList<Program>();
 		p.addAll(programs);
 		return p;
 	}
-	
-	
+
+	public Course findCourse(Course temp) {
+		Course course = new Course (Subject.JMU,"000",false,false);
+
+		for (Program p : getPrograms()) {
+			for (Cluster cl : p.getClusters()) {
+				for (Course c : cl.getCourses()) {
+					if (c.getSubject().equals(temp.getSubject()) && c.getClassID().contentEquals(temp.getClassID())) {
+						course = c;
+					}
+				}
+			}
+		}
+
+		return course;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -208,7 +223,7 @@ public class Planner {
 
 	public void addProgram(Program p) {
 		this.programs.add(p);
-		for (Cluster c: p.getClusters()) {
+		for (Cluster c : p.getClusters()) {
 			allClusters.add(c);
 		}
 	}

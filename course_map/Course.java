@@ -33,7 +33,7 @@ public class Course {
 	 * 
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring) {
-		this(subject, classID, fall, spring, 3, 5, "no title","No discription");
+		this(subject, classID, fall, spring, 3, 5, "no title", "No discription");
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class Course {
 	 * @param credits Number of credits
 	 */
 	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits) {
-		this(subject, classID, fall, spring, credits, 5, "no title","no discription");
+		this(subject, classID, fall, spring, credits, 5, "no title", "no discription");
 	}
 
 	/**
@@ -59,8 +59,8 @@ public class Course {
 	 * @param credits   Number of credits
 	 * @param prefrence Ranking of preference 0-10
 	 */
-	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits, int prefrence, String title,
-			String description) {
+	public Course(Subject subject, String classID, boolean fall, boolean spring, int credits, int prefrence,
+			String title, String description) {
 		this.subject = subject;
 		this.classID = classID;
 		this.offeredFall = fall;
@@ -229,6 +229,12 @@ public class Course {
 	public void takeClass() {
 		this.classTaken = true;
 	}
+
+	public void setTaken(boolean taken) {
+		this.classTaken = taken;
+	}
+	
+	
 
 	/**
 	 * Gets the number of time a course is offered
