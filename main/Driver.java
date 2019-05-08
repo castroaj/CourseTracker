@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javax.swing.SwingUtilities;
 
 import course_map.*;
+import gui.PlannerScreen;
 import gui.PreferencesSetupScreen;
 import gui.StartScreen;
 import gui.ZPreff;
@@ -23,8 +24,9 @@ public class Driver {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		runGui();
+		//runGui();
 		//runPref();
+		runPlan();
 	}
 
 	public static void runPref() {
@@ -37,6 +39,18 @@ public class Driver {
 		test.addProgram(parseProgram("cs_major"));
 		test.addProgram(parseProgram("cis_minor"));
 		ZPreff prefScreen = new ZPreff("My Programs-test-", test);
+	}
+	
+	public static void runPlan() {
+		Generator.loadCourseDatabase("resources/courses.zagbase");
+
+		Planner test = new Planner();
+		test.setName("test");
+		test.setSemester(Semester.FR_FA);
+		test.addProgram(parseProgram("gen_ed"));
+		test.addProgram(parseProgram("cs_major"));
+		test.addProgram(parseProgram("cis_minor"));
+		PlannerScreen planScreen = new PlannerScreen("My Programs-test-", test);
 	}
 
 	public static void runGui() {

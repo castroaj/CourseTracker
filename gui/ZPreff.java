@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
@@ -179,7 +180,8 @@ public class ZPreff {
 		CourseDiscription.setWrapStyleWord(true);
 		CourseDiscription.setLineWrap(true);
 		CourseDiscription.setEditable(false);
-		CourseDiscription.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		CourseDiscription.setMargin(new Insets(15, 15, 15, 15));
+		CourseDiscription.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		CourseDiscription.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(5, 5, 5, 5, preferenceScreen.getBackground()),
 				BorderFactory.createLineBorder(Color.BLACK, 1)));
@@ -261,7 +263,6 @@ public class ZPreff {
 		CourseLabel.setText(shortTitle);
 		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		CourseDiscription.setText(c.getDescription());
-
 	}
 
 	public void makeGUI() {
@@ -304,7 +305,7 @@ public class ZPreff {
 				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Done":
-				PlannerScreen ps = new PlannerScreen(planner.getName() + "'s Planner" ,planner);
+				PlannerScreen ps = new PlannerScreen(planner.getName() + "'s Planner", planner);
 				preferenceScreen.dispose();
 				break;
 
