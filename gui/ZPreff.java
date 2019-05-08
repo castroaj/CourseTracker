@@ -57,8 +57,9 @@ public class ZPreff {
 	JButton helpButton;
 	Course currentCourse;
 	Planner planner;
-	private final Color DARK_PURPLE = new Color(69, 0, 132);
-	private final Color GOLD = new Color(203, 182, 119);
+	
+//	private final Color DARK_PURPLE = new Color(69, 0, 132);
+//	private final Color GOLD = new Color(203, 182, 119);
 
 	public ZPreff(String title, Planner planner) {
 		this.planner = planner;
@@ -194,6 +195,7 @@ public class ZPreff {
 		InfoPanel.add(CourseDiscription);
 
 		OkButton = new JButton("Save Changes");
+		OkButton.setEnabled(false);
 		OkButton.addActionListener(new ButtonListener());
 		OkButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		OkButton.setToolTipText("Saves the preferences for the current course");
@@ -244,6 +246,7 @@ public class ZPreff {
 	}
 
 	public void updateInfoPanel(Course c) {
+		OkButton.setEnabled(true);
 		String shortTitle = c.getTitle();
 		int len = new String("Network Applications Development").length();
 		shortTitle = shortTitle.length() > len ? shortTitle.substring(0, len) + "..." : shortTitle;
