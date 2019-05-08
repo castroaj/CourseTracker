@@ -166,7 +166,7 @@ public class SetupScreen {
 		
 		availableProgramsSP = new JScrollPane(availableProgramsList);
 		
-		availableProgramsList.addListSelectionListener(new JListSelectionListener());
+		//availableProgramsList.addListSelectionListener(new JListSelectionListener());
 		availableProgramsList.setFixedCellHeight(40);
 		availableProgramsList.setFixedCellWidth(200);
 		availableProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -386,8 +386,8 @@ public class SetupScreen {
 
 					planner.setName(name);
 					planner.setSemester(semester);
-					PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
-					//ZPreff zp = new ZPreff ("Preferences",planner);
+					//PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
+					ZPreff zp = new ZPreff ("Preferences",planner);
 				}
 				break;
 			case "Return to Home Page":
@@ -396,16 +396,6 @@ public class SetupScreen {
 				break;
 			}
 		}
-	}
-
-	private class JListSelectionListener implements ListSelectionListener {
-
-		@Override
-		public void valueChanged(ListSelectionEvent e) {
-			JList<Program> list = (JList<Program>) e.getSource();
-
-		}
-
 	}
 
 }
