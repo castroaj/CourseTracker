@@ -26,26 +26,29 @@ public class Generator {
 	}
 
 	public static Course findCourse(String subject, String number) {
-		Course course = new Course(null, "coursenotfoundindatabase", false, false);
+		Course course = new Course(null, "CourseNotFound: " + subject + number, false, false);
 		String[] list = courseDatabase.split("\n");
 		for (int i = 1; i < list.length; i++) {
 			String[] fields = list[i].split(",");
-			//System.out.println(list[i]);
+			// System.out.println(list[i]);
 			if (fields[1].equals(subject) && fields[2].equals(number)) {
 				// Subject subject, String classID, boolean fall, boolean spring, int credits,
 				// int preference
 				Subject newSubject = Enum.valueOf(Subject.class, fields[1]);
+
 				String newClassID = fields[2];
 				boolean newFall = fields[5].equals("T") || fields[5].equals("M");
 				boolean newSpring = fields[6].equals("T") || fields[6].equals("M");
 				int newCredits = Integer.parseInt(fields[4]);
 				int newPreference = Integer.parseInt(fields[11]);
-				String discription = fields[9];
+				String title = fields[9];
+				String discription = fields[10];
 				// Optional Fields TODO: add prereqs to list
 				for (int f = 1; f < fields.length; f++) {
 
 				}
-				course = new Course(newSubject, newClassID, newFall, newSpring, newCredits, newPreference, discription);
+				course = new Course(newSubject, newClassID, newFall, newSpring, newCredits, newPreference, title,
+						discription);
 				return course;
 			}
 		}
@@ -75,7 +78,7 @@ public class Generator {
 
 			for (int f = 2; f < fields.length; f++) {
 				if (fields[f].length() > 2) {
-					//System.out.println(fields[f].split(" ")[1]);
+					// System.out.println(fields[f].split(" ")[1]);
 					newCourses.add(findCourse(fields[f].split(" ")[0], fields[f].split(" ")[1]));
 					// If you get a null error here, uncomment code above (Usually a class with no
 					// space ie: CS159, not CS 159)

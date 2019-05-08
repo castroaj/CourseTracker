@@ -1,15 +1,19 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -23,22 +27,23 @@ import main.Planner;
 
 public class ZPreff extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTree tree;
 	DefaultMutableTreeNode root;
 
+	JPanel InfoPanel;
+	JLabel CourseLabel;
+	JCheckBox hasTaken;
+	JSlider prefSlider;
+	JTextArea CourseDiscription;
+	JButton OkButton;
 	JPanel MainPanel;
 
-	JPanel LeftPanel;
+	JPanel TreePanel;
+	JPanel MenuPanel;
 
-	JPanel InfoPanel;
-	JTextField ClassName;
-	JCheckBox hasTaken;
-	JSlider Preference;
-	JTextField Discription;
+	private final Color DARK_PURPLE = new Color(69, 0, 132);
+	private final Color GOLD = new Color(203, 182, 119);
 
 	public ZPreff(String title, Planner planner) {
 
@@ -46,17 +51,12 @@ public class ZPreff extends JFrame {
 		planner.getPrograms().stream().forEach(p2 -> root.add(getProgramNodes(p2)));
 		tree = new JTree(root);
 		tree.putClientProperty("JTree.lineStyle", "Horizontal");
-
-		createGUI();
-		add(MainPanel);
-
+		makeGUI();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("JTree Example");
+		this.setTitle(title);
 		this.pack();
-		this.setSize(900, 500);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setVisible(true);
-
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				try {
@@ -71,72 +71,100 @@ public class ZPreff extends JFrame {
 	}
 
 	public void setUpLeftPanel() {
-		LeftPanel = new JPanel();
-		LeftPanel.setBorder(BorderFactory.createTitledBorder("Programs"));
-		GridBagLayout gbLeftPanel = new GridBagLayout();
-		GridBagConstraints gbcLeftPanel = new GridBagConstraints();
-		LeftPanel.setLayout(gbLeftPanel);
-
-		gbcLeftPanel.gridx = 0;
-		gbcLeftPanel.gridy = 0;
-		gbcLeftPanel.gridwidth = 11;
-		gbcLeftPanel.gridheight = 20;
-		gbcLeftPanel.fill = GridBagConstraints.BOTH;
-		gbcLeftPanel.weightx = 1;
-		gbcLeftPanel.weighty = 1;
-		gbcLeftPanel.anchor = GridBagConstraints.NORTH;
-		gbLeftPanel.setConstraints(tree, gbcLeftPanel);
-		LeftPanel.add(tree);
-
+		TreePanel = new JPanel();
+		TreePanel.setPreferredSize(new Dimension(350, 800));
+		TreePanel.setBorder(BorderFactory.createTitledBorder("Pref"));
+		GridBagLayout gbTreePanel = new GridBagLayout();
+		GridBagConstraints gbcTreePanel = new GridBagConstraints();
+		TreePanel.setLayout(gbTreePanel);
+		JScrollPane scptree = new JScrollPane(tree);
+		gbcTreePanel.gridx = 0;
+		gbcTreePanel.gridy = 0;
+		gbcTreePanel.gridwidth = 12;
+		gbcTreePanel.gridheight = 20;
+		gbcTreePanel.fill = GridBagConstraints.BOTH;
+		gbcTreePanel.weightx = 1;
+		gbcTreePanel.weighty = 1;
+		gbcTreePanel.anchor = GridBagConstraints.NORTH;
+		gbTreePanel.setConstraints(scptree, gbcTreePanel);
+		TreePanel.add(scptree);
+		MainPanel.add(TreePanel);
 	}
 
 	public void setUpRightPanel() {
 		InfoPanel = new JPanel();
-		InfoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
+		InfoPanel.setPreferredSize(new Dimension(350, 800));
+		InfoPanel.setBorder(BorderFactory.createTitledBorder("Info"));
 		GridBagLayout gbInfoPanel = new GridBagLayout();
 		GridBagConstraints gbcInfoPanel = new GridBagConstraints();
 		InfoPanel.setLayout(gbInfoPanel);
 
-		hasTaken = new JCheckBox("Taken");
+		CourseLabel = new JLabel("Course Name");
+		gbcInfoPanel.gridx = 0;
+		gbcInfoPanel.gridy = 0;
+		gbcInfoPanel.gridwidth = 8;
+		gbcInfoPanel.gridheight = 1;
+		gbcInfoPanel.fill = GridBagConstraints.NONE;
+		gbcInfoPanel.weightx = 0;
+		gbcInfoPanel.weighty = 0;
+		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
+		gbInfoPanel.setConstraints(CourseLabel, gbcInfoPanel);
+		InfoPanel.add(CourseLabel);
+
+		hasTaken = new JCheckBox("Taken  ");
+		hasTaken.setSelected(true);
 		gbcInfoPanel.gridx = 1;
-		gbcInfoPanel.gridy = 5;
+		gbcInfoPanel.gridy = 18;
 		gbcInfoPanel.gridwidth = 1;
 		gbcInfoPanel.gridheight = 1;
-		gbcInfoPanel.fill = GridBagConstraints.BOTH;
+		gbcInfoPanel.fill = GridBagConstraints.NONE;
 		gbcInfoPanel.weightx = 1;
 		gbcInfoPanel.weighty = 0;
 		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
 		gbInfoPanel.setConstraints(hasTaken, gbcInfoPanel);
 		InfoPanel.add(hasTaken);
 
-		Preference = new JSlider();
-		Preference.setValue(0);
-		Preference.setMinimum(0);
-		Preference.setMaximum(10);
-		gbcInfoPanel.gridx = 1;
-		gbcInfoPanel.gridy = 17;
-		gbcInfoPanel.gridwidth = 7;
+		prefSlider = new JSlider();
+		prefSlider.setValue(2);
+		prefSlider.setMinimum(0);
+		prefSlider.setMaximum(10);
+
+		gbcInfoPanel.gridx = 3;
+		gbcInfoPanel.gridy = 18;
+		gbcInfoPanel.gridwidth = 5;
+		gbcInfoPanel.gridheight = 1;
+		gbcInfoPanel.fill = GridBagConstraints.NONE;
+		gbcInfoPanel.weightx = 1;
+		gbcInfoPanel.weighty = 0;
+		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
+		gbInfoPanel.setConstraints(prefSlider, gbcInfoPanel);
+		InfoPanel.add(prefSlider);
+
+		CourseDiscription = new JTextArea(2, 10);
+		CourseDiscription.setWrapStyleWord(true);
+		CourseDiscription.setLineWrap(true);
+		gbcInfoPanel.gridx = 0;
+		gbcInfoPanel.gridy = 2;
+		gbcInfoPanel.gridwidth = 8;
+		gbcInfoPanel.gridheight = 16;
+		gbcInfoPanel.fill = GridBagConstraints.BOTH;
+		gbcInfoPanel.weightx = 1;
+		gbcInfoPanel.weighty = 1;
+		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
+		gbInfoPanel.setConstraints(CourseDiscription, gbcInfoPanel);
+		InfoPanel.add(CourseDiscription);
+
+		OkButton = new JButton("OK");
+		gbcInfoPanel.gridx = 7;
+		gbcInfoPanel.gridy = 20;
+		gbcInfoPanel.gridwidth = 1;
 		gbcInfoPanel.gridheight = 1;
 		gbcInfoPanel.fill = GridBagConstraints.BOTH;
 		gbcInfoPanel.weightx = 1;
 		gbcInfoPanel.weighty = 0;
 		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
-		gbInfoPanel.setConstraints(Preference, gbcInfoPanel);
-		InfoPanel.add(Preference);
-
-		Discription = new JTextField();
-		Discription.setHorizontalAlignment(JTextField.LEFT);
-		Discription.setEditable(false);
-		gbcInfoPanel.gridx = 1;
-		gbcInfoPanel.gridy = 7;
-		gbcInfoPanel.gridwidth = 7;
-		gbcInfoPanel.gridheight = 9;
-		gbcInfoPanel.fill = GridBagConstraints.BOTH;
-		gbcInfoPanel.weightx = 1;
-		gbcInfoPanel.weighty = 1;
-		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
-		gbInfoPanel.setConstraints(Discription, gbcInfoPanel);
-
+		gbInfoPanel.setConstraints(OkButton, gbcInfoPanel);
+		InfoPanel.add(OkButton);
 	}
 
 	public DefaultMutableTreeNode getProgramNodes(Program p) {
@@ -156,47 +184,64 @@ public class ZPreff extends JFrame {
 	}
 
 	public void updateInfoPanel(Course c) {
-
-		// System.out.println(c.toString(true));
+		String shortTitle = c.getTitle();
+		int len = new String("Network Applications Development").length();
+		shortTitle = shortTitle.length() > len ? shortTitle.substring(0, len) + "..." : shortTitle;
 		InfoPanel.setBorder(BorderFactory.createTitledBorder(c.toString()));
 		hasTaken.setSelected(c.isTaken());
-		Preference.setValue(c.getPreference());
-		Discription.setText(c.getDescription());
+		prefSlider.setValue(c.getPreference());
+		CourseLabel.setText(shortTitle);
+		CourseDiscription.setText(c.getDescription());
 
 	}
 
-	public void createGUI() {
+	public void makeGUI() {
 
 		MainPanel = new JPanel();
-		MainPanel.setBorder(BorderFactory.createTitledBorder("Preferences"));
+		MainPanel.setBorder(BorderFactory.createTitledBorder(""));
 		GridBagLayout gbMainPanel = new GridBagLayout();
 		GridBagConstraints gbcMainPanel = new GridBagConstraints();
 		MainPanel.setLayout(gbMainPanel);
+
+		setUpLeftPanel();
+		setUpRightPanel();
+
 		gbcMainPanel.gridx = 0;
-		gbcMainPanel.gridy = 0;
-		gbcMainPanel.gridwidth = 11;
+		gbcMainPanel.gridy = 1;
+		gbcMainPanel.gridwidth = 12;
 		gbcMainPanel.gridheight = 20;
 		gbcMainPanel.fill = GridBagConstraints.BOTH;
 		gbcMainPanel.weightx = 1;
 		gbcMainPanel.weighty = 1;
 		gbcMainPanel.anchor = GridBagConstraints.NORTH;
-		setUpLeftPanel();
-		setUpRightPanel();
-		JScrollPane scpLeftPanel = new JScrollPane(LeftPanel);
-		gbMainPanel.setConstraints(scpLeftPanel, gbcMainPanel);
-		MainPanel.add(scpLeftPanel);
+		gbMainPanel.setConstraints(TreePanel, gbcMainPanel);
 
-		InfoPanel.add(Discription);
-		gbcMainPanel.gridx = 11;
-		gbcMainPanel.gridy = 0;
-		gbcMainPanel.gridwidth = 9;
+		gbcMainPanel.gridx = 12;
+		gbcMainPanel.gridy = 1;
+		gbcMainPanel.gridwidth = 8;
 		gbcMainPanel.gridheight = 20;
-		gbcMainPanel.fill = GridBagConstraints.BOTH;
+		gbcMainPanel.fill = GridBagConstraints.VERTICAL;
 		gbcMainPanel.weightx = 1;
 		gbcMainPanel.weighty = 1;
 		gbcMainPanel.anchor = GridBagConstraints.NORTH;
 		gbMainPanel.setConstraints(InfoPanel, gbcMainPanel);
 		MainPanel.add(InfoPanel);
 
+		MenuPanel = new JPanel();
+		GridBagLayout gbMenuPanel = new GridBagLayout();
+		GridBagConstraints gbcMenuPanel = new GridBagConstraints();
+		MenuPanel.setLayout(gbMenuPanel);
+		gbcMainPanel.gridx = 0;
+		gbcMainPanel.gridy = 0;
+		gbcMainPanel.gridwidth = 20;
+		gbcMainPanel.gridheight = 1;
+		gbcMainPanel.fill = GridBagConstraints.BOTH;
+		gbcMainPanel.weightx = 1;
+		gbcMainPanel.weighty = 0;
+		gbcMainPanel.anchor = GridBagConstraints.NORTH;
+		gbMainPanel.setConstraints(MenuPanel, gbcMainPanel);
+		MainPanel.add(MenuPanel);
+
+		add(MainPanel);
 	}
 }
