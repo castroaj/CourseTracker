@@ -74,7 +74,7 @@ public class ZPreff {
 		preferenceScreen.setTitle(title);
 		preferenceScreen.pack();
 		preferenceScreen.setResizable(false);
-		preferenceScreen.setSize(800, 750);
+		preferenceScreen.setSize(850, 750);
 		preferenceScreen.setVisible(true);
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {

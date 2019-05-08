@@ -1,13 +1,16 @@
 package gui;
 
 import java.awt.Color;
-
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -33,6 +36,7 @@ public class StartScreen {
 	// Menu Bar
 	JPanel menuPanel;
 	JMenuItem load;
+	JMenuItem wiki;
 
 	// Main Screen
 	JPanel title;
@@ -66,16 +70,25 @@ public class StartScreen {
 	private void createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JMenu menu = new JMenu("File");
-		menu.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		JMenu file = new JMenu("File");
+		JMenu help = new JMenu("Help");
+		file.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		help.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
 		load = new JMenuItem("Load Plan (Not finished)");
 		load.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		
+		wiki = new JMenuItem("Open Program Wiki");
+		wiki.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		wiki.addActionListener(new MenuActionListener());
 
-		menu.add(load);
-		menu.setBackground(Color.BLACK);
+		file.add(load);
+		file.setBackground(Color.BLACK);
+		
+		help.add(wiki);
 
-		menuBar.add(menu);
+		menuBar.add(file);
+		menuBar.add(help);
 		menuPanel.add(menuBar);
 
 		mainPanel.add(menuPanel);
@@ -147,6 +160,33 @@ public class StartScreen {
 			}
 		}
 
+	}
+	
+	private class MenuActionListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String command = e.getActionCommand();
+			
+			
+			switch (command)
+			{
+			case "Open Program Wiki":
+				 try {
+					 
+					 URI uri= new URI("https://github.com/castroaj/CourseTracker/wiki#how-to-use");
+					 
+					 java.awt.Desktop.getDesktop().browse(uri);
+					 
+					 } catch (Exception e1) {
+					 
+					 e1.printStackTrace();
+					 }
+				break;
+			}
+		}
+		
 	}
 
 	private ImageIcon createImageIcon(String path, String description) {
