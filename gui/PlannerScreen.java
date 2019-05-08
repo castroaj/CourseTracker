@@ -1,5 +1,8 @@
 package gui;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -43,9 +46,9 @@ public class PlannerScreen {
 		makeGUI();
 		
 
-		plannerScreen.setSize(400, 200);
+		plannerScreen.setSize(1000, 800);
 		plannerScreen.setResizable(false);
-		plannerScreen.setLocation(200, 200);
+		plannerScreen.setLocation(100, 100);
 		plannerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		plannerScreen.setTitle(title);
 		plannerScreen.setVisible(true); 
@@ -53,6 +56,7 @@ public class PlannerScreen {
 	
 	public void makeGUI() {
 		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
 		plannerScreen.add(mainPanel);
 		
 		setupMenu();
@@ -70,11 +74,17 @@ public class PlannerScreen {
 		other = new JMenu("Other");
 		
 		loadPlanner = new JMenuItem("Load a Planner");
+		loadPlanner.addActionListener(new MenuActionListener());
 		savePlanner = new JMenuItem("Save Planner");
+		savePlanner.addActionListener(new MenuActionListener());
 		preferences = new JMenuItem("Course Preferences");
-		wiki = new JMenuItem("Open Program wiki");
+		preferences.addActionListener(new MenuActionListener());
+		wiki = new JMenuItem("Open Program Wiki");
+		wiki.addActionListener(new MenuActionListener());
 		aboutCreators = new JMenuItem("About creators");
+		aboutCreators.addActionListener(new MenuActionListener());
 		aboutProgram = new JMenuItem("About Program");
+		aboutProgram.addActionListener(new MenuActionListener());
 		
 		file.add(loadPlanner);
 		file.add(savePlanner);
@@ -91,7 +101,37 @@ public class PlannerScreen {
 		menu.add(help);
 		menu.add(other);
 		menuPanel.add(menu);
-		mainPanel.add(menuPanel);
+		mainPanel.add(menuPanel, BorderLayout.NORTH);
+	}
+	
+	
+	
+	private class MenuActionListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String command = e.getActionCommand();
+			
+			switch (command)
+			{
+				case "Load a Planner":
+					break;
+				case "Save Planner":
+					break;
+				case "Course Preferences":
+					ZPreff cps = new ZPreff("Preferences", planner, false);
+					break;
+				case "Open Program Wiki":
+					break;
+				case "About Creators":
+					break;
+				case "About Progra":
+					break;
+			}
+			
+		}
+		
 	}
 	
 	

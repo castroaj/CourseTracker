@@ -24,9 +24,9 @@ public class Driver {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		//runGui();
+		runGui();
 		//runPref();
-		runPlan();
+		//runPlan();
 	}
 
 	public static void runPref() {
@@ -38,7 +38,7 @@ public class Driver {
 		test.addProgram(parseProgram("gen_ed"));
 		test.addProgram(parseProgram("cs_major"));
 		test.addProgram(parseProgram("cis_minor"));
-		ZPreff prefScreen = new ZPreff("My Programs-test-", test);
+		ZPreff prefScreen = new ZPreff("My Programs-test-", test, true);
 	}
 	
 	public static void runPlan() {

@@ -59,11 +59,14 @@ public class ZPreff {
 	Course currentCourse;
 	Planner planner;
 	
+	boolean loadPlannerScreen;
+	
 //	private final Color DARK_PURPLE = new Color(69, 0, 132);
 //	private final Color GOLD = new Color(203, 182, 119);
 
-	public ZPreff(String title, Planner planner) {
+	public ZPreff(String title, Planner planner, boolean loadPlannerScreen) {
 		this.planner = planner;
+		this.loadPlannerScreen = loadPlannerScreen;
 		preferenceScreen = new JFrame();
 		root = new DefaultMutableTreeNode(planner.toString());
 		planner.getPrograms().stream().forEach(p2 -> root.add(getProgramNodes(p2)));
@@ -305,8 +308,12 @@ public class ZPreff {
 				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Done":
-				PlannerScreen ps = new PlannerScreen(planner.getName() + "'s Planner", planner);
+				if (loadPlannerScreen)
+				{
+					PlannerScreen ps = new PlannerScreen(planner.getName() + "'s Planner", planner);
+				}
 				preferenceScreen.dispose();
+
 				break;
 
 			}
