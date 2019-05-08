@@ -1,7 +1,9 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -15,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,38 +28,43 @@ import course_map.Program;
 import main.Generator;
 import main.Planner;
 
-public class ZPreff extends JFrame {
+public class ZPreff {
 
-	private static final long serialVersionUID = 1L;
 	private JTree tree;
 	DefaultMutableTreeNode root;
 
+	JFrame preferenceScreen;
+
+	JPanel MainPanel;
 	JPanel InfoPanel;
+
+	JPanel TreePanel;
+	JPanel MenuPanel;
+
 	JLabel CourseLabel;
 	JCheckBox hasTaken;
 	JSlider prefSlider;
 	JTextArea CourseDiscription;
 	JButton OkButton;
-	JPanel MainPanel;
-
-	JPanel TreePanel;
-	JPanel MenuPanel;
 
 	private final Color DARK_PURPLE = new Color(69, 0, 132);
 	private final Color GOLD = new Color(203, 182, 119);
 
 	public ZPreff(String title, Planner planner) {
 
+		preferenceScreen = new JFrame();
 		root = new DefaultMutableTreeNode(planner.toString());
 		planner.getPrograms().stream().forEach(p2 -> root.add(getProgramNodes(p2)));
 		tree = new JTree(root);
 		tree.putClientProperty("JTree.lineStyle", "Horizontal");
+
 		makeGUI();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle(title);
-		this.pack();
-		this.setResizable(true);
-		this.setVisible(true);
+		preferenceScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		preferenceScreen.setTitle(title);
+		preferenceScreen.pack();
+		preferenceScreen.setResizable(false);
+		preferenceScreen.setSize(725, 700);
+		preferenceScreen.setVisible(true);
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				try {
@@ -73,33 +81,41 @@ public class ZPreff extends JFrame {
 	public void setUpLeftPanel() {
 		TreePanel = new JPanel();
 		TreePanel.setPreferredSize(new Dimension(350, 800));
-		TreePanel.setBorder(BorderFactory.createTitledBorder("Pref"));
+		
+		TreePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray, 1), "Programs",
+				TitledBorder.CENTER, TitledBorder.DEFAULT_JUSTIFICATION, new Font("Monospaced", Font.PLAIN, 16),
+				Color.BLACK));
+		
 		GridBagLayout gbTreePanel = new GridBagLayout();
 		GridBagConstraints gbcTreePanel = new GridBagConstraints();
 		TreePanel.setLayout(gbTreePanel);
+
 		JScrollPane scptree = new JScrollPane(tree);
 		gbcTreePanel.gridx = 0;
 		gbcTreePanel.gridy = 0;
-		gbcTreePanel.gridwidth = 12;
-		gbcTreePanel.gridheight = 20;
+		gbcTreePanel.gridwidth = GridBagConstraints.REMAINDER;
+		gbcTreePanel.gridheight = GridBagConstraints.REMAINDER;
+		;
 		gbcTreePanel.fill = GridBagConstraints.BOTH;
 		gbcTreePanel.weightx = 1;
 		gbcTreePanel.weighty = 1;
 		gbcTreePanel.anchor = GridBagConstraints.NORTH;
 		gbTreePanel.setConstraints(scptree, gbcTreePanel);
 		TreePanel.add(scptree);
-		MainPanel.add(TreePanel);
 	}
 
 	public void setUpRightPanel() {
 		InfoPanel = new JPanel();
 		InfoPanel.setPreferredSize(new Dimension(350, 800));
-		InfoPanel.setBorder(BorderFactory.createTitledBorder("Info"));
+		InfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray, 1), "Info",
+				TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION, new Font("Monospaced", Font.PLAIN, 16),
+				Color.BLACK));
 		GridBagLayout gbInfoPanel = new GridBagLayout();
 		GridBagConstraints gbcInfoPanel = new GridBagConstraints();
 		InfoPanel.setLayout(gbInfoPanel);
 
 		CourseLabel = new JLabel("Course Name");
+		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		gbcInfoPanel.gridx = 0;
 		gbcInfoPanel.gridy = 0;
 		gbcInfoPanel.gridwidth = 8;
@@ -187,10 +203,15 @@ public class ZPreff extends JFrame {
 		String shortTitle = c.getTitle();
 		int len = new String("Network Applications Development").length();
 		shortTitle = shortTitle.length() > len ? shortTitle.substring(0, len) + "..." : shortTitle;
-		InfoPanel.setBorder(BorderFactory.createTitledBorder(c.toString()));
+		
+		InfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray, 1), c.toString(),
+				TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION, new Font("Monospaced", Font.PLAIN, 16),
+				Color.BLACK));
+		
 		hasTaken.setSelected(c.isTaken());
 		prefSlider.setValue(c.getPreference());
 		CourseLabel.setText(shortTitle);
+		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		CourseDiscription.setText(c.getDescription());
 
 	}
@@ -201,47 +222,37 @@ public class ZPreff extends JFrame {
 		MainPanel.setBorder(BorderFactory.createTitledBorder(""));
 		GridBagLayout gbMainPanel = new GridBagLayout();
 		GridBagConstraints gbcMainPanel = new GridBagConstraints();
-		MainPanel.setLayout(gbMainPanel);
+		//MainPanel.setLayout(gbMainPanel);
 
 		setUpLeftPanel();
 		setUpRightPanel();
 
-		gbcMainPanel.gridx = 0;
-		gbcMainPanel.gridy = 1;
-		gbcMainPanel.gridwidth = 12;
-		gbcMainPanel.gridheight = 20;
-		gbcMainPanel.fill = GridBagConstraints.BOTH;
-		gbcMainPanel.weightx = 1;
-		gbcMainPanel.weighty = 1;
-		gbcMainPanel.anchor = GridBagConstraints.NORTH;
-		gbMainPanel.setConstraints(TreePanel, gbcMainPanel);
+//		gbcMainPanel.gridx = 0;
+//		gbcMainPanel.gridy = 0;
+//		gbcMainPanel.gridwidth = 1;
+//		gbcMainPanel.gridheight = 20;
+//		gbcMainPanel.fill = GridBagConstraints.BOTH;
+//		gbcMainPanel.weightx = 1;
+//		gbcMainPanel.weighty = 1;
+//		gbcMainPanel.anchor = GridBagConstraints.WEST;
+//		gbMainPanel.setConstraints(TreePanel, gbcMainPanel);
+//
+//		gbcMainPanel.gridx = 1;
+//		gbcMainPanel.gridy = 0;
+//		gbcMainPanel.gridwidth = 8;
+//		gbcMainPanel.gridheight = 20;
+//		gbcMainPanel.fill = GridBagConstraints.VERTICAL;
+//		gbcMainPanel.weightx = 1;
+//		gbcMainPanel.weighty = 1;
+//		gbcMainPanel.anchor = GridBagConstraints.CENTER;
+//		gbMainPanel.setConstraints(InfoPanel, gbcMainPanel);
+//		MainPanel.add(InfoPanel);
+		
+		MainPanel.setLayout(new BorderLayout());
+		
+		MainPanel.add(TreePanel, BorderLayout.WEST);
+		MainPanel.add(InfoPanel, BorderLayout.EAST);
 
-		gbcMainPanel.gridx = 12;
-		gbcMainPanel.gridy = 1;
-		gbcMainPanel.gridwidth = 8;
-		gbcMainPanel.gridheight = 20;
-		gbcMainPanel.fill = GridBagConstraints.VERTICAL;
-		gbcMainPanel.weightx = 1;
-		gbcMainPanel.weighty = 1;
-		gbcMainPanel.anchor = GridBagConstraints.NORTH;
-		gbMainPanel.setConstraints(InfoPanel, gbcMainPanel);
-		MainPanel.add(InfoPanel);
-
-		MenuPanel = new JPanel();
-		GridBagLayout gbMenuPanel = new GridBagLayout();
-		GridBagConstraints gbcMenuPanel = new GridBagConstraints();
-		MenuPanel.setLayout(gbMenuPanel);
-		gbcMainPanel.gridx = 0;
-		gbcMainPanel.gridy = 0;
-		gbcMainPanel.gridwidth = 20;
-		gbcMainPanel.gridheight = 1;
-		gbcMainPanel.fill = GridBagConstraints.BOTH;
-		gbcMainPanel.weightx = 1;
-		gbcMainPanel.weighty = 0;
-		gbcMainPanel.anchor = GridBagConstraints.NORTH;
-		gbMainPanel.setConstraints(MenuPanel, gbcMainPanel);
-		MainPanel.add(MenuPanel);
-
-		add(MainPanel);
+		preferenceScreen.add(MainPanel);
 	}
 }
