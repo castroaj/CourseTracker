@@ -24,9 +24,9 @@ public class Driver {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		runGui();
+		//runGui();
 		//runPref();
-		//runPlan();
+		runPlan();
 	}
 
 	public static void runPref() {
