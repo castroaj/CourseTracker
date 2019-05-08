@@ -43,6 +43,7 @@ public class Generator {
 				int newPreference = Integer.parseInt(fields[11]);
 				String title = fields[9];
 				String discription = fields[10];
+				discription = discription.replace(";", ","); //reverts commas (excel delimits with commas)
 				// Optional Fields TODO: add prereqs to list
 				for (int f = 1; f < fields.length; f++) {
 
