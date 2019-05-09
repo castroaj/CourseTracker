@@ -110,45 +110,7 @@ public class Planner {
 		return list;
 	}
 
-	/**
-	 * Test method for inserting classes into planner
-	 * 
-	 * @deprecated do not use, only for testing
-	 */
-	public void doit() {
-		int count = 0;
-		ArrayList<Program> majors = new ArrayList<Program>();
-		ArrayList<Cluster> clusters = new ArrayList<Cluster>();
-		ArrayList<Course> courses = new ArrayList<Course>();
-		// clusters.addAll(programs);
-		majors.addAll(programs);
-		System.out.println("Num of majors " + majors.size());
-		for (int m = 0; m < majors.size(); m++) {
-			clusters = new ArrayList<Cluster>();
-			clusters.addAll(majors.get(m).getClusters());
-			System.out.println("Clusteres " + clusters.size());
-			for (int cl = 0; cl < clusters.size(); cl++) {
-				courses = new ArrayList<Course>();
-				courses.addAll(clusters.get(cl).getCourses());
-				System.out.println(clusters.get(cl).getName() + " (" + courses.size() + ")");
-				int classesToAdd = 0;
-				if (clusters.get(cl).getRule() == Rule.TAKE_ALL)
-					classesToAdd = courses.size();
-				if (clusters.get(cl).getRule() == Rule.TAKE_ONE)
-					classesToAdd = 1;
-				if (clusters.get(cl).getRule() == Rule.TAKE_TWO)
-					classesToAdd = 2;
-				if (clusters.get(cl).getRule() == Rule.TAKE_THREE)
-					classesToAdd = 3;
-				for (int co = 0; co < classesToAdd; co++) {
-					System.out.print(courses.get(co).toString(false));
-				}
-			}
-
-		}
-		System.out.println(year.toString());
-	}
-
+	
 	/**
 	 * TODO: Implement method Create a Planner with the following specifications: 1.
 	 * Add the minimum required classes in each cluster to a collection b.
@@ -220,6 +182,9 @@ public class Planner {
 	public String getName()
 	{
 		return name;
+	}
+	public int getCreditsNeeded() {
+		return this.totalCreditsNeeded;
 	}
 
 	public void setSemester(Semester s) {

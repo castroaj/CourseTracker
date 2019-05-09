@@ -27,7 +27,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import course_map.Cluster;
 import course_map.Course;
 import course_map.Program;
@@ -73,6 +72,12 @@ public class ZPreff {
 		tree = new JTree(root);
 		tree.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		tree.putClientProperty("JTree.lineStyle", "Horizontal");
+		
+		
+//		
+//		ImageIcon imageIcon = new ImageIcon("jmuLogo.jpg");
+//		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+//		renderer.setLeafIcon(imageIcon);
 
 		makeGUI();
 		preferenceScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -254,9 +259,9 @@ public class ZPreff {
 	public void updateInfoPanel(Course c) {
 		OkButton.setEnabled(true);
 		String shortTitle = c.getTitle();
-		int len = new String("Network Applications Development").length();
+		int len = new String("Network Applications Development").length(); //sorry about that
 		shortTitle = shortTitle.length() > len ? shortTitle.substring(0, len) + "..." : shortTitle;
-
+		
 		InfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
 				c.toString(), TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
 				new Font("Monospaced", Font.PLAIN, 16), Color.BLACK));
@@ -265,7 +270,7 @@ public class ZPreff {
 		prefSlider.setValue(c.getPreference());
 		CourseLabel.setText(shortTitle);
 		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		CourseDiscription.setText(c.getDescription());
+		CourseDiscription.setText("\n\n  "+c.getDescription());
 	}
 
 	public void makeGUI() {
@@ -310,7 +315,7 @@ public class ZPreff {
 			case "Done":
 				if (loadPlannerScreen)
 				{
-					PlannerScreen ps = new PlannerScreen(planner.getName() + "'s Planner", planner);
+					new PlannerScreen(planner.getName() + "'s Planner", planner);
 				}
 				preferenceScreen.dispose();
 

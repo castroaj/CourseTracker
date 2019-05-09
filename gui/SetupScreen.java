@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import course_map.Cluster;
 import course_map.Program;
@@ -59,14 +55,14 @@ public class SetupScreen {
 	JList<Program> availableProgramsList;
 	JScrollPane currentProgramsSP;
 	JScrollPane availableProgramsSP;
-	
+
 	ArrayList<Program> currentlySelectedPrograms; // used to check containment
 
 	public SetupScreen(String title, Planner planner) {
 		this.planner = planner;
 		semester = Semester.FR_FA;
 		year = 1;
-		
+
 		currentlySelectedPrograms = new ArrayList<Program>();
 
 		setupScreen = new JFrame();
@@ -107,19 +103,20 @@ public class SetupScreen {
 		String[] semesters = { "--", "Fall", "Spring" };
 		JComboBox<String> semestersBox = new JComboBox<String>(semesters);
 		semestersBox.addActionListener(new DropdownSemesterActionListener());
-		
+
 		topPanel.add(nameLabel);
 		topPanel.add(nameField);
 		topPanel.add(yearLabel);
 		topPanel.add(yearBox);
 		topPanel.add(semesterLabel);
 		topPanel.add(semestersBox);
-		
-		topPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLineBorder(Color.black, 1)));
+
+		topPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10),
+				BorderFactory.createLineBorder(Color.black, 1)));
 
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 	}
-	
+
 	private void createCurrentProgramsPanel() {
 		currentProgramsPanel = new JPanel();
 		currentProgramsPanel.setLayout(new BoxLayout(currentProgramsPanel, BoxLayout.PAGE_AXIS));
@@ -127,13 +124,13 @@ public class SetupScreen {
 		JLabel currentProgramsLabel = new JLabel("My Programs:");
 		currentProgramsLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		currentProgramsLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
-		
+
 		currentListModel = new DefaultListModel<Program>();
 		currentListModel.setSize(0);
 		currentProgramsList = new JList<Program>(currentListModel);
-		
+
 		currentProgramsSP = new JScrollPane(currentProgramsList);
-		
+
 		currentProgramsList.setFixedCellHeight(40);
 		currentProgramsList.setFixedCellWidth(200);
 		currentProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -141,18 +138,18 @@ public class SetupScreen {
 
 		currentProgramsPanel.add(currentProgramsLabel);
 		currentProgramsPanel.add(currentProgramsSP);
-		
+
 		currentProgramsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
+
 		mainPanel.add(currentProgramsPanel, BorderLayout.WEST);
 	}
-	
+
 	private void createAvailableProgramsPanel() {
 		// PROGRAM ADDITION
 		Program csMajorProgram = Generator.loadProgram("resources/cs_major.zagp");
 		Program cisMinorProgram = Generator.loadProgram("resources/cis_minor.zagp");
 		Program csMinorProgram = Generator.loadProgram("resources/cs_minor.zagp");
-		
+
 		availableProgramsPanel = new JPanel();
 		availableProgramsPanel.setLayout(new BoxLayout(availableProgramsPanel, BoxLayout.PAGE_AXIS));
 
@@ -163,15 +160,14 @@ public class SetupScreen {
 		availableListModel = new DefaultListModel<Program>();
 		availableProgramsList = new JList<Program>(availableListModel);
 		availableProgramsList.setFont(new Font("Monospaced", Font.PLAIN, 18));
-		
+
 		availableProgramsSP = new JScrollPane(availableProgramsList);
-		
-		//availableProgramsList.addListSelectionListener(new JListSelectionListener());
+
+		// availableProgramsList.addListSelectionListener(new JListSelectionListener());
 		availableProgramsList.setFixedCellHeight(40);
 		availableProgramsList.setFixedCellWidth(200);
 		availableProgramsList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-		
 		// PROGRAM ADDITION TO LIST
 		availableListModel.addElement(csMajorProgram);
 		availableListModel.addElement(cisMinorProgram);
@@ -179,7 +175,7 @@ public class SetupScreen {
 
 		availableProgramsPanel.add(availableProgramsLabel);
 		availableProgramsPanel.add(availableProgramsSP);
-		
+
 		availableProgramsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		mainPanel.add(availableProgramsPanel, BorderLayout.CENTER);
@@ -187,12 +183,12 @@ public class SetupScreen {
 
 	private void createBottomPanel() {
 		bottomPanel = new JPanel();
-		
+
 		JButton addButton = new JButton("Add Selected Program");
 		addButton.addActionListener(new AddButtonActionListener());
 		addButton.setToolTipText("Add selected program to your programs list");
 		addButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		
+
 		JButton addGenEdButton = new JButton("Add Gen Ed Program");
 		addGenEdButton.addActionListener(new AddButtonActionListener());
 		addGenEdButton.setToolTipText("Add the General Education Program to your program list");
@@ -201,7 +197,7 @@ public class SetupScreen {
 		JLabel spacingLabel = new JLabel("            ");
 		spacingLabel.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		spacingLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		
+
 		JButton backButton = new JButton("Return to Home Page");
 		backButton.addActionListener(new NavigationButtons());
 		backButton.setToolTipText("Returns you to the start screen");
@@ -212,12 +208,12 @@ public class SetupScreen {
 		continueButton.setEnabled(false);
 		continueButton.setToolTipText("Continue to the preference screen");
 		continueButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		
+
 		JButton resetButton = new JButton("Reset");
 		resetButton.addActionListener(new NavigationButtons());
 		resetButton.setToolTipText("Clear the name, year, semester, and programs list");
 		resetButton.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		
+
 		bottomPanel.add(addButton);
 		bottomPanel.add(addGenEdButton);
 		bottomPanel.add(spacingLabel);
@@ -292,6 +288,7 @@ public class SetupScreen {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			@SuppressWarnings("unchecked")
 			JComboBox<String> box = (JComboBox<String>) e.getSource();
 
 			if (box.getSelectedIndex() == 0) {
@@ -358,14 +355,13 @@ public class SetupScreen {
 			case "Add Selected Program":
 				Program curProgram = availableProgramsList.getSelectedValue();
 				if (availableProgramsList.getSelectedValue() != null) {
-					if (!currentlySelectedPrograms.contains(curProgram) && !(currentlySelectedPrograms.size() > 10))
-					{
+					if (!currentlySelectedPrograms.contains(curProgram) && !(currentlySelectedPrograms.size() > 10)) {
 						HashSet<Cluster> curProgramClusters = curProgram.getClusters();
 						planner.addProgram(curProgram);
 						planner.addClusters(curProgramClusters);
 						currentListModel.add(currentListModel.getSize(), curProgram);
 						currentlySelectedPrograms.add(curProgram);
-						
+
 						if (nameEntered && yearEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
 							continueButton.setEnabled(true);
 						}
@@ -383,22 +379,23 @@ public class SetupScreen {
 			JButton button = (JButton) e.getSource();
 			switch (e.getActionCommand()) {
 			case "Reset":
-				SetupScreen sus = new SetupScreen("Setup", new Planner());
+				new SetupScreen("Setup", new Planner());
 				setupScreen.dispose();
 				break;
 			case "Continue":
-				if (button.isEnabled() && yearEntered && nameEntered && semesterEntered && currentlySelectedPrograms.size() > 0) {
+				if (button.isEnabled() && yearEntered && nameEntered && semesterEntered
+						&& currentlySelectedPrograms.size() > 0) {
 					name = nameField.getText();
 					setupScreen.dispose();
 
 					planner.setName(name);
 					planner.setSemester(semester);
-					//PreferencesSetupScreen pss = new PreferencesSetupScreen("Preferences", planner);
-					ZPreff zp = new ZPreff ("Preferences", planner, true);
+					
+					new ZPreff("Preferences", planner, true);
 				}
 				break;
 			case "Return to Home Page":
-				StartScreen ss = new StartScreen("Start");
+				 new StartScreen("Start");
 				setupScreen.dispose();
 				break;
 			}

@@ -194,12 +194,9 @@ public class Cluster {
 			s += "No Preffered Class\n";
 		}
 		if (verbose) {
-			int count = 0;
 			for (Course c : this.class_list) {
-				// if (count < getClassCount()) //This condition only prints as many as the
-				// cluster needs
+				
 				s += c.toString(verbose);
-				count++;
 			}
 		}
 		return s;

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -143,7 +142,7 @@ public class PlannerScreen {
 				case "Save Planner":
 					break;
 				case "Course Preferences":
-					ZPreff cps = new ZPreff("Preferences", planner, false);
+					new ZPreff("Preferences", planner, false);
 					break;
 					
 				case "Open Program Wiki":

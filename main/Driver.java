@@ -2,13 +2,9 @@ package main;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Scanner;
-
-import javax.swing.SwingUtilities;
 
 import course_map.*;
 import gui.PlannerScreen;
-import gui.PreferencesSetupScreen;
 import gui.StartScreen;
 import gui.ZPreff;
 
@@ -24,8 +20,10 @@ public class Driver {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		//runGui();
-		//runPref();
+		// runGui();
+		// runPref();
+		// runGui();
+		// runPref();
 		runPlan();
 	}
 
@@ -38,9 +36,9 @@ public class Driver {
 		test.addProgram(parseProgram("gen_ed"));
 		test.addProgram(parseProgram("cs_major"));
 		test.addProgram(parseProgram("cis_minor"));
-		ZPreff prefScreen = new ZPreff("My Programs-test-", test, true);
+		new ZPreff("My Programs-test-", test, true);
 	}
-	
+
 	public static void runPlan() {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 
@@ -50,12 +48,12 @@ public class Driver {
 		test.addProgram(parseProgram("gen_ed"));
 		test.addProgram(parseProgram("cs_major"));
 		test.addProgram(parseProgram("cis_minor"));
-		PlannerScreen planScreen = new PlannerScreen("My Programs-test-", test);
+		new PlannerScreen("My Programs-test-", test);
 	}
 
 	public static void runGui() {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
-		StartScreen startScreenGUI = new StartScreen("CourseTracker");
+		new StartScreen("CourseTracker");
 	}
 
 	public static void parseCourseDatabase() {
