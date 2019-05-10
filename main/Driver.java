@@ -20,8 +20,7 @@ public class Driver {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		runGui();
-		// runPref();
+
 		// runGui();
 		// runPref();
 		//runPlan();
@@ -31,12 +30,12 @@ public class Driver {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 
 		Planner test = new Planner();
-		test.setName("test");
+		test.setName("Demo Planner");
 		test.setSemester(Semester.FR_FA);
 		test.addProgram(parseProgram("gen_ed"));
 		test.addProgram(parseProgram("cs_major"));
 		test.addProgram(parseProgram("cis_minor"));
-		new ZPreff("My Programs-test-", test, true);
+		new ZPreff("Demo", test, true);
 	}
 
 	public static void runPlan() {

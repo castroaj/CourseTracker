@@ -23,7 +23,13 @@ public class Generator {
 		courseDatabase = sb.toString().replaceAll("\"", "");
 		// System.out.println(courseDatabase);
 	}
-
+	public static Course findNewCourse(String subject, String number) {
+		Course course = new Course(null,"Course not found",false,false);
+		
+		
+		return course;
+		
+	}
 	public static Course findCourse(String subject, String number) {
 		Course course = new Course(null, "CourseNotFound: " + subject + number, false, false);
 		String[] list = courseDatabase.split("\n");

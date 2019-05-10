@@ -57,9 +57,9 @@ public class ZPreff {
 	JButton helpButton;
 	Course currentCourse;
 	Planner planner;
-	
+
 	boolean loadPlannerScreen;
-	
+
 //	private final Color DARK_PURPLE = new Color(69, 0, 132);
 //	private final Color GOLD = new Color(203, 182, 119);
 
@@ -72,8 +72,7 @@ public class ZPreff {
 		tree = new JTree(root);
 		tree.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		tree.putClientProperty("JTree.lineStyle", "Horizontal");
-		
-		
+
 //		
 //		ImageIcon imageIcon = new ImageIcon("jmuLogo.jpg");
 //		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
@@ -88,6 +87,11 @@ public class ZPreff {
 		preferenceScreen.setVisible(true);
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
+				//System.out.println(e.getSource().toString());
+				if (e.getSource().toString().split(",").length == 3) {
+					System.out.println(e.getSource().toString().split(",")[2].split("\\]")[0]);
+					updateInfoPanel(planner.findCluster(e.getSource().toString().split(",")[2].split("\\]")[0]));
+				}
 				try {
 					String s = e.toString().split(",")[3].split("\\]")[0].substring(1).split("]")[0];
 					currentCourse = planner.findCourse(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
@@ -220,6 +224,9 @@ public class ZPreff {
 		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
 		gbInfoPanel.setConstraints(OkButton, gbcInfoPanel);
 		InfoPanel.add(OkButton);
+		OkButton.setEnabled(false);
+		hasTaken.setEnabled(false);
+		prefSlider.setEnabled(false);
 	}
 
 	public void setUpBottomPanel() {
@@ -256,12 +263,25 @@ public class ZPreff {
 		return new DefaultMutableTreeNode(c.toString());
 	}
 
+	public void updateInfoPanel(Cluster c) {
+		OkButton.setEnabled(false);
+		hasTaken.setEnabled(false);
+		prefSlider.setEnabled(false);
+		CourseLabel.setText(c.getName());
+		CourseLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+
+		CourseDiscription.setText("\n\n" + c.toString(false));
+	}
+
 	public void updateInfoPanel(Course c) {
 		OkButton.setEnabled(true);
+		hasTaken.setEnabled(true);
+		prefSlider.setEnabled(true);
+		OkButton.setEnabled(true);
 		String shortTitle = c.getTitle();
-		int len = new String("Network Applications Development").length(); //sorry about that
+		int len = new String("Network Applications Development").length(); // sorry about that
 		shortTitle = shortTitle.length() > len ? shortTitle.substring(0, len) + "..." : shortTitle;
-		
+
 		InfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
 				c.toString(), TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
 				new Font("Monospaced", Font.PLAIN, 16), Color.BLACK));
@@ -270,7 +290,7 @@ public class ZPreff {
 		prefSlider.setValue(c.getPreference());
 		CourseLabel.setText(shortTitle);
 		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		CourseDiscription.setText("\n\n  "+c.getDescription());
+		CourseDiscription.setText("\n\n  " + c.getDescription());
 	}
 
 	public void makeGUI() {
@@ -313,8 +333,7 @@ public class ZPreff {
 				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Done":
-				if (loadPlannerScreen)
-				{
+				if (loadPlannerScreen) {
 					new PlannerScreen(planner.getName() + "'s Planner", planner);
 				}
 				preferenceScreen.dispose();

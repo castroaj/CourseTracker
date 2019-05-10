@@ -110,7 +110,6 @@ public class Planner {
 		return list;
 	}
 
-	
 	/**
 	 * TODO: Implement method Create a Planner with the following specifications: 1.
 	 * Add the minimum required classes in each cluster to a collection b.
@@ -160,7 +159,7 @@ public class Planner {
 	}
 
 	public Course findCourse(Course temp) {
-		Course course = new Course (Subject.JMU,"000",false,false);
+		Course course = new Course(Subject.JMU, "000", false, false);
 
 		for (Program p : getPrograms()) {
 			for (Cluster cl : p.getClusters()) {
@@ -178,11 +177,11 @@ public class Planner {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
+
 	public int getCreditsNeeded() {
 		return this.totalCreditsNeeded;
 	}
@@ -200,6 +199,20 @@ public class Planner {
 
 	public void addClusters(HashSet<Cluster> clusters) {
 		this.allClusters.addAll(clusters);
+	}
+
+	public Cluster findCluster(String title) {
+		title = title.substring(1,title.length());
+		Cluster cluster = new Cluster();
+		for (Cluster c : allClusters) {
+//			System.out.println("title: " + title);
+			System.out.println("Cluster: " + c.toString());
+			if (title.equals(c.toString())) {
+				cluster = c;
+				return cluster;
+			}
+		}
+		return cluster;
 	}
 
 }

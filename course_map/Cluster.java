@@ -16,6 +16,9 @@ public class Cluster {
 	private String name;
 	private Rule rule;
 	private HashSet<Course> class_list;
+	private HashSet<Course> pref_list_helper;
+	private int takenCount;
+	boolean isComplete;
 
 	/**
 	 * Default constructor, invalid name, must take all, no classes added
@@ -49,6 +52,8 @@ public class Cluster {
 			classes = new HashSet<Course>();
 		}
 		this.class_list = classes;
+		this.pref_list_helper = new HashSet<Course>();
+		evaluateCluster();
 	}
 
 	/**
@@ -58,6 +63,7 @@ public class Cluster {
 	 */
 	public void add(Course course) {
 		this.class_list.add(course);
+		this.pref_list_helper.add(course);
 	}
 
 	/**
@@ -106,7 +112,7 @@ public class Cluster {
 			class_list = new HashSet<Course>();
 		if (this.class_list.size() == 0)
 			this.class_list.add(Generator.findCourse("JMU", "000"));
-			
+
 		return this.class_list;
 	}
 
@@ -131,10 +137,9 @@ public class Cluster {
 	/**
 	 * Evaluate the class in class_list that should be taken based on the following:
 	 * 
-	 * 1.Finds the highest (personally) rated class. 
-	 * 2. If there is a tie it will
-	 * pick the one offered in the most semesters 
-	 * 3. If there is another tie it will pick the first course found
+	 * 1.Finds the highest (personally) rated class. 2. If there is a tie it will
+	 * pick the one offered in the most semesters 3. If there is another tie it will
+	 * pick the first course found
 	 * 
 	 * @return highest priority class that has not been taken
 	 */
@@ -177,6 +182,49 @@ public class Cluster {
 		return 0;
 	}
 
+	private void evaluateCluster() {
+		pref_list_helper = new HashSet<Course>();
+		for (Course c : class_list) {
+			if (c.isTaken() == false) {
+				pref_list_helper.add(c);
+			} else {
+				takenCount++;
+			}
+		}
+		if (takenCount >= getClassCount()) {
+			isComplete = true;
+		}
+	}
+
+	// TODO: Fix method, issues getting multiple repetition
+	private String getUntakenClasses() {
+		String pref = "";
+		Course highestCourse = null;
+
+		for (int i = 0; i < getClassCount(); i++) {
+			for (Course c : pref_list_helper) {
+				if (c.isTaken() == false) {
+					pref += c.toString() + ", ";
+				}
+			}
+			pref_list_helper.remove(highestCourse);
+		}
+		return pref.substring(0, pref.length() - 2);
+	}
+
+	private String getTakenClasses() {
+		String classes = "";
+		takenCount = 0;
+		for (Course c : class_list) {
+			if (c.isTaken()) {
+				takenCount++;
+				classes += c.toString() + ", ";
+			}
+		}
+
+		return classes.substring(0, classes.length() - 2);
+	}
+
 	/**
 	 * String representation of the cluster
 	 * 
@@ -184,18 +232,21 @@ public class Cluster {
 	 * @return String
 	 */
 	public String toString(boolean verbose) {
-
-		String s = String.format("Cluster: %-25s\tRule: %-10s\tSize: %2d\n", this.name, this.rule,
-				this.class_list.size());
-		try {
-			s += String.format("\t\tPreferred Class: %s %-3s\n", getPreferedClass().getSubject().toString(),
-					getPreferedClass().getClassID());
-		} catch (NullPointerException e) {
-			s += "No Preffered Class\n";
+		evaluateCluster();
+		String s = String.format("Cluster: %-25s\tRule: %-10s\nClasses Taken: %2d\nClasses Total: %2d\n", this.name,
+				this.rule, this.takenCount, this.class_list.size());
+		if (!isComplete) {
+			try {
+				s += String.format("Classes Not Taken: %s\n", getUntakenClasses());
+			} catch (NullPointerException e) {
+				s += "No Preffered Class\n";
+			}
+		} else {
+			s += "COMPLETED";
 		}
 		if (verbose) {
 			for (Course c : this.class_list) {
-				
+
 				s += c.toString(verbose);
 			}
 		}

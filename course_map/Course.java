@@ -23,6 +23,14 @@ public class Course {
 	private String description;
 	private String title;
 
+	public Course(String subject, String classID, String title, String description, int credits) {
+		this.subject = Enum.valueOf(Subject.class, subject);
+		this.classID = classID;
+		this.title = title;
+		this.description = description;
+		this.credits = credits;
+	}
+
 	/**
 	 * Course constructor with default of 3 credits and prefrence of 5 (no pref)
 	 * 
@@ -233,8 +241,6 @@ public class Course {
 	public void setTaken(boolean taken) {
 		this.classTaken = taken;
 	}
-	
-	
 
 	/**
 	 * Gets the number of time a course is offered
