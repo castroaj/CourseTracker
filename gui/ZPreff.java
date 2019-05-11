@@ -47,7 +47,7 @@ public class ZPreff {
 	JPanel MenuPanel;
 	JPanel bottomPanel;
 
-	JLabel CourseLabel;
+	JLabel TitleLabel;
 	JCheckBox hasTaken;
 	JSlider prefSlider;
 	JTextArea CourseDiscription;
@@ -87,19 +87,33 @@ public class ZPreff {
 		preferenceScreen.setVisible(true);
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
-				//System.out.println(e.getSource().toString());
-				if (e.getSource().toString().split(",").length == 3) {
-					System.out.println(e.getSource().toString().split(",")[2].split("\\]")[0]);
+				System.out.println(e.getSource().toString());
+				String[] source = e.getSource().toString().split(",");
+				int level = source.length;
+				switch (level) {
+
+				case 1:
+					String pName = e.getSource().toString().split("\\]")[0].split("\\[")[2];
+					System.out.println(pName);
+					updateInfoPanel(planner);
+					break;
+				case 2:
+					String progName = source[1].split("\\]")[0].substring(1);
+					updateInfoPanel(planner.findProgram(progName));
+					break;
+				case 3:
+					// System.out.println(e.getSource().toString().split(",")[2].split("\\]")[0]);
 					updateInfoPanel(planner.findCluster(e.getSource().toString().split(",")[2].split("\\]")[0]));
-				}
-				try {
+					break;
+				case 4:
 					String s = e.toString().split(",")[3].split("\\]")[0].substring(1).split("]")[0];
 					currentCourse = planner.findCourse(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
 					updateInfoPanel(currentCourse);
 
-				} catch (ArrayIndexOutOfBoundsException x) {
+					break;
 
 				}
+
 			}
 		});
 	}
@@ -144,8 +158,8 @@ public class ZPreff {
 		GridBagConstraints gbcInfoPanel = new GridBagConstraints();
 		InfoPanel.setLayout(gbInfoPanel);
 
-		CourseLabel = new JLabel("Course Name");
-		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		TitleLabel = new JLabel("Course Name");
+		TitleLabel.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		gbcInfoPanel.gridx = 0;
 		gbcInfoPanel.gridy = 0;
 		gbcInfoPanel.gridwidth = 8;
@@ -154,8 +168,8 @@ public class ZPreff {
 		gbcInfoPanel.weightx = 0;
 		gbcInfoPanel.weighty = 0;
 		gbcInfoPanel.anchor = GridBagConstraints.NORTH;
-		gbInfoPanel.setConstraints(CourseLabel, gbcInfoPanel);
-		InfoPanel.add(CourseLabel);
+		gbInfoPanel.setConstraints(TitleLabel, gbcInfoPanel);
+		InfoPanel.add(TitleLabel);
 
 		hasTaken = new JCheckBox("Taken  ");
 		hasTaken.setFont(new Font("Monospaced", Font.PLAIN, 14));
@@ -267,10 +281,28 @@ public class ZPreff {
 		OkButton.setEnabled(false);
 		hasTaken.setEnabled(false);
 		prefSlider.setEnabled(false);
-		CourseLabel.setText(c.getName());
-		CourseLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		TitleLabel.setText(c.toString());
 
 		CourseDiscription.setText("\n\n" + c.toString(false));
+	}
+
+	public void updateInfoPanel(Program p) {
+		OkButton.setEnabled(false);
+		hasTaken.setEnabled(false);
+		prefSlider.setEnabled(false);
+		TitleLabel.setText(p.toString(false));
+		
+		CourseDiscription.setText("\n\n" + p.toString(true));
+	}
+
+	public void updateInfoPanel(Planner p) {
+
+		OkButton.setEnabled(false);
+		hasTaken.setEnabled(false);
+		prefSlider.setEnabled(false);
+		TitleLabel.setText(p.getName());
+
+		CourseDiscription.setText("\n\n" + p.toString(false));
 	}
 
 	public void updateInfoPanel(Course c) {
@@ -288,8 +320,8 @@ public class ZPreff {
 
 		hasTaken.setSelected(c.isTaken());
 		prefSlider.setValue(c.getPreference());
-		CourseLabel.setText(shortTitle);
-		CourseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		TitleLabel.setText(shortTitle);
+		TitleLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		CourseDiscription.setText("\n\n  " + c.getDescription());
 	}
 
@@ -315,7 +347,7 @@ public class ZPreff {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			System.out.println(arg0.getActionCommand());
+			// System.out.println(arg0.getActionCommand());
 			switch (arg0.getActionCommand()) {
 
 			case "Help":

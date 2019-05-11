@@ -67,10 +67,12 @@ public class Planner {
 	 */
 	public String toString(boolean verbose) {
 		String s = String.format(
-				"%s\nCurrent Semester: %s\nPrograms: %d\nClusters: %d\nMin Classes: %d\n============\n", this.name,
+				"%s\n============\nCurrent Semester: %s\nPrograms: %d\nClusters: %d\nMin Classes: %d\n============\n", this.name,
 				this.currentSemester.toString(), this.programs.size(), this.allClusters.size(), getClassCount());
-		for (Cluster c : allClusters) {
-			s += c.toString(verbose) + "";
+		if (verbose) {
+			for (Cluster c : allClusters) {
+				s += c.toString(verbose) + "";
+			}
 		}
 		return s;
 	}
@@ -83,7 +85,7 @@ public class Planner {
 	public int getClassCount() {
 		int count = 0;
 		for (Cluster c : allClusters) {
-			count += c.getClassCount();
+			count += c.getMinClasses();
 		}
 		return count;
 	}
@@ -120,7 +122,7 @@ public class Planner {
 
 		for (Program p : programs) {
 			for (Cluster cl : p.getClusters()) {
-				for (int i = 0; i < cl.getClassCount(); i++) {
+				for (int i = 0; i < cl.getMinClasses(); i++) {
 					Course c = cl.getPreferedClass();
 					if (!c.getClassID().equals("nocourse"))
 						calander.add(c);
@@ -202,17 +204,26 @@ public class Planner {
 	}
 
 	public Cluster findCluster(String title) {
-		title = title.substring(1,title.length());
+		title = title.substring(1, title.length());
 		Cluster cluster = new Cluster();
 		for (Cluster c : allClusters) {
-//			System.out.println("title: " + title);
-			System.out.println("Cluster: " + c.toString());
 			if (title.equals(c.toString())) {
 				cluster = c;
 				return cluster;
 			}
 		}
 		return cluster;
+	}
+
+	public Program findProgram(String title) {
+		Program program = new Program("No program", null);
+		for (Program p : programs) {
+			if (p.toString().equals(title)) {
+				return p;
+			}
+		}
+		return program;
+
 	}
 
 }

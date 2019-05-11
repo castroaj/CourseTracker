@@ -46,9 +46,19 @@ public class Program {
 	 * @return
 	 */
 	public String toString(boolean verbose) {
-		return name;
+		if (verbose) {
+			return toString() + "\nClusters: " + clusters.size() + "\nMinimum classes: " + getMinClasses();
+		}
+		return toString();
 	}
-
+	
+	public int getMinClasses() {
+		int min = 0;
+		for (Cluster c : clusters) {
+			min += c.getMinClasses();
+		}
+		return min;
+	}
 	/**
 	 * Gets the collection of clusters in the program
 	 * 
@@ -66,7 +76,7 @@ public class Program {
 	public int classCount() {
 		int count = 0;
 		for (Cluster c : this.clusters) {
-			count += c.getClassCount();
+			count += c.getMinClasses();
 		}
 		return count;
 	}
@@ -83,7 +93,7 @@ public class Program {
 		}
 		return count;
 	}
-	
+
 	/**
 	 * Sample export to String
 	 * 
@@ -108,5 +118,9 @@ public class Program {
 
 		}
 		return text;
+	}
+
+	public String getName() {
+		return toString();
 	}
 }

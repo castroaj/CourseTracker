@@ -121,7 +121,7 @@ public class Cluster {
 	 * 
 	 * @return number of classes.
 	 */
-	public int getClassCount() {
+	public int getMinClasses() {
 		int count = 0;
 		if (this.rule == Rule.TAKE_ONE)
 			count = 1;
@@ -191,7 +191,7 @@ public class Cluster {
 				takenCount++;
 			}
 		}
-		if (takenCount >= getClassCount()) {
+		if (takenCount >= getMinClasses()) {
 			isComplete = true;
 		}
 	}
@@ -201,7 +201,7 @@ public class Cluster {
 		String pref = "";
 		Course highestCourse = null;
 
-		for (int i = 0; i < getClassCount(); i++) {
+		for (int i = 0; i < getMinClasses(); i++) {
 			for (Course c : pref_list_helper) {
 				if (c.isTaken() == false) {
 					pref += c.toString() + ", ";
