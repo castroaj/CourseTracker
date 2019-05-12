@@ -5,14 +5,19 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
+import java.util.HashSet;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import course_map.Cluster;
+import course_map.Course;
 import main.Planner;
 
 public class PlannerScreen {
@@ -22,6 +27,11 @@ public class PlannerScreen {
 	
 	JPanel mainPanel;
 	JPanel menuPanel;
+	JPanel leftPanel;
+	JPanel rightPanel;
+	JPanel reqViewer;
+	JPanel courseSearch;
+	JPanel bottomPanel;
 	
 	JMenuBar menu;
 	
@@ -39,6 +49,14 @@ public class PlannerScreen {
 	JMenu other;
 	JMenuItem aboutCreators;
 	JMenuItem aboutProgram;
+	
+	JList<Cluster> clusterViewer;
+	JList<Course> courseViewer;
+	DefaultListModel<Cluster> clusterModel;
+	DefaultListModel<Course> courseModel;
+	
+	HashSet<Cluster> remainingClusters;
+	HashSet<Cluster> completedClusters;
 	
 	
 	public PlannerScreen(String title, Planner planner)
@@ -60,10 +78,17 @@ public class PlannerScreen {
 	public void makeGUI() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
+		leftPanel = new JPanel();
+		rightPanel = new JPanel();
 		plannerScreen.add(mainPanel);
+		mainPanel.add(leftPanel, BorderLayout.WEST);
+		mainPanel.add(rightPanel, BorderLayout.EAST);
+		leftPanel.setLayout(new BorderLayout());
+		rightPanel.setLayout(new BorderLayout());
+
 		
 		setupMenu();
-		
+		setupReqViewer();
 
 	}
 	
@@ -104,9 +129,6 @@ public class PlannerScreen {
 		aboutCreators.addActionListener(new MenuActionListener());
 		aboutCreators.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-
-
-		
 		file.add(loadPlanner);
 		file.add(savePlanner);
 		
@@ -126,6 +148,30 @@ public class PlannerScreen {
 		mainPanel.add(menuPanel, BorderLayout.NORTH);
 	}
 	
+	private void setupReqViewer()
+	{
+		reqViewer = new JPanel();
+		clusterModel = new DefaultListModel<Cluster>();
+		clusterViewer = new JList<Cluster>(clusterModel);
+		HashSet<Cluster> allClusters = planner.getAllClusters();
+		remainingClusters = new HashSet<Cluster>();
+		completedClusters = new HashSet<Cluster>();
+		for (Cluster c : allClusters)
+		{
+			if (c.getIsComplete())
+			{
+				completedClusters.add(c);
+			}
+			else
+			{
+				clusterModel.addElement(c);
+				remainingClusters.add(c);
+			}
+		}
+		
+		reqViewer.add(clusterViewer);
+		rightPanel.add(reqViewer, BorderLayout.SOUTH);
+	}
 	
 	
 	private class MenuActionListener implements ActionListener

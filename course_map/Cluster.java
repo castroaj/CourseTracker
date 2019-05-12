@@ -260,4 +260,9 @@ public class Cluster {
 	public String toString() {
 		return name;
 	}
+	
+	public boolean getIsComplete()
+	{
+		return isComplete;
+	}
 }
