@@ -223,7 +223,10 @@ public class Planner {
 			}
 		}
 		return program;
-
+	}
+	
+	public void takeClass(Course c) {
+		findCourse(c).takeClass();
 	}
 
 }

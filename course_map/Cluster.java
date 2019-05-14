@@ -185,6 +185,7 @@ public class Cluster {
 	private void evaluateCluster() {
 		pref_list_helper = new HashSet<Course>();
 		for (Course c : class_list) {
+			
 			if (c.isTaken() == false) {
 				pref_list_helper.add(c);
 			} else {
@@ -207,7 +208,7 @@ public class Cluster {
 					pref += c.toString() + ", ";
 				}
 			}
-			pref_list_helper.remove(highestCourse);
+			//pref_list_helper.remove(highestCourse);
 		}
 		return pref.substring(0, pref.length() - 2);
 	}

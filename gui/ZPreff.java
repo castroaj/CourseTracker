@@ -300,7 +300,7 @@ public class ZPreff {
 		OkButton.setEnabled(false);
 		hasTaken.setEnabled(false);
 		prefSlider.setEnabled(false);
-		TitleLabel.setText(p.getName());
+		TitleLabel.setText(p.getName() + "'s Planner");
 
 		CourseDiscription.setText("\n\n" + p.toString(false));
 	}

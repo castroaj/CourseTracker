@@ -166,8 +166,8 @@ public class Course {
 	 * @param o other course
 	 * @return if courses are equivalent
 	 */
-	public boolean equals(Course o) {
-		return this.subject.equals(o.subject) && this.classID == o.classID;
+	public boolean equals(Course other) {
+		return this.classID.equals(other.classID) && this.subject.equals(other.getSubject());
 	}
 
 	/**
@@ -272,4 +272,5 @@ public class Course {
 	public String getTitle() {
 		return this.title;
 	}
+
 }
