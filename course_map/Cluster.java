@@ -266,4 +266,9 @@ public class Cluster {
 	{
 		return isComplete;
 	}
+	
+	public void setIsComplete(boolean b)
+	{
+		isComplete = b;
+	}
 }

@@ -366,9 +366,10 @@ public class ZPreff {
 				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Done":
-				if (loadPlannerScreen) {
+				//if (loadPlannerScreen) {
 					new PlannerScreen(planner.getName() + "'s Planner", planner);
-				}
+				//}
+				//PlannerScreen.planner = planner;
 				preferenceScreen.dispose();
 
 				break;

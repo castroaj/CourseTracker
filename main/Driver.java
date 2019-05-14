@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import course_map.*;
@@ -21,7 +22,7 @@ public class Driver {
 
 	public static void main(String[] args) throws IOException {
 
-		 runGui();
+		runGui();
 		//runPref();
 		//runPlan();
 	}
@@ -47,6 +48,9 @@ public class Driver {
 		test.addProgram(parseProgram("gen_ed"));
 		test.addProgram(parseProgram("cs_major"));
 		test.addProgram(parseProgram("cis_minor"));
+		ArrayList<Cluster> c = test.getListAllClusters();
+		Cluster c1 = c.get(0);
+		c1.setIsComplete(true);
 		new PlannerScreen("My Programs-test-", test);
 	}
 
