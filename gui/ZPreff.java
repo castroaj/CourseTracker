@@ -59,11 +59,13 @@ public class ZPreff {
 	Planner planner;
 
 	boolean loadPlannerScreen;
+	
 
 //	private final Color DARK_PURPLE = new Color(69, 0, 132);
 //	private final Color GOLD = new Color(203, 182, 119);
 
 	public ZPreff(String title, Planner planner, boolean loadPlannerScreen) {
+		
 		this.planner = planner;
 		this.loadPlannerScreen = loadPlannerScreen;
 		preferenceScreen = new JFrame();
@@ -309,7 +311,6 @@ public class ZPreff {
 		OkButton.setEnabled(true);
 		hasTaken.setEnabled(true);
 		prefSlider.setEnabled(true);
-		OkButton.setEnabled(true);
 		String shortTitle = c.getTitle();
 		int len = new String("Network Applications Development").length(); // sorry about that
 		shortTitle = shortTitle.length() > len ? shortTitle.substring(0, len) + "..." : shortTitle;
