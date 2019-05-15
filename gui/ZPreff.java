@@ -189,9 +189,12 @@ public class ZPreff {
 		InfoPanel.add(hasTaken);
 
 		prefSlider = new JSlider();
-		prefSlider.setValue(2);
-		prefSlider.setMinimum(0);
+		prefSlider.setValue(5);
+		prefSlider.setMinimum(1);
 		prefSlider.setMaximum(10);
+		prefSlider.setPaintTicks(true);
+		prefSlider.setBorder(BorderFactory.createTitledBorder("Preference (1-10)"));
+		prefSlider.setMajorTickSpacing(1);
 
 		gbcInfoPanel.gridx = 3;
 		gbcInfoPanel.gridy = 18;

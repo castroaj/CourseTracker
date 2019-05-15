@@ -228,5 +228,10 @@ public class Planner {
 	public void takeClass(Course c) {
 		findCourse(c).takeClass();
 	}
+	
+	public Semester getSemester()
+	{
+		return currentSemester;
+	}
 
 }

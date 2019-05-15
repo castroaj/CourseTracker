@@ -43,7 +43,7 @@ public class Driver {
 		Generator.loadCourseDatabase("resources/courses.zagbase");
 
 		Planner test = new Planner();
-		test.setName("test");
+		test.setName("Alex");
 		test.setSemester(Semester.FR_FA);
 		test.addProgram(parseProgram("gen_ed"));
 		test.addProgram(parseProgram("cs_major"));
