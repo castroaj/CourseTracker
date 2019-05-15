@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.net.URI;
 
 import javax.swing.BorderFactory;
@@ -17,11 +19,15 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
@@ -42,11 +48,18 @@ public class ZPreff {
 
 	JPanel MainPanel;
 	JPanel InfoPanel;
+	JPanel menuPanel;
 
 	JPanel TreePanel;
 	JPanel MenuPanel;
 	JPanel bottomPanel;
 
+	JMenuBar menu;
+	JMenu shortcuts;
+	JMenuItem toggleTaken;
+	JMenuItem toggleSaveChanges;
+	JMenuItem done;
+	
 	JLabel TitleLabel;
 	JCheckBox hasTaken;
 	JSlider prefSlider;
@@ -247,8 +260,44 @@ public class ZPreff {
 		hasTaken.setEnabled(false);
 		prefSlider.setEnabled(false);
 	}
+	
+	public void setupMenuPanel()
+	{
+		menuPanel = new JPanel();
+		menuPanel.setLayout(new BorderLayout());
+		menu = new JMenuBar();
+		shortcuts = new JMenu("Shortcuts");
+		shortcuts.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		toggleTaken = new JMenuItem("Toggle Taken");
+		toggleTaken.addActionListener(new MenuActionListener());
+		toggleTaken.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke toggleTakenKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
+		toggleTaken.setAccelerator(toggleTakenKeyStroke);
+		
+		toggleSaveChanges = new JMenuItem("Save Changes");
+		toggleSaveChanges.addActionListener(new MenuActionListener());
+		toggleSaveChanges.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke toggleSaveKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+		toggleSaveChanges.setAccelerator(toggleSaveKeyStroke);
+		
+		done = new JMenuItem("Done");
+		done.addActionListener(new MenuActionListener());
+		done.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke toggleDoneKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK);
+		done.setAccelerator(toggleDoneKeyStroke);
+
+		
+		shortcuts.add(toggleTaken);
+		shortcuts.add(toggleSaveChanges);
+		shortcuts.add(done);
+		
+		menu.add(shortcuts);
+		
+		menuPanel.add(menu, BorderLayout.WEST);
+	}
 
 	public void setUpBottomPanel() {
+		setupMenuPanel();
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
 
@@ -263,6 +312,7 @@ public class ZPreff {
 		helpButton.setToolTipText("Open wiki for help");
 
 		bottomPanel.add(doneButton, BorderLayout.EAST);
+		bottomPanel.add(menuPanel);
 		bottomPanel.add(helpButton, BorderLayout.WEST);
 	}
 
@@ -339,19 +389,41 @@ public class ZPreff {
 		setUpBottomPanel();
 
 		MainPanel.setLayout(new BorderLayout());
-
 		MainPanel.add(TreePanel, BorderLayout.WEST);
 		MainPanel.add(InfoPanel, BorderLayout.EAST);
 		MainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		preferenceScreen.add(MainPanel);
 	}
+	
+	private class MenuActionListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			switch (e.getActionCommand())
+			{
+			case "Toggle Taken":
+				hasTaken.setSelected(!hasTaken.isSelected());
+				break;
+			case "Save Changes":
+				Course theCourse = planner.findCourse(currentCourse);
+				theCourse.setPrefrence(prefSlider.getValue());
+				theCourse.setTaken(hasTaken.isSelected());
+				break;
+			case "Done":
+				new PlannerScreen(planner.getName() + "'s Planner", planner);
+				preferenceScreen.dispose();
+				break;
+			}
+		}
+		
+	}
 
 	private class ButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// System.out.println(arg0.getActionCommand());
 			switch (arg0.getActionCommand()) {
 
 			case "Help":
@@ -360,7 +432,6 @@ public class ZPreff {
 					URI oURL = new URI("https://github.com/castroaj/CourseTracker/wiki#how-to-use");
 					desktop.browse(oURL);
 				} catch (Exception e) {
-					// e.printStackTrace();
 				}
 				break;
 			case "Save Changes":
@@ -369,12 +440,8 @@ public class ZPreff {
 				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Done":
-				//if (loadPlannerScreen) {
-					new PlannerScreen(planner.getName() + "'s Planner", planner);
-				//}
-				//PlannerScreen.planner = planner;
+				new PlannerScreen(planner.getName() + "'s Planner", planner);
 				preferenceScreen.dispose();
-
 				break;
 
 			}
