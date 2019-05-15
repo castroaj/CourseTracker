@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,8 +28,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -76,6 +75,7 @@ public class PlannerScreen {
 	JMenuItem aboutProgram;
 	
 	JTextArea description;
+	JLabel clusterLabel;
 	
 	JList<Cluster> clusterViewer;
 	JList<Course> courseViewer;
@@ -110,7 +110,7 @@ public class PlannerScreen {
 		
 		plannerScreen.setSize(1400, 800);
 		plannerScreen.setResizable(false);
-		plannerScreen.setLocation(100, 100);
+		plannerScreen.setLocation(10, 10);
 		plannerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		plannerScreen.setTitle(title);
 		plannerScreen.setVisible(true); 
@@ -141,26 +141,32 @@ public class PlannerScreen {
 				switch (level) {
 
 				case 1:
-					//String pName = e.getSource().toString().split("\\]")[0].split("\\[")[2];
 					description.setText(planner.toString());
 					break;
 				case 2:
 					String progName = source[1].split("\\]")[0].substring(1);
 					Program p = planner.findProgram(progName);
 					description.setText(p.toString(true));
+					
+					description.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+							"Information for " + progName, TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
+							new Font("Monospaced", Font.BOLD, 18), Color.BLACK));
+					
 					break;
 				case 3:
 					Cluster c = planner.findCluster(e.getSource().toString().split(",")[2].split("\\]")[0]);
 					description.setText(c.toString(false));
+					
+					description.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+							"Information for " + c.getName(), TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
+							new Font("Monospaced", Font.BOLD, 16), Color.BLACK));
 					break;
 				case 4:
 					String s = e.toString().split(",")[3].split("\\]")[0].substring(1).split("]")[0];
 					Course currentCourse = planner.findCourse(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
-					description.setText(currentCourse.getDescription());
+					description.setText(currentCourse.getDescription() + "\n\nCurrent Preference Rating (1-10): " + currentCourse.getPreference());
 					break;
-
 				}
-
 			}
 		});
 
@@ -232,13 +238,17 @@ public class PlannerScreen {
 		clusterPanel = new JPanel();
 		clusterButtons = new JPanel();
 		clusterModel = new DefaultListModel<Cluster>();
+		clusterLabel = new JLabel(" All Clusters");
+		JPanel clusterLabelPanel = new JPanel();
+		clusterLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
+		
 		for (Cluster c : allClusters)
 		{
 			clusterModel.addElement(c);
 		}
 		
 		clusterViewer = new JList<Cluster>(clusterModel);
-		description = new JTextArea(30, 30);
+		description = new JTextArea(25, 35);
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
 		
@@ -253,9 +263,7 @@ public class PlannerScreen {
 		remainingClustersButton.addActionListener(new ButtonActionListener());
 		remainingClustersButton.setFont(new Font("Monospaced", Font.PLAIN, 10));
 		
-		clusterViewer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2),
-				"All Clusters", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-				new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
+		clusterViewer.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(Color.GRAY, 2)));
 		
 		clusterViewer.setBackground(plannerScreen.getBackground());
 		clusterViewer.setFont(new Font("Monospaced", Font.PLAIN, 14));
@@ -274,10 +282,11 @@ public class PlannerScreen {
 		description.setBackground(plannerScreen.getBackground());
 		
 		treePanel.setLayout(new BoxLayout(clusterPanel, BoxLayout.PAGE_AXIS));
-		treePanel.setPreferredSize(new Dimension(450, 600));
+		treePanel.setPreferredSize(new Dimension(450, 450));
+		
 		treePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
 				"Programs", TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
-				new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
+				new Font("Monospaced", Font.BOLD, 24), Color.BLACK));
 
 		GridBagLayout gbTreePanel = new GridBagLayout();
 		GridBagConstraints gbcTreePanel = new GridBagConstraints();
@@ -302,11 +311,15 @@ public class PlannerScreen {
 		
 		description.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
 				"Information", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-				new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
+				new Font("Monospaced", Font.BOLD, 22), Color.BLACK));
 		
+		clusterLabelPanel.setLayout(new BorderLayout());
+		
+		clusterLabelPanel.add(clusterLabel, BorderLayout.WEST);
 		
 		treePanel.setLayout(new BoxLayout(treePanel, BoxLayout.PAGE_AXIS));
 		treePanel.add(scptree);
+		treePanel.add(clusterLabelPanel);
 		treePanel.add(clusterPanel);
 		
 		reqViewer.add(treePanel);
@@ -331,10 +344,9 @@ public class PlannerScreen {
 				{
 					clusterModel.addElement(cur);
 				}
-				clusterViewer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2),
-						"All Clusters", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-						new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
+				clusterViewer.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(Color.GRAY, 2)));
 				clusterViewer.setBackground(plannerScreen.getBackground());
+				clusterLabel.setText(" All Clusters");
 				break;
 			case "Completed Clusters":
 				clusterModel.clear();
@@ -342,14 +354,9 @@ public class PlannerScreen {
 				{
 					clusterModel.addElement(cur);
 				}
-				if (clusterModel.size() == 0)
-				{
-					clusterModel.addElement(null);
-				}
-				clusterViewer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2),
-						"Completed Clusters", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-						new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
+				clusterViewer.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(Color.GRAY, 2)));
 				clusterViewer.setBackground(plannerScreen.getBackground());
+				clusterLabel.setText(" Completed Clusters");
 				break;
 			case "Remaining Clusters":
 				clusterModel.clear();
@@ -357,10 +364,8 @@ public class PlannerScreen {
 				{
 					clusterModel.addElement(cur);
 				}
-				clusterViewer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black, 2),
-						"Remaining Clusters", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-						new Font("Monospaced", Font.PLAIN, 22), Color.BLACK));
-				clusterViewer.setBackground(plannerScreen.getBackground());
+				clusterViewer.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(Color.GRAY, 2)));
+				clusterLabel.setText(" Remaining Clusters");
 				break;
 			}
 		}
