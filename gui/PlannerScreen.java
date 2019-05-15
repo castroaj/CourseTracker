@@ -43,6 +43,15 @@ import main.Planner;
 
 public class PlannerScreen {
 
+	final int screenHeight = 800;
+	final int screenWidth = 1400;
+
+	final int descriptionHeight = 23;
+	final int descriptionWidth = 30;
+
+	final int treePanelHeight = 400;
+	final int treePanelWidth = 350;
+
 	JFrame plannerScreen;
 	public static Planner planner;
 
@@ -81,16 +90,14 @@ public class PlannerScreen {
 	JLabel clusterLabel;
 
 	JList<Cluster> clusterViewer;
-	JList<Course> courseViewer;
 	DefaultListModel<Cluster> clusterModel;
-	DefaultListModel<Course> courseModel;
 
 	HashSet<Cluster> allClusters;
 	HashSet<Cluster> remainingClusters;
 	HashSet<Cluster> completedClusters;
-	
+
 	JScrollPane descriptionScroller;
-	
+
 	String plannerText;
 
 	public PlannerScreen(String title, Planner oldPlanner) {
@@ -107,34 +114,30 @@ public class PlannerScreen {
 				remainingClusters.add(c);
 			}
 		}
-		
+
 		plannerText = planner.toString(false);
 		ArrayList<Program> programs = planner.getPrograms();
-		
+
 		plannerText += "Currently Enrolled Programs:\n";
-		for (Program p : programs)
-		{
+		for (Program p : programs) {
 			plannerText += p.getName() + "\n";
 		}
 		plannerText += "=======================\nAll Enrolled Clusters:\n\n";
-		for (Cluster c : allClusters)
-		{
+		for (Cluster c : allClusters) {
 			plannerText += c.getName() + "\n";
 		}
 		plannerText += "=======================\nCompleted Clusters:\n\n";
-		for (Cluster c : completedClusters)
-		{
+		for (Cluster c : completedClusters) {
 			plannerText += c.getName() + "\n";
 		}
 		plannerText += "=======================\nRemaining Clusters:\n\n";
-		for (Cluster c : remainingClusters)
-		{
+		for (Cluster c : remainingClusters) {
 			plannerText += c.getName() + "\n";
 		}
 
 		makeGUI();
 
-		plannerScreen.setSize(1400, 800);
+		plannerScreen.setSize(screenWidth, screenHeight);
 		plannerScreen.setResizable(false);
 		plannerScreen.setLocation(10, 10);
 		plannerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -153,69 +156,13 @@ public class PlannerScreen {
 		leftPanel.setLayout(new BorderLayout());
 		rightPanel.setLayout(new BorderLayout());
 
-		root = new DefaultMutableTreeNode(planner.toString());
-		planner.getPrograms().stream().forEach(p2 -> root.add(getProgramNodes(p2)));
-		tree = new JTree(root);
-		tree.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		tree.putClientProperty("JTree.lineStyle", "Horizontal");
-		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent e) {
-				System.out.println(e.getSource().toString());
-				String[] source = e.getSource().toString().split(",");
-				int level = source.length;
-				switch (level) {
-
-				case 1:
-					description.setText(plannerText);
-
-					descriptionScroller.setBorder(
-							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
-									planner.getName() + "'s Planner", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-									new Font("Monospaced", Font.BOLD, 22), Color.BLACK));
-					descriptionScroller.getVerticalScrollBar().setValue(1);;
-					break;
-				case 2:
-					String progName = source[1].split("\\]")[0].substring(1);
-					Program p = planner.findProgram(progName);
-					description.setText(p.toString(true));
-
-					descriptionScroller.setBorder(
-							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
-									"Information for " + progName, TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-									new Font("Monospaced", Font.BOLD, 22), Color.BLACK));
-
-					break;
-				case 3:
-					Cluster c = planner.findCluster(e.getSource().toString().split(",")[2].split("\\]")[0]);
-					description.setText(c.toString(false));
-
-					descriptionScroller.setBorder(
-							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
-									"Information for " + c.getName(), TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-									new Font("Monospaced", Font.BOLD, 16), Color.BLACK));
-					break;
-				case 4:
-					String s = e.toString().split(",")[3].split("\\]")[0].substring(1).split("]")[0];
-					Course currentCourse = planner.findCourse(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
-					description.setText(currentCourse.getDescription() + "\n\nCurrent Preference Rating (1-10): "
-							+ currentCourse.getPreference());
-					
-					descriptionScroller.setBorder(
-							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
-									"Information for " + currentCourse.toString(), TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
-									new Font("Monospaced", Font.BOLD, 16), Color.BLACK));
-					
-					break;
-				}
-			}
-		});
-
+		setupTree();
 		setupMenu();
 		setupReqViewer();
 
 	}
 
-	public void setupMenu() {
+	private void setupMenu() {
 		menuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		menu = new JMenuBar();
 		file = new JMenu("File");
@@ -268,8 +215,76 @@ public class PlannerScreen {
 		mainPanel.add(menuPanel, BorderLayout.NORTH);
 	}
 
+	private void setupTree() {
+		root = new DefaultMutableTreeNode(planner.toString());
+		planner.getPrograms().stream().forEach(p2 -> root.add(getProgramNodes(p2)));
+		tree = new JTree(root);
+		tree.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		tree.putClientProperty("JTree.lineStyle", "Horizontal");
+		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				System.out.println(e.getSource().toString());
+				String[] source = e.getSource().toString().split(",");
+				int level = source.length;
+				switch (level) {
+
+				case 1:
+					description.setText(plannerText);
+
+					descriptionScroller.setBorder(
+							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+									planner.getName() + "'s Planner", TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
+									new Font("Monospaced", Font.ITALIC, 22), Color.BLACK));
+					descriptionScroller.getVerticalScrollBar().setValue(1);
+					;
+					break;
+				case 2:
+					String progName = source[1].split("\\]")[0].substring(1);
+					Program p = planner.findProgram(progName);
+					description.setText(p.toString(true));
+
+					descriptionScroller.setBorder(
+							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+									"Information for " + progName, TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
+									new Font("Monospaced", Font.ITALIC, 22), Color.BLACK));
+
+					break;
+				case 3:
+					Cluster c = planner.findCluster(e.getSource().toString().split(",")[2].split("\\]")[0]);
+					description.setText(c.toString(false));
+
+					descriptionScroller.setBorder(
+							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+									"Information for " + c.getName(), TitledBorder.LEFT, TitledBorder.ABOVE_TOP,
+									new Font("Monospaced", Font.ITALIC, 16), Color.BLACK));
+					break;
+				case 4:
+					String s = e.toString().split(",")[3].split("\\]")[0].substring(1).split("]")[0];
+					Course currentCourse = planner.findCourse(Generator.findCourse(s.split(" ")[0], s.split(" ")[1]));
+					description.setText(currentCourse.getDescription() + "\n\nCurrent Preference Rating (1-10): "
+							+ currentCourse.getPreference());
+
+					descriptionScroller.setBorder(
+							BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+									"Information for " + currentCourse.toString(), TitledBorder.LEFT,
+									TitledBorder.ABOVE_TOP, new Font("Monospaced", Font.ITALIC, 16), Color.BLACK));
+
+					break;
+				}
+			}
+		});
+	}
+
 	private void setupReqViewer() {
 		reqViewer = new JPanel();
+		
+		reqViewer.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+						"Requirement Viewer", TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
+						new Font("Monospaced", Font.BOLD, 30), Color.BLACK),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		
+		
 		treePanel = new JPanel();
 		clusterPanel = new JPanel();
 		clusterButtons = new JPanel();
@@ -277,24 +292,23 @@ public class PlannerScreen {
 		clusterModel = new DefaultListModel<Cluster>();
 		clusterLabel = new JLabel(" All Clusters");
 		JPanel clusterLabelPanel = new JPanel();
-		clusterLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
+		clusterLabel.setFont(new Font("Monospaced", Font.ITALIC, 22));
 
 		for (Cluster c : allClusters) {
 			clusterModel.addElement(c);
 		}
 
 		clusterViewer = new JList<Cluster>(clusterModel);
-		description = new JTextArea(25, 35);
+		description = new JTextArea(descriptionHeight, descriptionWidth);
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
 		description.setText(plannerText);
 		description.setEditable(false);
 		description.setBackground(plannerScreen.getBackground());
-		
 
-		JButton allClustersButton = new JButton("All Clusters");
-		JButton completedClustersButton = new JButton("Completed Clusters");
-		JButton remainingClustersButton = new JButton("Remaining Clusters");
+		JButton allClustersButton = new JButton("All");
+		JButton completedClustersButton = new JButton("Completed");
+		JButton remainingClustersButton = new JButton("Remaining");
 
 		allClustersButton.addActionListener(new ButtonActionListener());
 		allClustersButton.setFont(new Font("Monospaced", Font.PLAIN, 10));
@@ -307,7 +321,9 @@ public class PlannerScreen {
 				BorderFactory.createLineBorder(Color.GRAY, 2)));
 
 		clusterViewer.setBackground(plannerScreen.getBackground());
-		clusterViewer.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		clusterViewer.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		clusterViewer.setSelectionBackground(plannerScreen.getBackground());
+		clusterViewer.setSelectionForeground(Color.black);
 		clusterViewer.setFixedCellWidth(300);
 		JScrollPane clusterScroller = new JScrollPane(clusterViewer);
 
@@ -320,11 +336,11 @@ public class PlannerScreen {
 		clusterPanel.add(clusterButtons);
 
 		treePanel.setLayout(new BoxLayout(clusterPanel, BoxLayout.PAGE_AXIS));
-		treePanel.setPreferredSize(new Dimension(450, 450));
+		treePanel.setPreferredSize(new Dimension(treePanelWidth, treePanelHeight));
 
 		treePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
 				"Programs", TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
-				new Font("Monospaced", Font.BOLD, 24), Color.BLACK));
+				new Font("Monospaced", Font.ITALIC, 24), Color.BLACK));
 
 		GridBagLayout gbTreePanel = new GridBagLayout();
 		GridBagConstraints gbcTreePanel = new GridBagConstraints();
@@ -347,12 +363,12 @@ public class PlannerScreen {
 		gbTreePanel.setConstraints(scptree, gbcTreePanel);
 
 		descriptionScroller = new JScrollPane(description);
-		
-		descriptionScroller.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED), planner.getName() + "'s Planner",
-						TitledBorder.LEFT, TitledBorder.ABOVE_TOP, new Font("Monospaced", Font.BOLD, 22), Color.BLACK));
+
+		descriptionScroller.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createBevelBorder(BevelBorder.RAISED), planner.getName() + "'s Planner",
+				TitledBorder.LEFT, TitledBorder.ABOVE_TOP, new Font("Monospaced", Font.ITALIC, 22), Color.BLACK));
 		descriptionScroller.setBackground(plannerScreen.getBackground());
-		
+
 		clusterLabelPanel.setLayout(new BorderLayout());
 
 		clusterLabelPanel.add(clusterLabel, BorderLayout.WEST);
@@ -376,7 +392,7 @@ public class PlannerScreen {
 			String command = e.getActionCommand();
 
 			switch (command) {
-			case "All Clusters":
+			case "All":
 				clusterModel.clear();
 				for (Cluster cur : allClusters) {
 					clusterModel.addElement(cur);
@@ -386,7 +402,7 @@ public class PlannerScreen {
 				clusterViewer.setBackground(plannerScreen.getBackground());
 				clusterLabel.setText(" All Clusters");
 				break;
-			case "Completed Clusters":
+			case "Completed":
 				clusterModel.clear();
 				for (Cluster cur : completedClusters) {
 					clusterModel.addElement(cur);
@@ -396,7 +412,7 @@ public class PlannerScreen {
 				clusterViewer.setBackground(plannerScreen.getBackground());
 				clusterLabel.setText(" Completed Clusters");
 				break;
-			case "Remaining Clusters":
+			case "Remaining":
 				clusterModel.clear();
 				for (Cluster cur : remainingClusters) {
 					clusterModel.addElement(cur);
