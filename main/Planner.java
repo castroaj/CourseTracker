@@ -1,5 +1,6 @@
 package main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.HashSet;
@@ -13,20 +14,15 @@ import course_map.*;
  * @author Zeru Tadesse
  *
  */
-public class Planner {
+public class Planner implements Serializable {
 
+	private static final long serialVersionUID = -2957371548042563811L;
 	private String name;
 	private Semester currentSemester;
-
 	private int totalCreditsNeeded;
 	private CourseGraph courseGraph;
-
-	private Course[][] year = new Course[8][5]; // 8 semesters, 5 classes each
-	// TODO: private HashSet<Course> coursesTaken;
 	private HashSet<Program> programs;
 	private HashSet<Cluster> allClusters;
-	private HashSet<Course> courses;
-
 	private HashSet<Course> calander;
 
 	/**
@@ -57,6 +53,16 @@ public class Planner {
 		this.courseGraph = new CourseGraph();
 		this.calander = new HashSet<Course>();
 		this.allClusters = new HashSet<Cluster>();
+	}
+	
+	public Planner(Planner p) {
+		this.name = p.name;
+		this.currentSemester = p.currentSemester;
+		this.programs = p.programs;
+		this.totalCreditsNeeded = p.totalCreditsNeeded;
+		this.courseGraph = p.courseGraph;
+		this.calander = p.calander;
+		this.allClusters = p.allClusters;
 	}
 
 	/**

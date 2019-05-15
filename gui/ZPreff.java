@@ -271,7 +271,7 @@ public class ZPreff {
 		toggleTaken = new JMenuItem("Toggle Taken");
 		toggleTaken.addActionListener(new MenuActionListener());
 		toggleTaken.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		KeyStroke toggleTakenKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke toggleTakenKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK);
 		toggleTaken.setAccelerator(toggleTakenKeyStroke);
 		
 		toggleSaveChanges = new JMenuItem("Save Changes");
@@ -401,13 +401,15 @@ public class ZPreff {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			Course theCourse = planner.findCourse(currentCourse);
 			switch (e.getActionCommand())
 			{
 			case "Toggle Taken":
 				hasTaken.setSelected(!hasTaken.isSelected());
+				theCourse.setPrefrence(prefSlider.getValue());
+				theCourse.setTaken(hasTaken.isSelected());
 				break;
 			case "Save Changes":
-				Course theCourse = planner.findCourse(currentCourse);
 				theCourse.setPrefrence(prefSlider.getValue());
 				theCourse.setTaken(hasTaken.isSelected());
 				break;

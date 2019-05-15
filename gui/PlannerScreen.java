@@ -65,7 +65,7 @@ public class PlannerScreen {
 	final int treePanelWidth = 350;
 
 	JFrame plannerScreen;
-	public static Planner planner;
+	Planner planner;
 
 	private JTree tree;
 	DefaultMutableTreeNode root;
@@ -138,6 +138,9 @@ public class PlannerScreen {
 		for (Program p : programs) {
 			plannerText += p.getName() + "\n";
 		}
+		plannerText += "=======================\nClusterInfo:\n\n";
+		plannerText += "Completed Clusters: "+ completedClusters.size() +"\nRemaining Clusters: " + remainingClusters.size()+ "\n";
+		
 		plannerText += "=======================\nAll Enrolled Clusters:\n\n";
 		for (Cluster c : allClusters) {
 			plannerText += c.getName() + "\n";
@@ -494,8 +497,9 @@ public class PlannerScreen {
 			String command = e.getActionCommand();
 
 			switch (command) {
+			
 			case "Load a Planner":
-				Planner newPlanner = null;
+				String newPlanner = null;
 				JFileChooser loadFile = new JFileChooser();
 				int loadChoice = loadFile.showOpenDialog(plannerScreen);
 				if (loadChoice != JFileChooser.APPROVE_OPTION) {
@@ -504,7 +508,7 @@ public class PlannerScreen {
 				try {
 					FileInputStream fileIn = new FileInputStream(loadFile.getSelectedFile());
 					ObjectInputStream in = new ObjectInputStream(fileIn);
-					newPlanner = (Planner) in.readObject();
+					newPlanner = (String) in.readObject();
 					in.close();
 					fileIn.close();
 				} catch (IOException er) {
@@ -512,35 +516,25 @@ public class PlannerScreen {
 				} catch (ClassNotFoundException er) {
 					System.err.println("Class doesn't exist");
 				}
-				PlannerScreen newPlannerScreen = new PlannerScreen(newPlanner.getName() + "'s planner", newPlanner);
+				//new PlannerScreen(newPlanner.getName() + "'s planner", newPlanner);
+				System.out.println(newPlanner);
 				plannerScreen.dispose();
 
 				break;
+				
+				
+				
 			case "Save Planner":
-				JFileChooser saveFile = new JFileChooser();
-				saveFile.setFileFilter(new FileNameExtensionFilter("*.txt", "txt", "TEXT FILES"));
-				int saveChoice = saveFile.showSaveDialog(plannerScreen);
-				if (saveChoice != JFileChooser.APPROVE_OPTION) {
-					break;
-				}
-				try {
-					System.out.println(1);
-					File selectedFile = saveFile.getSelectedFile();
-					System.out.println(2);
-					FileOutputStream fileOut = new FileOutputStream(selectedFile);
-					System.out.println(3);
-					ObjectOutputStream out = new ObjectOutputStream(fileOut);
-					System.out.println(4);
-					out.writeObject(planner);
-					System.out.println(5);
-					out.close();
-					System.out.println(6);
-					fileOut.close();
-					System.out.println("Serialized data is saved");
-				} catch (IOException error) {
-					System.err.println("FileOutput falied");
-				}
+				JFileChooser savefc = new JFileChooser();
+				//savefc.setFileFilter(new FileNameExtensionFilter("*.txt", "txt", "TEXT FILES"));
+				int saveChoice = savefc.showSaveDialog(new JFrame());
+				
+				saveFile(saveChoice, savefc);
+				
 				break;
+				
+				
+				
 			case "Course Preferences":
 				new ZPreff("Preferences", planner, false);
 				break;
@@ -549,35 +543,20 @@ public class PlannerScreen {
 				plannerScreen.dispose();
 				System.exit(0);
 				break;
+				
+				
 
 			case "Close Planner":
 				int choice = JOptionPane.showConfirmDialog(new JFrame(), "Do you wish to save any changes?",
 						"Confirm close", JOptionPane.YES_NO_CANCEL_OPTION);
 				switch (choice) {
 				case 0:
-					JFileChooser newSaveFile = new JFileChooser();
-					newSaveFile.setFileFilter(new FileNameExtensionFilter("*.txt", "txt", "TEXT FILES"));
-					int newSaveChoice = newSaveFile.showSaveDialog(plannerScreen);
-					if (newSaveChoice != JFileChooser.APPROVE_OPTION) {
-						break;
-					}
-					try {
-						System.out.println(1);
-						File selectedFile = newSaveFile.getSelectedFile();
-						System.out.println(2);
-						FileOutputStream fileOut = new FileOutputStream(selectedFile);
-						System.out.println(3);
-						ObjectOutputStream out = new ObjectOutputStream(fileOut);
-						System.out.println(4);
-						out.writeObject(planner);
-						System.out.println(5);
-						out.close();
-						System.out.println(6);
-						fileOut.close();
-						System.out.println("Serialized data is saved");
-					} catch (IOException error) {
-						System.err.println("FileOutput falied");
-					}
+					JFileChooser fc = new JFileChooser();
+					//fc.setFileFilter(new FileNameExtensionFilter("*.txt", "txt", "TEXT FILES"));
+					int newSaveChoice = fc.showSaveDialog(plannerScreen);
+					
+					saveFile(newSaveChoice, fc);
+					
 					plannerScreen.dispose();
 					System.exit(0);
 					break;
@@ -589,6 +568,7 @@ public class PlannerScreen {
 
 				}
 				break;
+				
 
 			case "Open Program Wiki":
 				try {
@@ -598,18 +578,43 @@ public class PlannerScreen {
 					e1.printStackTrace();
 				}
 				break;
+				
+				
 
 			case "Creators":
 				JOptionPane.showMessageDialog(new JFrame(),
 						"This application was created by: \nAlex Castro\nZeru Tadesse\nGarrett Christian",
 						"About Creators", 1);
 				break;
+				
+				
 			case "About Program":
 				break;
 			}
-
+			
 		}
 
+		private void saveFile(int newSaveChoice, JFileChooser fc)
+		{
+			if (newSaveChoice != JFileChooser.APPROVE_OPTION) {
+				System.err.println("Failure");
+				return;
+			}
+			try {
+				File selectedFile = fc.getSelectedFile();
+				FileOutputStream fileOut = new FileOutputStream(selectedFile);
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				Planner copyPlanner = new Planner(planner);
+				out.writeObject(copyPlanner);
+				out.close();
+				fileOut.close();
+				System.out.println("Serialized data is saved");
+			} catch (IOException error) {
+				System.err.println("IO Exception");
+			}
+		}
 	}
+	
+	
 
 }
