@@ -9,6 +9,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +25,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -25,14 +36,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import course_map.Cluster;
@@ -78,6 +90,10 @@ public class PlannerScreen {
 	JMenu apps;
 	JMenuItem preferences;
 	// TODO
+
+	JMenu shortcuts;
+	JMenuItem closePlanner;
+	JMenuItem forceQuit;
 
 	JMenu help;
 	JMenuItem wiki;
@@ -138,7 +154,7 @@ public class PlannerScreen {
 		makeGUI();
 
 		plannerScreen.setSize(screenWidth, screenHeight);
-		plannerScreen.setResizable(false);
+		plannerScreen.setResizable(true);
 		plannerScreen.setLocation(10, 10);
 		plannerScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		plannerScreen.setTitle(title);
@@ -169,26 +185,51 @@ public class PlannerScreen {
 		file.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		apps = new JMenu("Applications");
 		apps.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		shortcuts = new JMenu("Shortcuts");
+		shortcuts.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		help = new JMenu("Help");
 		help.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		other = new JMenu("Other");
 		other.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
+		// File
 		loadPlanner = new JMenuItem("Load a Planner");
 		loadPlanner.addActionListener(new MenuActionListener());
 		loadPlanner.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		savePlanner = new JMenuItem("Save Planner");
 		savePlanner.addActionListener(new MenuActionListener());
 		savePlanner.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke savePlannerKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+		savePlanner.setAccelerator(savePlannerKeyStroke);
 
+		// Applications
 		preferences = new JMenuItem("Course Preferences");
 		preferences.addActionListener(new MenuActionListener());
 		preferences.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke preferencesKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK);
+		preferences.setAccelerator(preferencesKeyStroke);
 
+		// Shortcuts
+		closePlanner = new JMenuItem("Close Planner");
+		closePlanner.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		closePlanner.addActionListener(new MenuActionListener());
+		KeyStroke closePlannerKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK);
+		closePlanner.setAccelerator(closePlannerKeyStroke);
+
+		forceQuit = new JMenuItem("Force Quit");
+		forceQuit.addActionListener(new MenuActionListener());
+		forceQuit.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke forceQuitKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_DOWN_MASK);
+		forceQuit.setAccelerator(forceQuitKeyStroke);
+
+		// Help
 		wiki = new JMenuItem("Open Program Wiki");
 		wiki.addActionListener(new MenuActionListener());
 		wiki.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		KeyStroke wikiKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK);
+		wiki.setAccelerator(wikiKeyStroke);
 
+		// Other
 		aboutProgram = new JMenuItem("About Program");
 		aboutProgram.addActionListener(new MenuActionListener());
 		aboutProgram.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -198,9 +239,13 @@ public class PlannerScreen {
 		aboutCreators.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
 		file.add(loadPlanner);
+		file.addSeparator();
 		file.add(savePlanner);
 
 		apps.add(preferences);
+
+		shortcuts.add(closePlanner);
+		shortcuts.add(forceQuit);
 
 		help.add(wiki);
 
@@ -209,6 +254,7 @@ public class PlannerScreen {
 
 		menu.add(file);
 		menu.add(apps);
+		menu.add(shortcuts);
 		menu.add(help);
 		menu.add(other);
 		menuPanel.add(menu);
@@ -275,16 +321,31 @@ public class PlannerScreen {
 		});
 	}
 
+	private DefaultMutableTreeNode getProgramNodes(Program p) {
+		DefaultMutableTreeNode programNode = new DefaultMutableTreeNode(p.toString());
+		p.getClusters().stream().forEach((c2) -> programNode.add(getClusterNodes(c2)));
+		return programNode;
+	}
+
+	private DefaultMutableTreeNode getClusterNodes(Cluster c) {
+		DefaultMutableTreeNode clusterNode = new DefaultMutableTreeNode(c.toString());
+		c.getCourses().stream().forEach((c2) -> clusterNode.add(getCourseNodes(c2)));
+		return clusterNode;
+	}
+
+	private DefaultMutableTreeNode getCourseNodes(Course c) {
+		return new DefaultMutableTreeNode(c.toString());
+	}
+
 	private void setupReqViewer() {
 		reqViewer = new JPanel();
-		
+
 		reqViewer.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
 						"Requirement Viewer", TitledBorder.LEFT, TitledBorder.DEFAULT_JUSTIFICATION,
 						new Font("Monospaced", Font.BOLD, 30), Color.BLACK),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		
-		
+
 		treePanel = new JPanel();
 		clusterPanel = new JPanel();
 		clusterButtons = new JPanel();
@@ -434,11 +495,99 @@ public class PlannerScreen {
 
 			switch (command) {
 			case "Load a Planner":
+				Planner newPlanner = null;
+				JFileChooser loadFile = new JFileChooser();
+				int loadChoice = loadFile.showOpenDialog(plannerScreen);
+				if (loadChoice != JFileChooser.APPROVE_OPTION) {
+					break;
+				}
+				try {
+					FileInputStream fileIn = new FileInputStream(loadFile.getSelectedFile());
+					ObjectInputStream in = new ObjectInputStream(fileIn);
+					newPlanner = (Planner) in.readObject();
+					in.close();
+					fileIn.close();
+				} catch (IOException er) {
+					System.err.println("FileInput Failed");
+				} catch (ClassNotFoundException er) {
+					System.err.println("Class doesn't exist");
+				}
+				PlannerScreen newPlannerScreen = new PlannerScreen(newPlanner.getName() + "'s planner", newPlanner);
+				plannerScreen.dispose();
+
 				break;
 			case "Save Planner":
+				JFileChooser saveFile = new JFileChooser();
+				saveFile.setFileFilter(new FileNameExtensionFilter("*.txt", "txt", "TEXT FILES"));
+				int saveChoice = saveFile.showSaveDialog(plannerScreen);
+				if (saveChoice != JFileChooser.APPROVE_OPTION) {
+					break;
+				}
+				try {
+					System.out.println(1);
+					File selectedFile = saveFile.getSelectedFile();
+					System.out.println(2);
+					FileOutputStream fileOut = new FileOutputStream(selectedFile);
+					System.out.println(3);
+					ObjectOutputStream out = new ObjectOutputStream(fileOut);
+					System.out.println(4);
+					out.writeObject(planner);
+					System.out.println(5);
+					out.close();
+					System.out.println(6);
+					fileOut.close();
+					System.out.println("Serialized data is saved");
+				} catch (IOException error) {
+					System.err.println("FileOutput falied");
+				}
 				break;
 			case "Course Preferences":
 				new ZPreff("Preferences", planner, false);
+				break;
+
+			case "Force Quit":
+				plannerScreen.dispose();
+				System.exit(0);
+				break;
+
+			case "Close Planner":
+				int choice = JOptionPane.showConfirmDialog(new JFrame(), "Do you wish to save any changes?",
+						"Confirm close", JOptionPane.YES_NO_CANCEL_OPTION);
+				switch (choice) {
+				case 0:
+					JFileChooser newSaveFile = new JFileChooser();
+					newSaveFile.setFileFilter(new FileNameExtensionFilter("*.txt", "txt", "TEXT FILES"));
+					int newSaveChoice = newSaveFile.showSaveDialog(plannerScreen);
+					if (newSaveChoice != JFileChooser.APPROVE_OPTION) {
+						break;
+					}
+					try {
+						System.out.println(1);
+						File selectedFile = newSaveFile.getSelectedFile();
+						System.out.println(2);
+						FileOutputStream fileOut = new FileOutputStream(selectedFile);
+						System.out.println(3);
+						ObjectOutputStream out = new ObjectOutputStream(fileOut);
+						System.out.println(4);
+						out.writeObject(planner);
+						System.out.println(5);
+						out.close();
+						System.out.println(6);
+						fileOut.close();
+						System.out.println("Serialized data is saved");
+					} catch (IOException error) {
+						System.err.println("FileOutput falied");
+					}
+					plannerScreen.dispose();
+					System.exit(0);
+					break;
+
+				case 1:
+					plannerScreen.dispose();
+					System.exit(0);
+					break;
+
+				}
 				break;
 
 			case "Open Program Wiki":
@@ -461,22 +610,6 @@ public class PlannerScreen {
 
 		}
 
-	}
-
-	public DefaultMutableTreeNode getProgramNodes(Program p) {
-		DefaultMutableTreeNode programNode = new DefaultMutableTreeNode(p.toString());
-		p.getClusters().stream().forEach((c2) -> programNode.add(getClusterNodes(c2)));
-		return programNode;
-	}
-
-	public DefaultMutableTreeNode getClusterNodes(Cluster c) {
-		DefaultMutableTreeNode clusterNode = new DefaultMutableTreeNode(c.toString());
-		c.getCourses().stream().forEach((c2) -> clusterNode.add(getCourseNodes(c2)));
-		return clusterNode;
-	}
-
-	public DefaultMutableTreeNode getCourseNodes(Course c) {
-		return new DefaultMutableTreeNode(c.toString());
 	}
 
 }
